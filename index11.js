@@ -425,7 +425,7 @@ const AnimePopup = {
 };
 
 // ==========================================
-// SYSTEM PLAYER STATE ENGINE (ANTI-OVERWRITE SHIELD) - UPDATED & MATCHED
+// SYSTEM PLAYER STATE ENGINE (ANTI-OVERWRITE SHIELD)
 // ==========================================
 const PlayerState = {
     data: {
@@ -433,7 +433,7 @@ const PlayerState = {
         xp: 0,
         gold: 0,
         title: "[]",
-        avatar: "", 
+        avatar: "", // ← هنا تُخزّن الصورة كـ Base64
         stats: { str: 10, vit: 10, agi: 10, int: 10, sen: 10 },
         inventory: [] 
     },
@@ -472,15 +472,24 @@ const PlayerState = {
         } else {
             this.save();
         }
+
+        // 🔥 هذا السطر الجديد: يسترجع الصورة فور تحميل الصفحة
+        this.restoreAvatar();
         this.updateUI();
         this.updateNameDisplay();
+    },
+
+    // ─── دالة جديدة: استرجاع الصورة من الذاكرة ───
+    restoreAvatar() {
+        const avatarImg = document.getElementById('monarch-avatar-display');
+        if (avatarImg && this.data.avatar && this.data.avatar.startsWith('data:image')) {
+            avatarImg.src = this.data.avatar;
+        }
     },
 
     save() {
         try {
             if (window.SovereignCore) {
-                // Delegate saving and broadcasting to central state engine — single shared channel
-                // instead of instantiating a new BroadcastChannel on every save call.
                 SovereignCore.save(this.data);
             } else {
                 localStorage.setItem('monarch_system_data', JSON.stringify(this.data));
@@ -513,6 +522,7 @@ const PlayerState = {
         }
     },
 
+    // ─── دالة تحديث الصورة (مُحسّنة) ───
     updateAvatar(event) {
         const file = event.target.files[0];
         if (!file) return;
@@ -525,9 +535,9 @@ const PlayerState = {
         const reader = new FileReader();
         reader.onload = (e) => {
             const base64Image = e.target.result;
-            this.data.avatar = base64Image;
-            document.getElementById('monarch-avatar-display').src = base64Image;
-            this.save();
+            this.data.avatar = base64Image;          // ← حفظ في الذاكرة
+            document.getElementById('monarch-avatar-display').src = base64Image; // ← عرض فوري
+            this.save();                              // ← حفظ دائم في localStorage
             if(window.Toast) Toast.show("🔮 Sovereign aura integrated successfully", "success");
         };
         reader.readAsDataURL(file);
@@ -560,14 +570,12 @@ const PlayerState = {
         this.addGold(goldAmount);
     },
 
-updateNameDisplay() {
-        // 1. Update Player Name
+    updateNameDisplay() {
         const nameEl = document.getElementById('playerNameDisplay');
         if (nameEl && this.data.name) {
             nameEl.textContent = this.data.name;
         }
 
-        // 2. Update Title (JOB)
         const titleEl = document.getElementById('monarch-active-title');
         if (titleEl && this.data.title) {
             titleEl.textContent = this.data.title;
@@ -575,11 +583,9 @@ updateNameDisplay() {
     },
 
     updateUI() {
-        // 1. Update level displays matching HTML
         if(document.getElementById('player-level')) document.getElementById('player-level').textContent = this.data.level;
         if(document.getElementById('currentLevel')) document.getElementById('currentLevel').textContent = this.data.level;
         
-        // 2. Update physical and spiritual stats
         if(document.getElementById('stat-sen-val')) document.getElementById('stat-sen-val').textContent = this.data.stats.sen;
         if(document.getElementById('stat-str')) document.getElementById('stat-str').textContent = this.data.stats.str;
         if(document.getElementById('stat-vit')) document.getElementById('stat-vit').textContent = this.data.stats.vit;
@@ -587,21 +593,17 @@ updateNameDisplay() {
         if(document.getElementById('stat-int')) document.getElementById('stat-int').textContent = this.data.stats.int;
         if(document.getElementById('stat-sen')) document.getElementById('stat-sen').textContent = this.data.stats.sen;
 
-        // 3. Update tactical currency, lethality, and gold matching the monitoring panel
         if(document.getElementById('playerGold')) document.getElementById('playerGold').textContent = this.data.gold;
         if(document.getElementById('availablePoints')) document.getElementById('availablePoints').textContent = this.data.authority || 0;
         if(document.getElementById('stat-authority')) document.getElementById('stat-authority').textContent = this.data.authority || 0;
         if(document.getElementById('stat-lethality')) document.getElementById('stat-lethality').textContent = (this.data.lethality || 0) + '%';
         
-        // 4. Merge and correct XP system to match UI neon elements
         const xpNeeded = this.data.level * 100;
         
-        // Update internal numeric text of the aura bar (e.g., 45 / 100)
         if(document.getElementById('xpText')) {
             document.getElementById('xpText').textContent = `${this.data.xp} / ${xpNeeded}`;
         }
         
-        // Calculate precise percentage and reflect it dynamically on the emerald status bar
         if(document.getElementById('xpBar')) {
             const percentage = Math.min((this.data.xp / xpNeeded) * 100, 100);
             document.getElementById('xpBar').style.width = `${percentage}%`;
