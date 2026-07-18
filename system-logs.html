@@ -1,0 +1,2055 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sovereign System | System Logs & Protocol Monitor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="index11.css">
+    <script src="monarch-core.js"></script>
+    
+    <style>
+        :root {
+            --sys-cyan: #00f0ff;
+            --sys-cyan-glow: rgba(0, 240, 255, 0.6);
+            --sys-purple: #9d4edd;
+            --sys-purple-glow: rgba(157, 78, 221, 0.4);
+            --sys-bg-dark: #02040a;
+            --sys-panel: rgba(5, 10, 25, 0.85);
+            --sys-border: rgba(0, 240, 255, 0.3);
+            --sys-gold: #fbbf24;
+            --sys-red: #ef4444;
+            --sys-green: #10b981;
+        }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--sys-bg-dark);
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+        .sys-font { font-family: 'Rajdhani', sans-serif; letter-spacing: 0.05em; }
+        .sl-panel {
+            background: var(--sys-panel);
+            backdrop-filter: blur(16px);
+            border: 2px solid var(--sys-border);
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.15), inset 0 0 15px rgba(0, 240, 255, 0.1);
+            position: relative;
+        }
+        .sl-panel::before, .sl-panel::after {
+            content: ''; position: absolute; width: 20px; height: 20px;
+            pointer-events: none;
+        }
+        .sl-panel::before { top: -2px; left: -2px; border-top: 3px solid var(--sys-cyan); border-left: 3px solid var(--sys-cyan); }
+        .sl-panel::after { bottom: -2px; right: -2px; border-bottom: 3px solid var(--sys-cyan); border-right: 3px solid var(--sys-cyan); }
+        
+        /* Interactive Buttons */
+        .sl-btn {
+            background: linear-gradient(180deg, rgba(0, 240, 255, 0.05) 0%, rgba(5, 10, 25, 0.8) 100%);
+            border: 1px solid var(--sys-cyan);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .sl-btn:hover {
+            box-shadow: 0 0 20px rgba(0,240,255,0.4);
+            background: rgba(0,240,255,0.15);
+            transform: translateY(-1px);
+        }
+        .sl-btn.active {
+            background: var(--sys-cyan);
+            color: black;
+            box-shadow: 0 0 20px var(--sys-cyan-glow);
+            font-weight: 900;
+        }
+        .sl-btn-purple {
+            border-color: var(--sys-purple);
+            background: linear-gradient(180deg, rgba(157, 78, 221, 0.05) 0%, rgba(5, 10, 25, 0.8) 100%);
+        }
+        .sl-btn-purple:hover {
+            box-shadow: 0 0 20px var(--sys-purple-glow);
+            background: rgba(157, 78, 221, 0.15);
+        }
+        .sl-btn-purple.active {
+            background: var(--sys-purple);
+            color: white;
+            box-shadow: 0 0 20px var(--sys-purple-glow);
+        }
+        
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: var(--sys-cyan); }
+
+        .log-item {
+            transition: all 0.3s ease;
+            border-right: 3px solid transparent;
+        }
+        .log-item:hover {
+            background: rgba(255, 255, 255, 0.03);
+            transform: translateX(-5px);
+        }
+        .log-quest { border-right-color: var(--sys-gold); }
+        .log-system { border-right-color: var(--sys-cyan); }
+        .log-level { border-right-color: var(--sys-purple); }
+        .log-error { border-right-color: var(--sys-red); }
+
+        .block-active {
+            border: 1px solid var(--sys-cyan);
+            background: rgba(0, 240, 255, 0.05);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
+        }
+        .live-pulse {
+            animation: livePulse 2s infinite;
+        }
+        @keyframes livePulse {
+            0%, 100% { box-shadow: 0 0 5px var(--sys-cyan); }
+            50% { box-shadow: 0 0 20px var(--sys-cyan); }
+        }
+
+        /* Task items styling */
+        .task-item {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-right: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        .task-item::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; width: 0%; height: 100%;
+            transition: width 0.4s ease;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        .task-item:hover::before { width: 100%; }
+        .task-item:hover { transform: translateX(-3px); }
+        .task-quest { border-right-color: var(--sys-gold); }
+        .task-quest::before { background: var(--sys-gold); }
+        .task-completed {
+            opacity: 0.5;
+            text-decoration: line-through;
+            border-right-color: var(--sys-green) !important;
+        }
+        .task-completed::before { background: var(--sys-green); }
+
+        /* Level 50 Shadow Lock Elements */
+        .shadow-lock-overlay {
+            background: radial-gradient(circle at 50% 50%, rgba(10, 4, 20, 0.96) 0%, rgba(2, 4, 10, 0.99) 75%);
+            backdrop-filter: blur(8px);
+            border: 2px dashed var(--sys-purple);
+            box-shadow: inset 0 0 30px rgba(157, 78, 221, 0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 30px 20px;
+            min-height: 280px;
+        }
+        .shadow-lock-icon {
+            font-size: 3rem;
+            filter: drop-shadow(0 0 10px var(--sys-purple));
+            animation: floatLock 3s ease-in-out infinite;
+        }
+        @keyframes floatLock {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .shadow-lock-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 900;
+            letter-spacing: 0.15em;
+            color: var(--sys-purple);
+            text-shadow: 0 0 10px rgba(157, 78, 221, 0.6);
+        }
+        .shadow-lock-req span {
+            color: var(--sys-cyan);
+            font-weight: 900;
+            text-shadow: 0 0 8px var(--sys-cyan-glow);
+        }
+
+        /* Glow effects for Chart container */
+        .chart-glow-cyan {
+            filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.3));
+        }
+    </style>
+</head>
+<body class="p-2 md:p-6">
+<div class="sov-secondary-bg" aria-hidden="true"></div>
+
+    <div class="max-w-[1400px] mx-auto space-y-6 relative z-10">
+
+        <!-- HEADER -->
+        <header class="sl-panel p-4 md:p-6 flex flex-col lg:flex-row justify-between items-center gap-4 animate-system-pop" style="border-color: rgba(157, 78, 221, 0.6);">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-lg bg-[var(--sys-cyan)]/10 border border-[var(--sys-cyan)] flex items-center justify-center text-xl shadow-[0_0_15px_rgba(0,240,255,0.2)]">
+                    📊
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-black tracking-wide text-white">SOVEREIGN SYSTEM</h1>
+                    <p class="text-xs text-[var(--sys-cyan)] sys-font tracking-widest">SYSTEM LOGS & PROTOCOL MONITOR</p>
+                </div>
+            </div>
+            <div class="sov-identity-strip">
+                <span data-sov-name class="font-bold text-sm text-[var(--sys-cyan)]"></span>
+                <span data-sov-title class="font-bold text-xs italic text-[var(--sys-purple)]"></span>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-4 bg-slate-950/60 px-6 py-3 rounded-lg border border-slate-800">
+                <div class="text-center">
+                    <span class="block text-[10px] text-slate-500 sys-font">LEVEL</span>
+                    <span id="player-level" class="text-xl font-bold text-white sys-font">1</span>
+                </div>
+                <div class="h-8 w-[1px] bg-slate-800"></div>
+                <div class="text-right min-w-[120px]">
+                    <span class="block text-[10px] text-slate-500 sys-font">EXP PROGRESS</span>
+                    <div class="w-full bg-slate-800 h-2 rounded-full mt-1 overflow-hidden">
+                        <div id="player-xp-bar" class="bg-[var(--sys-cyan)] h-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="h-8 w-[1px] bg-slate-800"></div>
+                <div class="text-center">
+                    <span class="block text-[10px] text-slate-500 sys-font">GOLD</span>
+                    <div class="flex items-center gap-1">
+                        <span class="text-yellow-500 text-sm">🪙</span>
+                        <span id="player-gold" class="text-lg font-bold text-yellow-400 sys-font">0</span>
+                    </div>
+                </div>
+                <div class="h-8 w-[1px] bg-slate-800"></div>
+                <div class="text-center">
+                    <span class="block text-[10px] text-slate-500 sys-font">PROGRAM</span>
+                    <span id="active-program-badge" class="text-xs font-bold text-[var(--sys-purple)] sys-font border border-[var(--sys-purple)] px-2 py-0.5 rounded bg-[var(--sys-purple)]/10">WEEK 1</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- PORTFOLIO/MUSIC CONTROLS -->
+        <div class="fixed top-6 left-6 z-50 flex gap-4 items-center">
+            <button onclick="SoundEffects.toggleMusic(1)" class="w-10 h-10 flex items-center justify-center bg-slate-900/80 backdrop-blur border border-slate-700 hover:border-[var(--sys-cyan)] text-[var(--sys-cyan)] rounded-full transition-all shadow-md">
+                <span id="musicIcon1" class="text-lg animate-pulse">🎵</span>
+            </button>
+            <button onclick="SoundEffects.toggleMusic(2)" class="w-10 h-10 flex items-center justify-center bg-slate-900/80 backdrop-blur border border-slate-700 hover:border-[var(--sys-cyan)] text-[var(--sys-cyan)] rounded-full transition-all shadow-md">
+                <span id="musicIcon2" class="text-lg animate-pulse">🎼</span>
+            </button>
+          
+        </div>
+
+                 <nav class="flex flex-wrap justify-center gap-2 md:gap-4 text-sm font-bold">
+    <nav id="sovereign-nav" class="flex flex-wrap gap-3 justify-center md:justify-start items-center p-4 bg-slate-950/60 border border-slate-850/50 backdrop-blur-md rounded-lg shadow-[inset_0_0_15px_rgba(0,0,0,0.8)] my-4 select-none">
+        
+        <a href="index11.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🏠</span> <span>DASHBOARD...</span>
+        </a>
+        <hr>
+        
+ <!-- Sports Pages Hub -->
+<a href="basketball.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-orange-500 hover:border-orange-500 hover:shadow-[0_0_12px_rgba(249,115,22,0.3)]">
+    <span>🏀</span> <span>BASKETBALL...</span>
+</a>
+<hr class="border-slate-800/40 my-1">
+
+<a href="bjj.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-indigo-500 hover:border-indigo-500 hover:shadow-[0_0_12px_rgba(99,102,241,0.3)]">
+    <span>🥋</span> <span>BJJ Grappling...</span>
+</a>
+<hr class="border-slate-800/40 my-1">
+
+<a href="football.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-emerald-500 hover:border-emerald-500 hover:shadow-[0_0_12px_rgba(16,185,129,0.3)]">
+    <span>⚽</span> <span>FOOTBALL...</span>
+</a>
+<hr class="border-slate-800/40 my-1">
+
+<a href="swimming.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-sky-400 hover:border-sky-400 hover:shadow-[0_0_12px_rgba(56,189,248,0.3)]">
+    <span>🏊</span> <span>SWIMMING...</span>
+</a>
+<hr class="border-slate-800/40 my-1">
+
+<a href="Muay Thai.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-red-500 hover:border-red-500 hover:shadow-[0_0_12px_rgba(239,68,68,0.3)]">
+    <span>🥊</span> <span>MUAY THAI...</span>
+</a>
+<hr class="border-slate-800/40 my-1">
+
+<!-- MMA Sovereign Arena Button -->
+<a href="mma_sovereign_arena.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-amber-500 hover:border-amber-500 hover:shadow-[0_0_12px_rgba(245,158,11,0.3)]">
+    <span>🤼‍♂️</span> <span>MMA SOVEREIGN ARENA...</span>
+</a>
+<hr class="border-slate-800/40 my-1">
+        <!-- Rest of your original buttons -->
+        <a href="ifortress_muslim.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🛡️</span> <span>FORTRESS.....</span>
+        </a><hr>
+        <a href="operational-charter.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>📜</span> <span>CHARTER...</span>
+        </a><hr>
+        <a href="active-quests.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>⚔️</span> <span>ACTIVE QUESTS...</span>
+        </a><hr>
+        <a href="brain-stats.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🧠</span> <span>BRAIN STATS...</span>
+        </a><hr>
+        <a href="monarch-ai.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🤖</span> <span>MONARCH AI...</span>
+        </a><hr>
+        <a href="sovereign-shop.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🛒</span> <span>SOVEREIGN SHOP...</span>
+        </a><hr>
+        <a href="culinary_sovereign_academy.html" target="_self" class="nav-item-active nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-sys-cyan hover:border-sys-cyan hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+                <span>🍳</span> <span>COOKING ACADEMY</span>
+            </a>
+        <a href="prayers.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🕋​</span> <span>PRAYERS......</span>
+        </a><hr>
+        <a href="quran.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>📘​​</span> <span>QURAN.....</span>
+        </a><hr>
+        <a href="dungeons.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🌋</span> <span>DUNGEONS...</span>
+        </a><hr>
+        <a href="system-logs.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>📂</span> <span>SYSTEM LOGS...</span>
+        </a><hr>
+        
+          <button onclick="SystemReset.confirmAndReset()" class="sl-btn w-full text-left p-3 rounded-sm flex justify-between items-center group !border-rose-500 hover:!bg-rose-950/30 mt-4">
+                    <span class="sys-font text-sm font-black text-rose-500 group-hover:text-rose-400" style="color: red;">⚠️ 𝐒𝐘𝐒𝐓𝐄𝐌 𝐇𝐀𝐑𝐃 𝐑𝐄𝐒𝐄𝐓</span>
+                    <span class="sys-font text-[10px] bg-rose-950 text-rose-500 px-2 py-0.5 border border-rose-500 animate-pulse">DANGER</span>
+                </button>
+    </nav>
+</nav>
+         
+
+        <!-- MAIN LAYOUT -->
+        <main class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+
+            <!-- LEFT SIDE: Program Switcher, Tasks & Protocol -->
+            <aside class="xl:col-span-5 space-y-6">
+                
+                <!-- Operational Program Selector -->
+                <div class="sl-panel p-5 animate-system-pop" style="animation-delay: 0.2s;">
+                    <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
+                        <h2 class="text-sm font-black text-white sys-font tracking-widest">OPERATIONAL PROTOCOL SELECTOR</h2>
+                        <span class="text-[10px] text-slate-500 sys-font">ACTIVE DIRECTIVE</span>
+                    </div>
+
+                    <div class="space-y-2">
+                        <button onclick="Charter.switch('week1')" id="btn-week1" class="sl-btn w-full text-left p-3 rounded flex justify-between items-center group">
+                            <div>
+                                <span class="sys-font text-xs font-black text-white group-hover:text-[var(--sys-cyan)] block uppercase">📜 Mind Games Protocol Active SYSTEM v8.0</span>
+                                <span class="text-[9px] text-slate-400">Levels 1→25</span>
+                            </div>
+                            <span class="sys-font text-[9px] bg-cyan-950 text-[var(--sys-cyan)] px-2 py-0.5 border border-[var(--sys-cyan)]">CORE</span>
+                        </button>
+                        <button onclick="Charter.switch('week2')" id="btn-week2" class="sl-btn-purple sl-btn w-full text-left p-3 rounded flex justify-between items-center group">
+                            <div>
+                                <span class="sys-font text-xs font-black text-white group-hover:text-[var(--sys-purple)] block uppercase">🌌 SYSTEM v9.0 — Infinity</span>
+                                <span class="text-[9px] text-slate-400">Levels 25→35</span>
+                            </div>
+                            <span class="sys-font text-[9px] bg-purple-950 text-[var(--sys-purple)] px-2 py-0.5 border border-[var(--sys-purple)]">INFINITY</span>
+                        </button>
+                        <button onclick="Charter.switch('week3')" id="btn-week3" class="sl-btn-purple sl-btn w-full text-left p-3 rounded flex justify-between items-center group">
+                            <div>
+                                <span class="sys-font text-xs font-black text-white group-hover:text-[var(--sys-purple)] block uppercase">🌩️ SYSTEM v10.0 — Infinity</span>
+                                <span class="text-[9px] text-slate-400">Levels 35→45</span>
+                            </div>
+                            <span class="sys-font text-[9px] bg-purple-950 text-[var(--sys-purple)] px-2 py-0.5 border border-[var(--sys-purple)]">INFINITY</span>
+                        </button>
+                        <button onclick="Charter.switch('week4')" id="btn-week4" class="sl-btn-purple sl-btn w-full text-left p-3 rounded flex justify-between items-center group">
+                            <div>
+                                <span class="sys-font text-xs font-black text-white group-hover:text-[var(--sys-purple)] block uppercase">😈⚠️ SYSTEM v11.0 — Infinity</span>
+                                <span class="text-[9px] text-slate-400">Levels 45→50</span>
+                            </div>
+                            <span class="sys-font text-[9px] bg-purple-950 text-[var(--sys-purple)] px-2 py-0.5 border border-[var(--sys-purple)]">INFINITY</span>
+                        </button>
+                        <button onclick="Charter.switch('week5')" id="btn-week5" class="sl-btn-purple sl-btn w-full text-left p-3 rounded flex justify-between items-center group">
+                            <div>
+                                <span class="sys-font text-xs font-black text-white group-hover:text-[var(--sys-purple)] block uppercase">☠️‼️ SYSTEM v1000.0 — Infinity</span>
+                                <span class="text-[9px] text-slate-400">Levels 50→∞</span>
+                            </div>
+                            <span class="sys-font text-[9px] bg-purple-950 text-[var(--sys-purple)] px-2 py-0.5 border border-[var(--sys-purple)]">INFINITY</span>
+                        </button>
+                    </div>
+
+                    <div id="infinity-message" class="hidden mt-3 p-3 bg-cyan-950/40 border border-[var(--sys-cyan)] rounded animate-pulse text-center">
+                        <span class="text-[var(--sys-cyan)] font-bold sys-font text-xs block mb-1">[SYSTEM: SOVEREIGN AUTONOMY ACTIVATED]</span>
+                        <span class="text-white text-xs font-bold">الآن يمكنك تدبر أمورك بنفسك وقراراتك. هذا هو التحسين الأخير للنظام.</span>
+                    </div>
+                </div>
+
+                <!-- FREE TASKS / المهام الحرة (LEVEL 50 GATEWAY) -->
+                <div class="sl-panel p-5 animate-system-pop relative overflow-hidden" style="animation-delay: 0.25s; border-color: rgba(251, 191, 36, 0.4);">
+                    <div id="free-tasks-unlocked" class="space-y-4">
+                        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                            <h2 class="text-xs font-black text-[var(--sys-gold)] sys-font tracking-wider flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-[var(--sys-gold)] animate-pulse"></span>
+                                إدارة المهام الحرة والتحكم الذاتي السيادي
+                            </h2>
+                            <button onclick="TaskManager.openModal()" class="text-[9px] bg-[var(--sys-gold)]/10 border border-[var(--sys-gold)] text-[var(--sys-gold)] px-2 py-1 rounded hover:bg-[var(--sys-gold)] hover:text-black transition sys-font font-bold">
+                                + NEW QUEST
+                            </button>
+                        </div>
+
+                        <!-- Progress Circle -->
+                        <div class="flex items-center gap-3 p-3 bg-slate-950/60 rounded border border-slate-800">
+                            <div class="relative w-12 h-12 flex-shrink-0">
+                                <svg class="daily-progress-ring w-12 h-12" viewBox="0 0 48 48">
+                                    <circle cx="24" cy="24" r="20" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="4"/>
+                                    <circle id="daily-progress-circle" cx="24" cy="24" r="20" fill="none" stroke="var(--sys-gold)" stroke-width="4" 
+                                        stroke-dasharray="125.6" stroke-dashoffset="125.6" stroke-linecap="round"/>
+                                </svg>
+                                <span id="daily-progress-text" class="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-[var(--sys-gold)] sys-font">0%</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-[9px] text-slate-500 sys-font uppercase tracking-wider">Free Protocol Cleared</div>
+                                <div class="text-xs text-white font-bold" id="daily-progress-label">No active custom quests</div>
+                            </div>
+                        </div>
+
+                        <!-- Task Container list -->
+                        <div id="tasksContainer" class="space-y-2 max-h-[300px] overflow-y-auto pr-1"></div>
+                    </div>
+
+                    <!-- Level 50 Shadow Lock Screen -->
+                    <div class="border border-[var(--sys-cyan)]/20 bg-slate-950/60 backdrop-blur-md rounded-xl p-5 shadow-[0_0_20px_rgba(0,240,255,0.05)] flex flex-col h-full min-h-[400px]">
+    <div class="flex justify-between items-center border-b border-[var(--sys-cyan)]/10 pb-3 mb-4">
+        <div class="flex items-center gap-2">
+            
+                            <div class="shadow-lock-icon">🔒</div>
+                            <h3 class="shadow-lock-title text-base font-black uppercase mt-2">FEATURE SECURED <br><hr> نظام مغلق</h3>
+                            <p class="shadow-lock-req text-xs text-slate-300 mt-2 px-6">
+                                يتطلب اختراق هذه البوابة وعزل المهام الحرة وتفعيل محرك الأرباح والخصومات بلوغ العاهل إلى <span>المستوى 50</span>.
+                            </p>
+                            <span class="text-[10px] text-slate-500 font-mono tracking-wider mt-3" id="lock-level-status"></span>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- TODAY'S PROTOCOL -->
+                <div class="border border-[var(--sys-purple)]/20 bg-slate-950/60 backdrop-blur-md rounded-xl p-5 shadow-[0_0_20px_rgba(157,78,221,0.05)]">
+    <div class="flex justify-between items-center border-b border-[var(--sys-purple)]/10 pb-3 mb-4">
+        <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-[var(--sys-purple)] shadow-[0_0_8px_var(--sys-purple)]"></span>
+            <h3 class="font-black text-white text-base md:text-lg tracking-wide">مخطط الفترات الزمنية والبروتوكول</h3>
+        </div>
+        <div id="currentTimeBlockDisplay" class="sys-font text-[11px] font-bold text-amber-400 tracking-wider">
+            SYNCHRONIZING...
+        </div>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full text-right border-collapse">
+            <thead>
+                <tr class="border-b border-slate-800 sys-font text-[11px] text-slate-400 tracking-wider">
+                    <th class="py-2 px-3 text-center">الحالة</th>
+                    <th class="py-2 px-3">الفترة الزمنية</th>
+                    <th class="py-2 px-3">البروتوكول المستهدف</th>
+                    <th class="py-2 px-3 text-left">التصنيف</th>
+                </tr>
+            </thead>
+            <div id="today-schedule-container" class="mt-4">
+    </div>
+        </table>
+    </div>
+</div>
+            </aside>
+
+            <!-- RIGHT SIDE: Analytics & Interactive Performance Charts -->
+            <section class="xl:col-span-7 space-y-6">
+
+                <!-- Real-time Telemetry Dashboard -->
+                <div class="sl-panel p-4 md:p-6 rounded-lg space-y-6 animate-system-pop" style="animation-delay: 0.45s; border-color: rgba(0, 240, 255, 0.4);">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-4">
+                        <div>
+                            <div class="sys-font text-[var(--sys-cyan)] tracking-[0.3em] text-[10px] font-black animate-pulse">[ CORE TELEMETRY LINKED ]</div>
+                            <h2 class="text-lg font-black text-white flex items-center gap-2 mt-1">
+                                <span>📈</span> تحليل الأداء السيادي المباشر
+                            </h2>
+                        </div>
+                        <div class="flex gap-1.5 bg-slate-950/80 p-1 rounded-md border border-slate-800 sys-font">
+                            <button onclick="SovereignAnalytics.switchView('daily')" id="btn-chart-daily" class="px-3 py-1 text-[10px] font-bold rounded transition-all uppercase">Daily</button>
+                            <button onclick="SovereignAnalytics.switchView('weekly')" id="btn-chart-weekly" class="px-3 py-1 text-[10px] font-bold rounded transition-all uppercase">Weekly</button>
+                            <button onclick="SovereignAnalytics.switchView('monthly')" id="btn-chart-monthly" class="px-3 py-1 text-[10px] font-bold rounded transition-all uppercase">Monthly</button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Condition Badge -->
+                        <div class="bg-slate-950/70 border border-slate-800 p-4 rounded relative overflow-hidden flex flex-col justify-between min-h-[140px]">
+                            <div class="absolute -right-4 -top-4 text-5xl opacity-5" id="perf-bg-icon">📈</div>
+                            <div>
+                                <span class="text-[9px] text-slate-500 block font-bold tracking-widest uppercase sys-font mb-2">SYSTEM CONDITION</span>
+                                <span id="perf-condition-badge" class="px-3 py-1 text-[10px] font-black rounded sys-font tracking-widest border">
+                                    SCANNING...
+                                </span>
+                            </div>
+                            <p id="perf-analysis-text" class="text-[11px] text-slate-400 mt-2 leading-relaxed font-semibold font-cairo">
+                                جاري مسح البنية الرقمية لنواة النظام...
+                            </p>
+                        </div>
+
+                        <!-- Level Micro Metrics -->
+                        <div class="bg-slate-950/70 border border-slate-800 p-4 rounded flex flex-col justify-center gap-3">
+                            <div class="flex justify-between items-end border-b border-slate-800 pb-2">
+                                <span class="text-[10px] text-slate-500 font-bold sys-font uppercase tracking-wider">EXACT LEVEL</span>
+                                <span id="stat-exact-level" class="text-xl font-black text-[var(--sys-cyan)] sys-font">1.00</span>
+                            </div>
+                            <div class="flex justify-between items-end">
+                                <span class="text-[10px] text-slate-500 font-bold sys-font uppercase tracking-wider">TODAY'S TASKS</span>
+                                <div class="text-right">
+                                    <span id="stat-today-tasks" class="text-xl font-black text-[var(--sys-gold)] sys-font">0</span>
+                                    <span class="text-[9px] text-slate-500 ml-1">CLEARED</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Current Authority & Progress -->
+                        <div class="bg-slate-950/70 border border-slate-800 p-4 rounded flex flex-col justify-center text-center relative">
+                            <span class="text-[10px] text-slate-500 block font-bold tracking-wider sys-font uppercase mb-1">Current Authority</span>
+                            <div class="text-xl font-black text-white sys-font tracking-wide" id="perf-rank-title">
+                                EVALUATING...
+                            </div>
+                            <div class="mt-3 w-full bg-slate-900 h-1.5 rounded-full overflow-hidden border border-slate-800">
+                                <div id="perf-rank-bar" class="bg-gradient-to-r from-[var(--sys-purple)] to-[var(--sys-cyan)] h-full w-0 transition-all duration-1000"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Glowing Vector SVG Grid -->
+                    <div class="bg-slate-900/50 border border-slate-800 p-4 rounded-lg relative h-[220px] flex items-center justify-center overflow-hidden">
+                        <div id="perf-chart-container" class="w-full h-full relative"></div>
+                    </div>
+                </div>
+
+                <!-- Stats Summary Cards -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 animate-system-pop" style="animation-delay: 0.5s;">
+                    <div class="sl-panel p-4 border-t-2 border-t-[var(--sys-cyan)]">
+                        <div class="text-slate-500 text-[10px] uppercase tracking-wider mb-1 sys-font font-bold">Total Logs</div>
+                        <div id="stat-total" class="text-2xl font-black text-white sys-font">0</div>
+                    </div>
+                    <div class="sl-panel p-4 border-t-2 border-t-[var(--sys-gold)]">
+                        <div class="text-slate-500 text-[10px] uppercase tracking-wider mb-1 sys-font font-bold">Quests</div>
+                        <div id="stat-quests" class="text-2xl font-black text-white sys-font">0</div>
+                    </div>
+                    <div class="sl-panel p-4 border-t-2 border-t-[var(--sys-purple)]">
+                        <div class="text-slate-500 text-[10px] uppercase tracking-wider mb-1 sys-font font-bold">System Alerts</div>
+                        <div id="stat-system" class="text-2xl font-black text-white sys-font">0</div>
+                    </div>
+                    <div class="sl-panel p-4 border-t-2 border-t-[var(--sys-red)]">
+                        <div class="text-slate-500 text-[10px] uppercase tracking-wider mb-1 sys-font font-bold">Errors</div>
+                        <div id="stat-errors" class="text-2xl font-black text-white sys-font">0</div>
+                    </div>
+                </div>
+
+                <!-- Live Log Explorer Container -->
+                <div class="sl-panel p-0 overflow-hidden flex flex-col min-h-[500px] animate-system-pop" style="animation-delay: 0.55s;">
+                    <div class="bg-slate-950/50 p-4 border-b border-slate-800 flex flex-wrap gap-2 items-center justify-between">
+                        <div class="flex flex-wrap gap-2" id="filterContainer">
+                            <button class="filter-btn active px-4 py-1.5 rounded-full border border-slate-600 text-xs font-bold text-slate-300 hover:border-[var(--sys-cyan)] transition sys-font" data-filter="all">ALL</button>
+                            <button class="filter-btn px-4 py-1.5 rounded-full border border-slate-600 text-xs font-bold text-slate-300 hover:border-[var(--sys-gold)] transition sys-font" data-filter="quest">QUESTS</button>
+                            <button class="filter-btn px-4 py-1.5 rounded-full border border-slate-600 text-xs font-bold text-slate-300 hover:border-[var(--sys-cyan)] transition sys-font" data-filter="system">SYSTEM</button>
+                            <button class="filter-btn px-4 py-1.5 rounded-full border border-slate-600 text-xs font-bold text-slate-300 hover:border-[var(--sys-red)] transition sys-font" data-filter="error">ERRORS</button>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="LogManager.exportLogs()" class="px-3 py-1.5 bg-slate-900 border border-[var(--sys-cyan)] text-[var(--sys-cyan)] rounded hover:bg-[var(--sys-cyan)] hover:text-black transition text-xs font-bold sys-font flex items-center gap-1">
+                                <span>⬇</span> EXPORT
+                            </button>
+                            <button onclick="LogManager.clearLogs()" class="px-3 py-1.5 bg-slate-900 border border-rose-500/50 text-rose-400 hover:bg-rose-500 hover:text-white transition text-xs font-bold sys-font flex items-center gap-1">
+                                <span>✕</span> CLEAR
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="logsContainer" class="p-3 flex-1 overflow-y-auto space-y-2 bg-[#02040a]/40 max-h-[450px]">
+                        <!-- Populated chronologically -->
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- NEW TASK INITIALIZATION MODAL -->
+    <div id="taskModal" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/80 backdrop-blur-sm">
+        <div class="sl-panel p-6 w-full max-w-md mx-4 animate-system-pop" style="border-color: var(--sys-gold);">
+            <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
+                <h3 class="text-lg font-black text-[var(--sys-gold)] sys-font tracking-widest" id="modalTitle">INITIALIZE CUSTOM MISSION</h3>
+                <button onclick="TaskManager.closeModal()" class="text-slate-500 hover:text-white text-xl">&times;</button>
+            </div>
+            <form id="taskForm" onsubmit="TaskManager.saveTask(event)">
+                <div class="space-y-4 text-right">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">عنوان المهمة السيادية</label>
+                        <input type="text" id="taskTitle" required class="w-full bg-slate-950 border border-slate-800 text-white p-2.5 rounded focus:border-[var(--sys-gold)] outline-none text-sm font-semibold">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">تفاصيل ومخطط التنفيذ</label>
+                        <textarea id="taskDesc" rows="3" class="w-full bg-slate-950 border border-slate-800 text-white p-2.5 rounded focus:border-[var(--sys-gold)] outline-none text-sm"></textarea>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 mb-1">الرتبة / الأولوية</label>
+                            <select id="taskPriority" class="w-full bg-slate-950 border border-slate-800 text-white p-2 rounded text-xs">
+                                <option value="high">🔴 S-RANK</option>
+                                <option value="medium" selected>🟡 A-RANK</option>
+                                <option value="low">🟢 C-RANK</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 mb-1">عائد الخبرة (XP)</label>
+                            <input type="number" id="taskXP" value="20" min="5" max="500" class="w-full bg-slate-950 border border-slate-800 text-white p-2 rounded text-xs font-bold">
+                        </div>
+                    </div>
+                </div>
+                <div class="flex gap-2 mt-6">
+                    <button type="submit" class="flex-1 bg-[var(--sys-gold)] text-black font-black py-3 rounded text-xs sys-font tracking-wider hover:brightness-110 transition">
+                        CONFIRM PROTOCOL
+                    </button>
+                    <button type="button" onclick="TaskManager.closeModal()" class="px-4 py-3 border border-slate-650 text-slate-400 rounded text-xs font-bold hover:text-white transition">
+                        CANCEL
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- AUDIO CORE FILES -->
+    <audio id="bg-music" loop><source src="SHADOWBORN.mp3" type="audio/mpeg"></audio>
+
+    <script>
+        const PROGRAM_DATA = {
+week1: {
+    id: 'week1',
+    title: 'Integrated Operations Charter / ميثاق العمليات المتكاملة',
+    version: 'v9.0',
+    range: 'LVL 1 → 450 / المستوى 1 → 450',
+    desc: 'المرحلة التأسيسية الشاملة: بناء القاعدة البرمجية والبدنية والروحية، التأسيس للمسار السيادي الكامل.',
+    schedule: [
+      { start: 5.0,  end: 6.0,  title: 'Spiritual Exchange Session / جلسة التبادل الروحي قراءة الأذكار الصباحية وتدبر حزبين كاملين سواءا مع الحفظ أو التكرار وتمارين الإطالة والتمدد', desc: 'Quran Recitation (Individual: Meditative / Pairs: New) + Fajr Prayer, Adhkar, and Stretching Exercises / تلاوة القرآن (فردي: تدبر / ثنائي: جديد) + صلاة الفجر، الأذكار، وتمارين الإطالة' },
+      { start: 6.0,  end: 8.5,  title: 'Advanced Programming / برمجة متقدمة HTML5 و CSS3 و JavaScript',       desc: 'Project (Python/JavaScript) - Architecture and Development / مشروع  (بايثون/جافا سكريبت) - الهيكلة والتطوير' },
+      { start: 8.5,  end: 10.5, title: 'Academic Courses in Artificial Intelligence /  دورات أكاديمية في الذكاء الاصطناعي و نقل مهاراتك في إكسيل إلى بايثون وفهم لغة الأرقام',        desc: 'Machine Learning, LLM Studies, and Algorithm Applications / تعلم الآلة، دراسات النماذج اللغوية الكبيرة، وتطبيقات الخوارزميات' },
+      { start: 10.5, end: 12.0, title: 'Mastering English / " إتقان الإنجليزية وهي "الإنغماس الصوتي" و "حفظ المفردات والجمل " و "الكتابة',   desc: 'Technical In-Depth + Vocabulary Building + Practical Application Training / تعمق تقني + بناء المفردات + تدريب على التطبيق العملي' },
+      { start: 12.0, end: 13.0, title: ' Applied Technical Lab / مختبر تقني تطبيقي و نقل مهاراتك في إكسيل إلى بايثون وفهم لغة الأرقام',                  desc: 'Rest & Recovery / System Architecture Monitoring & Updates / راحة وتعافي / مراقبة وتحديثات هيكل النظام' },
+      { start: 13.0, end: 15.0, title: 'Long Break / استراحة طويلة + Applied Technical Lab / مختبر تقني تطبيقي و نقل مهاراتك في إكسيل إلى بايثون وفهم لغة الأرقام', desc: 'Rest & Recovery / System Architecture Monitoring & Updates / راحة وتعافي / مراقبة وتحديثات هيكل النظام + Dhuhr Prayer + Protein-Rich Lunch / صلاة الظهر + غداء غني بالبروتين + قيلولة' },
+      { start: 15.0, end: 16.5, title: 'Advanced Physical Development (PPL) / تطوير بدني متقدم', desc: 'Push/Pull/Leg Exercises  / تمارين الدفع/السحب/الأرجل' },
+      { start: 16.5, end: 17.5, title: 'Sheikh Al-Raslan / الشيخ الرسلان أو مواعض دينية لشيوخ مختلفة',          desc: 'Sheikh Al-Raslan /  الشيخ الرسلان مواعض دينية' },
+      { start: 17.5, end: 19.5, title: 'Experimental Sciences / العلوم التجريبية',      desc: 'Academic Focus: Mathematics (Sunday/Wednesday), Science (Monday/Friday), Physics (Tuesday/Saturday) / تركيز أكاديمي: رياضيات (الأحد/الأربعاء)، علوم (الإثنين/الجمعة)، فيزياء (الثلاثاء/السبت)' },
+      { start: 19.5, end: 20.5, title: 'Mental and Physical Development / تطوير عقلي وبدني',      desc: 'Reading + Documentaries + Brain Games + Physical Rest / قراءة + أفلام وثائقية + ألعاب عقلية + راحة بدنية' },
+      { start: 20.5, end: 22.0, title: 'System Setup / إعداد النظام',         desc: 'Creating Your Schedule + Evening Adhkar + Muscle and Mind Relaxation (Sleep) / إنشاء جدولك + أذكار المساء + استرخاء العضلات والعقل (النوم)' }
+    ],
+    days: {
+      0: { sport: '🏀 Basketball / كرة السلة', ppl: 'Pull Exercises (Back & Biceps) / تمارين السحب (الظهر والبايسبس)', cognitive: 'Double Back Exercises + Digital Book (Session 1) / تمارين ظهر مزدوجة + كتاب رقمي (الجلسة 1)', academic: 'Mathematics / رياضيات' },
+      1: { sport: '🥋 Brazilian Jiu-Jitsu / جيو-جيتسو البرازيل', ppl: 'chest press exercises (upper/lateral/regular/shoulders) / تمارين ضغط الصدر (علوي/جانبي/عادي/أكتاف)', cognitive: 'Chess + Documentary / شطرنج + فيلم وثائقي', academic: 'Natural Sciences / علوم طبيعية' },
+      2: { sport: '🏀 Basketball / كرة السلة', ppl: 'Pull Exercises (Front &  Triceps) / تمارين السحب (الترايسبس) + تمارين الأرجل (الفخذ )', cognitive: 'Reading Books + Watching Nasser Al-Aqeel / قراءة كتب + مشاهدة ناصر العقيل', academic: 'Physics / فيزياء' },
+      3: { sport: '⚽ Football Challenge / تحدي كرة القدم', ppl: 'Leg Exercises (Back & Calves) / تمارين الأرجل (سمانة) + تمارين الساعد', cognitive: 'Sudoku + Documentary / سودوكو + فيلم وثائقي', academic: 'Math Review / مراجعة رياضيات' },
+      4: { sport: '🥋 Brazilian Jiu-Jitsu / جيو-جيتسو البرازيل', ppl: 'Abs and Biceps Exercises / تمارين بطن وبايسبس', cognitive: 'Chess + Watching Nasser Al-Aqeel / شطرنج + مشاهدة ناصر العقيل', academic: 'Islamic Studies/History/Geography / دراسات إسلامية/تاريخ/جغرافيا' },
+      5: { sport: '🏃 Rest, Recovery, and 1-Hour Run / راحة، تعافي، وجري لمدة ساعة', ppl: 'راحة أيها العاهل الشاب ', cognitive: ' Book Review / مراجعة كتاب', academic: 'Science Review / مراجعة علوم' },
+      6: { sport: '⚽ Football / كرة القدم', ppl: 'Abdominal Exercises (Six-Pack) and chest / تمارين بطن (سكس باك) وصدر(سفلي / داخلي)', cognitive: 'Sudoku +weekly assessment "Yassine Tia" / سودوكو + تقييم أسبوعي "ياسين تيا"', academic: 'Physics Review / مراجعة فيزياء' }
+    },
+    special: {
+      1: {
+        title: 'Fasting Protocol (Monday) / بروتوكول الصيام (الإثنين)',
+        blocks: [
+          { time: '02:45-05:00', title: 'Night Prayer and Suhoor / قيام الليل والسحور', desc: 'Night Prayer + Protein-Rich Suhoor + Remembrance of Allah + Quick Mental Review / قيام الليل + سحور غني بالبروتين + ذكر الله + مراجعة ذهنية سريعة' }
+        ]
+      },
+      4: {
+        title: 'Achievement Thursday (Fasting and Diligence) / خميس الإنجاز (صيام واجتهاد)',
+        blocks: [
+          { time: '02:45-05:00', title: 'Night Prayer and Suhoor / قيام الليل والسحور', desc: 'Night Prayer + Protein-Rich Suhoor + Remembrance of Allah + Quick Mental Review / قيام الليل + سحور غني بالبروتين + ذكر الله + مراجعة ذهنية سريعة' },
+          { time: '05:00-06:30', title: 'Quran Session / جلسة القرآن', desc: 'Recitation and Memorization of the Holy Quran (1.5 Hours) / تلاوة وحفظ القرآن الكريم (1.5 ساعة)' },
+          { time: '06:30-09:30', title: 'Religious Studies / دراسات دينية', desc: 'The Book of Tawhid + Tajweed Rules (3 Hours) / كتاب التوحيد + أحكام التجويد (3 ساعات)' },
+          { time: '09:30-11:30', title: 'Study Marathon / ماراثون دراسي', desc: 'History, Geography, and French using Mind Maps / تاريخ، جغرافيا، ولغة فرنسية باستخدام الخرائط الذهنية' },
+          { time: '11:30-13:30', title: 'Language Skills / مهارات لغوية', desc: 'Reviewing English Terminology and Treating Grammar as Systemic Software Logic / مراجعة المصطلحات الإنجليزية والتعامل مع القواعد كمنطق برمجي نظامي' },
+          { time: '13:30-15:00', title: 'Website Development / تطوير المواقع', desc: 'Developing and Monetizing Websites / تطوير المواقع وتحقيق الربح' },
+          { time: '15:00-16:30', title: 'Targeted Muscle Building / بناء عضلي موجه', desc: 'Leg Muscles (Thighs/Calves) + Abdominal Priority and Muscle Heads / عضلات الأرجل (أفخاذ/سمانة) + أولوية البطن ورؤوس العضلات' },
+          { time: '16:30-18:30', title: 'Combat / قتال', desc: 'Jiu-Jitsu training / تدريب جيو-جيتسو' },
+          { time: '18:30-19:30', title: 'Content Creation / صناعة المحتوى', desc: 'Creating and producing content for YouTube, Instagram, TikTok, and Facebook / إنشاء وصناعة المحتوى يوتيوب وإنستقرام وتيكتوك وفيسبوك' },
+          { time: '19:30-20:30', title: 'Spiritual Balance / توازن روحي', desc: 'Listening to the Quran + Meditation and Improving Vocal Tone & Depth / استماع للقرآن + تأمل وتحسين نبرة وعمق الصوت' },
+          { time: '20:30-22:00', title: ' Mindset / العقلية', desc: ' Watching Nasser Al-Aqeel + Chess / مشاهدة ناصر العقيل + شطرنج ' }
+        ]
+      },
+      5: {
+        title: 'Creativity Friday / جمعة الإبداع',
+        blocks: [
+          { time: '05:00-08:00', title: 'Spiritual Meditation / تأمل روحي', desc: 'Surah Al-Kahf + Morning Adhkar + Natural Sciences Review / سورة الكهف + أذكار الصباح + مراجعة علوم طبيعية' },
+          { time: '08:00-10:00', title: 'Mind Reset / إعادة ضبط العقل', desc: 'Preparing for Video Editing (Montage) / التحضير لتحرير الفيديو (المونتاج)' },
+          { time: '10:00-14:00', title: 'Ethical Hacking and Terminology / تهكير أخلاقي ومصطلحات', desc: 'Learning Ethical Hacking + Study Marathon for Arabic/English and Islamic Studies using Mind Maps / تعلم التهكير الأخلاقي + ماراثون دراسي للغة العربية/الإنجليزية والدراسات الإسلامية باستخدام الخرائط الذهنية' },
+          { time: '14:00-15:00', title: 'Audio Meditation / تأمل صوتي', desc: 'Listening to the Holy Quran and Meditation (Includes Voice Tone Improvement) / استماع للقرآن الكريم والتأمل (يشمل تحسين نبرة الصوت)' },
+          { time: '15:00-16:00', title: 'قيلولة / راحة أيها العاهل الشاب', desc: 'قيلولة راحة أيها العاهل الشاب' },
+          { time: '16:00-17:00', title: 'Website Management / إدارة المواقع', desc: 'Following Up on Completed Website Development Projects / متابعة مشاريع تطوير المواقع المكتملة' },
+          { time: '17:00-18:30', title: 'Energy Generation / توليد الطاقة', desc: 'One-hour run / جري لمدة ساعة' },
+          { time: '18:30-19:30', title: 'Energy Generation / توليد الطاقة', desc: 'Football: Unleashing full physical energy on the pitch / كرة القدم: إطلاق كامل الطاقة البدنية في الملعب' },
+          { time: '19:30-20:30', title: 'System Review, Tactical Planning / مراجعة النظام، تخطيط تكتيكي', desc: 'Self-Development and Weekly Evaluation / تطوير ذاتي وتقييم أسبوعي' }
+        ]
+      },
+      6: {
+        title: 'Mastery Saturday / سبت الإتقان',
+        blocks: [
+          { time: '05:00-10:00', title: 'Academic Focus / تركيز أكاديمي', desc: 'Physics Review + New Quran Memorization (5 Hours) / مراجعة فيزياء + حفظ قرآن جديد (5 ساعات)' },
+          { time: '10:00-14:00', title: 'Technical Immersion / انغماس تقني', desc: 'Advanced Ethical Hacking + English Mastery (4 Hours) / تهكير أخلاقي متقدم + إتقان الإنجليزية (4 ساعات) + مادة فلسفة ' },
+          { time: '14:00-15:00', title: 'Auditory Meditation / تأمل سمعي', desc: 'Listening to the Quran + Voice Modification & Improvement / استماع للقرآن + تعديل وتحسين الصوت' },
+          { time: '15:00-16:30', title: 'Fitness & Physical Therapy / لياقة وعلاج طبيعي', desc: 'Physical Exercises: Abdominal Exercises (Six-pack) and chest / تمارين بدنية: تمارين البطن (سكس باك) و الصدر' },
+          { time: '16:30-17:00', title: 'Therapy and Nutrition / علاج وتغذية', desc: 'Micronutrient Intake (Calcium / Magnesium / Zinc) / تناول المغذيات الدقيقة (كالسيوم / مغنيسيوم / زنك)' },
+          { time: '17:00-18:30', title: 'Competitive Sports / رياضات تنافسية', desc: 'Football: Full Match (Maximum Physical Exertion) / كرة القدم: مباراة كاملة (أقصى مجهود بدني)' },
+          { time: '18:30-19:30', title: 'Digital Architecture / هيكلة رقمية', desc: 'System Programming and Web Project Monitoring & Updates / برمجة النظام ومراقبة وتحديثات مشاريع الويب' },
+          { time: '19:30-20:30', title: 'Calibration / معايرة', desc: 'Sudoku + System Calibration & Comprehensive Review... Weekly Evaluation "Yassine Tia" / سودوكو + معايرة النظام ومراجعة شاملة... تقييم أسبوعي "ياسين تيا"' },
+          { time: '20:30-22:00', title: 'Maximum Stimulation / تحفيز أقصى', desc: 'Stretching & Lengthening Workouts + Sleep Preparation and Deep Rest / تمارين إطالة وتمدد + التحضير للنوم وراحة عميقة' }
+        ]
+      }
+    }
+},
+ week2: {
+    id: 'week2',
+    title: 'System Update 8.0 — Infinity / تحديث النظام 8.0 — اللانهاية',
+    version: '600',
+    range: 'LVL 450 → 600 /  450 → 600  ',
+        desc: 'مرحلة السيادة الكاملة: دمج منطق الشطرنج في AI Agents، الجري الانفجاري، والعمليات التكتيكية المستقلة.',
+
+    schedule: [
+      { start: 2.75, end: 5.0,  title: 'Night Prayer & Suhoor / صلاة العشاء والسحور',    desc: 'Qiyam + Protein Suhoor + Adhkar + Mental Review / قيام الليل + سحور غني بالبروتين + ذكر الله + مراجعة ذهنية سريعة' },
+      { start: 5.0,  end: 6.0,  title: 'Spiritual Session / جلسة حوار روحي',        desc: 'Fajr + Adhkar + Recitation (Odd: Review / Even: New) / تلاوة القرآن (فردي: تأملي / ثنائي: جديد) + صلاة الفجر، الأذكار، وتمارين التمدد' },
+      { start: 6.0,  end: 8.5,  title: 'Deep Programming / برمجة متقدمة',         desc: 'AiMoha (Python/JS) — Chess Logic into AI Agents / مشروع (بايثون/جافا سكريبت) - تعلم الهندسة المعمارية والتطوير (بناء العقل المدبر (Backend))' },
+      { start: 8.5,  end: 10.5, title: 'AI Academy / دورات أكاديمية في الذكاء الاصطناعي',               desc: 'Advanced ML + LLMs + Algorithm App / تعلّم الآلة | Machine Learning' },
+      { start: 10.5, end: 12.0, title: 'English Mastery / إتقان اللغة الإنجليزية',         desc: 'Lex Fridman Podcast + Tech Terms + Shadowing / شرح تقني معمق + مفردات التدريب على البناء والتطبيق العملي' },
+      { start: 12.0, end: 13.0, title: ' Applied Laboratory / مختبر التطبيقات التقنية',               desc: 'Grand Rest / استراحة طويلة+ Applied Laboratory / مختبر التطبيقات التقنية',       desc: 'Real AI Projects + Systems Integration / راحة واستجمام ' },
+      { start: 13.0, end: 15.0, title: ' Grand Rest / استراحة طويلة+ Applied Laboratory / مختبر التطبيقات التقنية',       desc: 'Real AI Projects + Systems Integration / راحة واستجمام / دورات أكاديمية في الذكاء الاصطناعي التعلم العميق والشبكات العصبية (الأسبوع 7 - 10) + Dhuhr + Intense Protein Lunch / صلاة الظهر + غداء غني بالبروتين + قيلولة' },
+      { start: 15.0, end: 16.5, title: 'PPL Preparation / برنامج التطوير البدني المتقدم (PPL)',          desc: 'Push(Handstand)/Pull(Explosive)/Legs(Jump) + Calisthenics / تمارين الدفع والسحب وتمارين الأرجل + الجمباز والكاليستينكس' },
+      { start: 16.5, end: 17.5, title: 'Running Block / Relaxation جري خفيف أو راحة  ',            desc: '1 Hour Run (Wolfs Law Activation) جري خفيف إذا كنت تستطيع / Relaxation راحة نفسية وجسدية' },
+      { start: 17.5, end: 19.5, title: 'Academic Focus / العلوم التجريبية',           desc: 'Math/Science/Physics + Al-Rasoulan + Light Dinner / المناهج الدراسية: الرياضيات (الأحد/الأربعاء)، العلوم (الاثنين/الجمعة)، الفيزياء (الثلاثاء/السبت)' },
+      { start: 19.5, end: 20.5, title: 'Team Competitions / التنمية الذهنية والبدنية',        desc: 'Full Matches: Basketball/Football (High Intensity) / قراءة + أفلام وثائقية + ألعاب ذهنية + راحة بدنية' },
+      { start: 20.5, end: 21.5, title: 'Mental Elevation / استكمال الألعاب والتنمية',         desc: 'Chess/Sudoku + Digital Books + Tech Docs / استكمال التنمية الذهنية + سودوكو وأفلام وثائقية' },
+      { start: 21.5, end: 22.0, title: 'System Prep / إعداد النظام',              desc: 'Tomorrow Planning + Sleep Adhkar + Shutdown / إنشاء جدولك + أذكار المساء + استرخاء العضلات والعقل (نوم)' }
+    ],
+    days: {
+      0: { sport: '🏀 Basketball (Match) / رياضة سباحة 🏊 أو كرة القدم ⚽ أو مواي تاي 🥊', ppl: 'Pull (Explosive) / تمارين السحب (الظهر والعضلة ذات الرأسين)', cognitive: 'Programming + AI (Chess Logic) / صنع كتاب رقمي (الجلسة 1)', academic: 'Mathematics / رياضيات' },
+      1: { sport: '🥊 Muay Thai / رياضة سباحة 🏊 أو كرة القدم ⚽ أو مواي تاي 🥊', ppl: 'Legs (Jumps/Wolf) / تمارين الدفع الصدر (العلوي/الجانبي/العادي/الكتفين)', cognitive: 'Chess (AI Agent Analysis) / تعلم الحلاقة 🪒 وألعاب الخفة 🃏♣️ + فيلم وثائقي', academic: 'Natural Sciences / علوم طبيعية' },
+      2: { sport: '🏀 Basketball (Match) / رياضة سباحة 🏊 أو كرة القدم ⚽ أو مواي تاي 🥊', ppl: 'Push (Handstand) / تمارين السحب (الظهر والعضلة ثلاثية الرؤوس)', cognitive: 'Programming + AI / قراءة كتب + مشاهدة تطوير الذات', academic: 'Physics / فيزياء' },
+      3: { sport: '⚽ Football (Match) / رياضة سباحة 🏊 أو كرة القدم ⚽ أو مواي تاي 🥊', ppl: 'Pull & Abs/Triceps / تمارين للساقين (الأمامية والساقين)', cognitive: 'Hard Sudoku (Error Tracking) / Dual N-Back + فيلم وثائقي', academic: 'Math Review / مراجعة الرياضيات' },
+      4: { sport: '🥋 Jiu-Jitsu / رياضة سباحة 🏊 أو كرة القدم ⚽ أو مواي تاي 🥊', ppl: 'Intense Legs (Jumps) / تمارين للبطن والعضلة ذات الرأسين', cognitive: 'Islamic Studies (Tawhid/Tajweed) / تعلم الحلاقة 🪒 وألعاب الخفة 🃏♣️ + مشاهدة تطوير الذات', academic: 'Islamic/History/Geo / دراسات إسلامية/تاريخ/جغرافيا' },
+      5: { sport: '🚶 Calm Walk (Recovery) / 🏃 راحة واستشفاء وجري لمدة ساعة', ppl: 'Push (Handstand) / تمارين الدفع الصدر (الداخلية/الحوض/السفلي/البطن الست)', cognitive: 'Dual N-Back + Digital Book Check / تمارين الظهر المزدوجة + مراجعة كتاب', academic: 'Science Review / مراجعة العلوم' },
+      6: { sport: '⚽ Football (Match) / رياضة سباحة 🏊 أو كرة القدم ⚽ أو مواي تاي 🥊', ppl: 'Abs (Six-pack) & Triceps / تمارين للبطن (عضلات البطن الست) والعضلة ثلاثية الرؤوس', cognitive: 'Ethical Hacking + Calibration / Dual N-Back + تقييم أسبوعي "ياسين تيا"', academic: 'Physics Review / مراجعة الفيزياء' }
+    },
+    special: { // Infinity mode relies mostly on the dynamic schedule logic - Integrated with Advanced Pillars
+      4: {
+        title: 'Achievement Thursday (Fasting and Diligence) / خميس الإنجاز (الصيام والاجتهاد)',
+        blocks: [
+          { time: '02:45-05:00', title: 'Night Prayer and Suhoor / صلاة العشاء والسحور', desc: 'Night Prayer + Protein-Rich Suhoor + Remembrance of Allah + Quick Mental Review / صلاة العشاء + سحور غني بالبروتين + ذكر الله + مراجعة ذهنية سريعة' },
+          { time: '05:00-06:30', title: 'Quran Session / جلسة قرآنية', desc: 'Recitation and Memorization of the Holy Quran (1.5 Hours) / تلاوة وحفظ القرآن الكريم (ساعة ونصف)' },
+          { time: '06:30-09:30', title: 'Religious Studies / دراسات دينية', desc: 'Riyadh as-Salihin + Al-Bidayah wa\'n-Nihayah + 40 Nawawi (3 Hours) / رياض الصالحين + البداية والنهاية + الأربعين نووية (٣ ساعات)' },
+          { time: '09:30-11:30', title: 'Study Marathon / ماراثون دراسي', desc: 'History, Geography, and French using Mind Maps / التاريخ والجغرافيا والفرنسية باستخدام الخرائط الذهنية' },
+          { time: '11:30-13:30', title: 'Language Skills / مهارات لغوية', desc: 'Reviewing English Terminology and Grammar as Software Logic / مراجعة المصطلحات الإنجليزية وفهم قواعد اللغة كجزء من منطق البرمجيات' },
+          { time: '13:30-15:00', title: 'Website Development / تطوير مواقع الويب', desc: 'Developing and Monetizing Websites / تطوير مواقع الويب وتحقيق الربح منها' },
+          { time: '15:00-16:30', title: 'Targeted Muscle Building / تمارين تقوية العضلات المستهدفة', desc: 'Leg Muscles (Thighs/Calves) + Abdominal & Muscle Heads / ((عضلات الساق (الفخذين/الساقين) مهمة جانبية)) + عضلات البطن ورؤوس العضلات' },
+          { time: '16:30-18:30', title: 'Specific Outdoor Sport / الرياضة الخارجية المحددة', desc: 'Swimming 🏊 or Football ⚽ or Muay Thai 🥊 / (رياضة سباحة 🏊 أو كرة القدم ⚽ أو 🥊 مواي تاي (تايلاندية) ..قم بتقسيمها على الاسبوع )' },
+          { time: '18:30-19:30', title: 'Content Creation / إنشاء المحتوى', desc: ' إنشاء وصناعة المحتوى يوتيوب وإنستقرام وتيكتوك وفيسبوك /Creating and producing content for YouTube, Instagram, TikTok, and Facebook' },
+          { time: '19:30-20:30', title: 'Spiritual Balance / التوازن الروحي', desc: 'Listening to the Quran + Meditation and Voice Tone / الاستماع إلى القرآن الكريم + التأمل وتحسين نبرة الصوت وعمقه' },
+          { time: '20:30-22:00', title: 'Mindset and Crafts / العقلية والحرف اليدوية', desc: 'Self-Development + Barbering 🪒 & Magic Tricks 🃏♣️ / مشاهدة تطوير الذات + تعلم الحلاقة 🪒 وألعاب الخفة 🃏♣️' }
+        ]
+      },
+      5: {
+        title: 'Creativity Friday / جمعة الإبداع',
+        blocks: [
+          { time: '05:00-08:00', title: 'Spiritual Meditation / التأمل الروحي', desc: 'Surah Al-Kahf + Morning Adhkar + Natural Sciences Review / سورة الكهف + أذكار الصباح + مراجعة العلوم الطبيعية' },
+          { time: '08:00-10:00', title: 'Mind Reset / إعادة ضبط الذهن', desc: 'Preparing for Video Editing (Montage) / التحضير لمونتاج الفيديو' },
+          { time: '10:00-14:00', title: 'Ethical Hacking and Terminology / الاختراق الأخلاقي والمصطلحات', desc: 'Learning Ethical Hacking + Study Marathon for Arabic/English and Islamic Studies / تعلم الاختراق الأخلاقي + ماراثون دراسي للغة العربية/الإنجليزية والدراسات الإسلامية باستخدام الخرائط الذهنية' },
+          { time: '14:00-15:00', title: 'Audio Meditation / صوت التأمل', desc: 'Listening to the Holy Quran and Meditation / الاستماع إلى القرآن الكريم والتأمل (يشمل تحسين نبرة الصوت)' },
+          { time: '15:00-16:00', title: 'Physical Preparation / التحضير البدني', desc: 'Push-ups (Chest and Shoulders) / تمارين الضغط (للصدر والكتفين)' },
+          { time: '16:00-17:00', title: 'Website Management / إدارة الموقع الإلكتروني', desc: 'Following Up on Completed Website Projects / متابعة مشاريع تطوير الموقع الإلكتروني المنجزة' },
+          { time: '17:00-18:30', title: 'Energy Generation / توليد الطاقة', desc: 'One-hour run (Unless swimming later) / جري لمدة ساعة واحدة (لاتعمل إذا كانت لديك سباحة بعدها 🏊)' },
+          { time: '18:30-19:30', title: 'Energy Generation / توليد الطاقة', desc: 'Swimming 🏊 or Football ⚽ or Muay Thai 🥊 / (رياضة سباحة 🏊 أو كرة القدم ⚽ أو 🥊 مواي تاي (تايلاندية) ..قم بتقسيمها على الاسبوع )' },
+          { time: '19:30-20:30', title: 'System Review, Tactical Planning / مراجعة النظام ، التخطيط التكتيكي + Viewing facts / مشاهدة حقائق', desc: 'Self-Development + Updating "Hard Tasks" List / التطوير الذاتي والتقييم الأسبوعي + تحديث قائمة "المهام الصعبة" للأسبوع القادم+ Viewing facts / مشاهدة حقائق (الدحيح أو ريهام عايدي )' }
+        ]
+      },
+      6: {
+        title: 'Mastery Saturday / سبت الإتقان',
+        blocks: [
+          { time: '05:00-10:00', title: 'Academic Focus / التركيز الأكاديمي', desc: 'Physics Review + New Quran Memorization (5 Hours) / مراجعة الفيزياء + حفظ القرآن الكريم (٥ الساعات)' },
+          { time: '10:00-14:00', title: 'Technical Immersion / التعمق التقني', desc: 'Advanced Ethical Hacking + English Mastery (4 Hours) / الاختراق الأخلاقي المتقدم + إتقان اللغة الإنجليزية (٤ ساعات) + مادة فلسفة' },
+          { time: '14:00-15:00', title: 'Crafts / الحرف اليدوية', desc: 'Barbering 🪒 & Magic Tricks 🃏♣️ / تعلم الحلاقة 🪒 وألعاب الخفة 🃏♣️' },
+          { time: '15:00-16:30', title: 'Fitness & Physical Therapy / اللياقة البدنية والعلاج الطبيعي', desc: 'Physical Exercises: Abs (Six-pack) and Triceps / تمارين بدنية .. تمارين للبطن (عضلات البطن الست) والعضلة ثلاثية الرؤوس' },
+          { time: '16:30-17:00', title: 'Therapy and Nutrition / العلاج والتغذية', desc: 'Micronutrient Intake (Calcium / Magnesium / Zinc) / تناول المغذيات الدقيقة (الكالسيوم / المغنيسيوم / الزنك)' },
+          { time: '17:00-18:30', title: 'Competitive Sports / الرياضات التنافسية', desc: 'Swimming 🏊 or Football ⚽ or Muay Thai 🥊 / (رياضة سباحة 🏊 أو كرة القدم ⚽ أو 🥊 مواي تاي (تايلاندية) ..قم بتقسيمها على الاسبوع )' },
+          { time: '18:30-19:30', title: 'Digital Arch & Energy Generation / الهندسة المعمارية الرقمية وتوليد الطاقة', desc: 'Football: Unleashing full physical energy on the pitch / كرة القدم: إطلاق كامل الطاقة البدنية في الملعب' },
+          { time: '19:30-20:30', title: 'System Review, Tactical Planning / مراجعة النظام، تخطيط تكتيكي', desc: 'Self-Development and Weekly Evaluation / تطوير ذاتي وتقييم أسبوعي' }
+        ]
+      }
+    }
+},
+week3: {
+    id: 'week3',
+    title: 'System Update 10.0 — Infinity / تحديث النظام 10.0 — اللانهاية',
+    version: '800',
+    range: 'LVL 600 → 800 /  600 → 800  ',
+        desc: 'مرحلة التعمق التقني المتقدم: بناء المظهر الخارجي (Frontend) والعقل المدبر (Backend)، التعلم العميق والشبكات العصبية.',
+
+    schedule: [
+      { start: 5.0,  end: 6.0,  title: 'Spiritual Session / جلسة حوار روحي',        desc: 'تلاوة القرآن (فردي: تأملي / ثنائي: جديد) + صلاة الفجر، الأذكار، وتمارين التمدد' },
+      { start: 6.0,  end: 8.5,  title: 'Advanced Programming / برمجة متقدمة',         desc: 'مشروع (بايثون/جافا سكريبت) - تعلم الهندسة المعمارية والتطوير..بناء المظهر الخارجي (Frontend) + (بناء العقل المدبر (Backend))' },
+      { start: 8.5,  end: 10.5, title: 'AI Academy / دورات أكاديمية في الذكاء الاصطناعي', desc: 'التعلم العميق والشبكات العصبية (الأسبوع 7 - 10) تعلّم الآلة | Machine Learning' },
+      { start: 10.5, end: 12.0, title: 'English Mastery / إتقان اللغة الإنجليزية',        desc: 'شرح تقني معمق + مفردات التدريب على البناء والتطبيق العملي' },
+      { start: 12.0, end: 13.0, title: ' Rest & Useful Learning / راحة واستجمام وتعلم مفيد',              desc: 'دورات برنامج بلاندر البرتقالي للرسومات التعلم العميق' },
+      { start: 13.0, end: 15.0, title: ' Grand Rest / استراحة طويلة + Rest & Useful Learning / راحة واستجمام وتعلم مفيد', desc: 'دورات برنامج بلاندر البرتقالي للرسومات التعلم العميق + صلاة الظهر + غداء غني بالبروتين + قيلولة' },
+      { start: 15.0, end: 16.5, title: 'PPL & Calisthenics / برنامج التطوير البدني المتقدم', desc: 'تمارين الدفع والسحب وتمارين الأرجل + الجمباز والكاليستينكس التمارين الرياضية' },
+      { start: 16.5, end: 17.5, title: 'Rest & Dinner / راحة من التعب / Sheikh Al-Raslan / الشيخ الرسلان أو مواعض دينية لشيوخ مختلفة',       desc: 'راحة من التعب Sheikh Al-Raslan / الشيخ الرسلان أو مواعض دينية لشيوخ مختلفة' },
+      { start: 17.5, end: 19.5, title: 'Academic Focus / العلوم التجريبية',          desc: 'المناهج الدراسية: الرياضيات (الأحد/الأربعاء)، العلوم (الاثنين/الجمعة)، الفيزياء (الثلاثاء/السبت)' },
+      { start: 19.5, end: 20.5, title: 'Mental & Physical Dev / التنمية الذهنية والبدنية',  desc: 'قراءة + أفلام وثائقية + ألعاب ذهنية + راحة بدنية' },
+      { start: 20.5, end: 22.0, title: 'System Prep / إعداد النظام',              desc: 'إنشاء جدولك + أذكار المساء + استرخاء العضلات والعقل' }
+    ],
+    days: {
+      0: { sport: 'سباحة 🏊 / مواي تاي 🥊 / جيو-جيتسو 🥋', ppl: 'Pull (Back & Biceps) / تمارين السحب', cognitive: 'صنع كتاب رقمي (الجلسة 1)', academic: 'Mathematics / رياضيات' },
+      1: { sport: 'سباحة 🏊 / مواي تاي 🥊 / جيو-جيتسو 🥋', ppl: 'Push (Chest upper/side/normal) / تمارين الدفع', cognitive: 'تعلم الموسيقى غيتارو بيانو 💎 + فيلم وثائقي', academic: 'Natural Sciences / علوم طبيعية' },
+      2: { sport: 'سباحة 🏊 / مواي تاي 🥊 / جيو-جيتسو 🥋', ppl: 'Pull (Back & Triceps) / تمارين السحب', cognitive: 'قراءة كتب + مشاهدة تطوير الذات', academic: 'Physics / فيزياء' },
+      3: { sport: 'كرة السلة 🏀 / كرة القدم ⚽ / 1-Hour Run 🏃', ppl: 'Legs (Front & Calves) / تمارين للساقين', cognitive: 'Dual N-Back + فيلم وثائقي', academic: 'Math Review / مراجعة الرياضيات' },
+      4: { sport: 'كرة السلة 🏀 / كرة القدم ⚽ / 1-Hour Run 🏃', ppl: 'Abs & Biceps / تمارين للبطن والعضلة ذات الرأسين', cognitive: 'تعلم الموسيقى غيتارو بيانو 💎 + مشاهدة تطوير الذات', academic: 'Islamic/History/Geo / دراسات إسلامية/تاريخ/جغرافيا' },
+      5: { sport: 'راحة واستشفاء وجري لمدة ساعة 🏃', ppl: 'Push (Chest inner/pelvis/lower) / تمارين الدفع', cognitive: 'Dual N-Back + مراجعة كتاب', academic: 'Science Review / مراجعة العلوم' },
+      6: { sport: 'كرة السلة 🏀 / كرة القدم ⚽ / 1-Hour Run 🏃', ppl: 'Abs (Six-pack) & Triceps / تمارين للبطن والترايسبس', cognitive: 'Dual N-Back + تقييم أسبوعي "ياسين تيا" + fl studio', academic: 'Physics Review / مراجعة الفيزياء' }
+    },
+    special: { 
+      4: {
+        title: 'Achievement Thursday (Fasting and Diligence) / خميس الإنجاز (الصيام والاجتهاد)',
+        blocks: [
+          { time: '02:45-05:00', title: 'Night Prayer and Suhoor / صلاة العشاء والسحور', desc: 'صلاة العشاء + سحور غني بالبروتين + ذكر الله + مراجعة ذهنية سريعة' },
+          { time: '05:00-06:30', title: 'Quran Session / جلسة قرآنية', desc: 'تلاوة وحفظ القرآن الكريم (ساعة ونصف)' },
+          { time: '06:30-09:30', title: 'Religious Studies / دراسات دينية', desc: 'العقيدة + رياض الصالحين + البداية والنهاية + الأربعين نووية (٣ ساعات)' },
+          { time: '09:30-11:30', title: 'Study Marathon / ماراثون دراسي', desc: 'التاريخ والجغرافيا والفرنسية باستخدام الخرائط الذهنية' },
+          { time: '11:30-13:30', title: 'Language Skills / مهارات لغوية', desc: 'مراجعة المصطلحات الإنجليزية وفهم قواعد اللغة كجزء من منطق البرمجيات' },
+          { time: '13:30-15:00', title: 'Website Development / تطوير مواقع الويب', desc: 'تطوير مواقع الويب وتحقيق الربح منها' },
+          { time: '15:00-16:30', title: 'Targeted Muscle Building / تمارين تقوية العضلات المستهدفة', desc: 'عضلات الساق (الفخذين/الساقين) مهمة جانبية + عضلات البطن ورؤوس العضلات' },
+          { time: '16:30-18:30', title: 'Specific Outdoor Sport / الرياضة الخارجية المحددة', desc: '(رياضة سباحة 🏊 أو كرة القدم ⚽ أو 🥊 مواي تاي) و (🏀 Basketball أو 🥋 BJJ أو 🏃 1-Hour Run)' },
+          { time: '18:30-19:30', title: 'Content Creation / إنشاء وصناعة المحتوى', desc: 'يوتيوب وإنستقرام وتيكتوك وفيسبوك / Creating and producing content for YouTube, Instagram, TikTok, and Facebook' },
+          { time: '19:30-20:30', title: 'Study Marathon / ماراثون دراسي', desc: 'التاريخ والجغرافيا والفرنسية باستخدام الخرائط الذهنية' },
+          { time: '20:30-22:00', title: 'Crafts / الحرف اليدوية', desc: 'تعلم الموسيقى غيتارو بيانو فقط 💎' }
+        ]
+      },
+      5: {
+        title: 'Creativity Friday / جمعة الإبداع',
+        blocks: [
+          { time: '05:00-08:00', title: 'Spiritual Meditation / التأمل الروحي', desc: 'سورة الكهف + أذكار الصباح + مراجعة العلوم الطبيعية' },
+          { time: '08:00-10:00', title: 'Mind Reset / إعادة ضبط الذهن', desc: 'التحضير لمونتاج الفيديو' },
+          { time: '10:00-14:00', title: 'Ethical Hacking and Terminology / الاختراق الأخلاقي والمصطلحات', desc: 'تعلم الاختراق الأخلاقي + ماراثون دراسي للغة العربية/الإنجليزية والدراسات الإسلامية باستخدام الخرائط الذهنية' },
+          { time: '14:00-15:00', title: 'Audio Meditation / صوت التأمل', desc: 'الاستماع إلى القرآن الكريم والتأمل (يشمل تحسين نبرة الصوت)' },
+          { time: '15:00-16:00', title: 'Physical Preparation / التحضير البدني', desc: 'تمارين الضغط (للصدر والكتفين)' },
+          { time: '16:00-17:00', title: 'Website Management / إدارة الموقع الإلكتروني', desc: 'متابعة مشاريع تطوير الموقع الإلكتروني المنجزة' },
+          { time: '17:00-18:30', title: 'Energy Generation / توليد الطاقة', desc: 'جري لمدة ساعة واحدة (لاتعمل إذا كانت لديك سباحة بعدها 🏊)' },
+          { time: '18:30-19:30', title: 'Energy Generation / توليد الطاقة', desc: '(رياضة سباحة 🏊 أو كرة القدم ⚽ أو 🥊 مواي تاي) و (🏀 Basketball أو 🥋 BJJ أو 🏃 1-Hour Run)' },
+          { time: '19:30-20:30', title: 'System Review, Tactical Planning / مراجعة النظام ، التخطيط التكتيكي', desc: 'التطوير الذاتي والتقييم الأسبوعي + تحديث قائمة "المهام الصعبة" للأسبوع القادم' }
+        ]
+      },
+      6: {
+        title: 'Mastery Saturday / سبت الإتقان',
+        blocks: [
+          { time: '05:00-10:00', title: 'Academic Focus / التركيز الأكاديمي', desc: 'مراجعة الفيزياء + حفظ القرآن الكريم (٥ الساعات)' },
+          { time: '10:00-14:00', title: 'Technical Immersion / التعمق التقني/ fl studio', desc: 'الاختراق الأخلاقي +  fl studio (الجلسة الأولى) + إتقان اللغة الإنجليزية (٤ ساعات) + مادة فلسفة' },
+          { time: '14:00-15:00', title: 'Crafts / الحرف اليدوية/ fl studio ', desc: 'تعلم fl studio (الجلسة الثانية)' },
+          { time: '15:00-16:30', title: 'Fitness & Physical Therapy / لياقة وعلاج طبيعي', desc: 'Physical Exercises: Abdominal Exercises (Six-pack) and Triceps / تمارين بدنية: تمارين البطن (سكس باك) والترايسبس' },
+          { time: '16:30-17:00', title: 'Therapy and Nutrition / علاج وتغذية', desc: 'Micronutrient Intake (Calcium / Magnesium / Zinc) / تناول المغذيات الدقيقة (كالسيوم / مغنيسيوم / زنك)' },
+          { time: '17:00-18:30', title: 'Competitive Sports / رياضات تنافسية', desc: '(رياضة سباحة 🏊 أو كرة القدم ⚽ أو 🥊 مواي تاي) و (🏀 Basketball أو 🥋 BJJ أو 🏃 1-Hour Run)' },
+          { time: '18:30-19:30', title: 'Digital Architecture / هيكلة رقمية', desc: 'System Programming and Web Project Monitoring & Updates / برمجة النظام ومراقبة وتحديثات مشاريع الويب' },
+          { time: '19:30-20:30', title: 'Calibration / معايرة', desc: 'Sudoku + System Calibration & Comprehensive Review... Weekly Evaluation "Yassine Tia" / سودوكو + معايرة النظام ومراجعة شاملة... تقييم أسبوعي "ياسين تيا"' },
+          { time: '20:30-22:00', title: 'Maximum Stimulation / تحفيز أقصى', desc: 'Stretching & Lengthening Workouts + Sleep Preparation and Deep Rest / تمارين إطالة وتمدد + التحضير للنوم وراحة عميقة ومشاهدة مراوغات ومهارات في رياضة كرة السلة وكرة القدم (خلاصة لتسفيد من المشاهدة)' }
+        ]
+      }
+    }
+},
+week4: {
+    id: 'week4',
+    title: 'System Update 11.0 — Infinity / تحديث النظام 11.0 — اللانهاية',
+    version: '1000',
+    range: 'LVL 800 → 1000 /  800 → 1000  ',
+        desc: 'مرحلة الإتقان الروحي والتقني: التركيز على العقيدة والتوحيد، المختبر التقني التطبيقي، والإتقان الكامل للغات والمهارات.',
+
+    schedule: [
+      { start: 5.0,  end: 6.0,  title: 'Spiritual Session / جلسة حوار روحي',        desc: 'تلاوة القرآن (فردي: تأملي / ثنائي: جديد) + صلاة الفجر، الأذكار، وتمارين التمدد' },
+      { start: 6.0,  end: 8.5,  title: 'Advanced Programming / برمجة متقدمة',         desc: 'كتاب التوحيد والعقيدة' },
+      { start: 8.5,  end: 10.5, title: 'AI Academy / أكاديمية في الذكاء الاصطناعي..مختبر تقني تطبيقي', desc: 'مختبر تقني تطبيقي' },
+      { start: 10.5, end: 12.0, title: 'English Mastery / إتقان اللغة الإنجليزية',        desc: 'شرح تقني معمق + مفردات التدريب على البناء والتطبيق العملي ( إذا أتقنت الإنجليزية إنتقل إلى لغة أخرى مفيدة )' },
+      { start: 12.0, end: 13.0, title: 'Rest & Useful Learning / راحة واستجمام وتعلم مفيد',              desc: 'دورات برنامج بلاندر البرتقالي للرسومات التعلم العميق' },
+      { start: 13.0, end: 15.0, title: ' Grand Rest / استراحة طويلة+ Rest & Useful Learning / راحة واستجمام وتعلم مفيد', desc: 'دورات برنامج بلاندر البرتقالي للرسومات التعلم العميق + صلاة الظهر + غداء غني بالبروتين + قيلولة' },
+      { start: 15.0, end: 16.5, title: 'PPL & Calisthenics / برنامج التطوير البدني المتقدم', desc: 'تمارين الدفع والسحب وتمارين الأرجل + الجمباز والكاليستينكس التمارين الرياضية' },
+      { start: 16.5, end: 17.5, title: 'Rest & Dinner / راحة / Sheikh Al-Raslan / الشيخ الرسلان أو مواعض دينية لشيوخ مختلفة',       desc: 'راحة من التعب / Sheikh Al-Raslan / الشيخ الرسلان أو مواعض دينية لشيوخ مختلفة' },
+      { start: 17.5, end: 19.5, title: 'Academic Focus / العلوم التجريبية',          desc: 'المناهج الدراسية: الرياضيات (الأحد/الأربعاء)، العلوم (الاثنين/الجمعة)، الفيزياء (الثلاثاء/السبت)' },
+      { start: 19.5, end: 20.5, title: 'Mental & Physical Dev / التنمية الذهنية والبدنية',  desc: 'قراءة + أفلام وثائقية + ألعاب ذهنية + راحة بدنية' },
+      { start: 20.5, end: 22.0, title: 'System Prep / إعداد النظام + Opening the pelvis / فتح الحوض',              desc: 'إنشاء جدولك + أذكار المساء + استرخاء العضلات والعقل + Opening the pelvis / فتح الحوض' }
+    ],
+    days: {
+      0: { sport: 'سباحة 🏊 / مواي تاي 🥊 / جيو-جيتسو 🥋', ppl: 'Pull (Back & Biceps)  ', cognitive: 'صنع كتاب رقمي (الجلسة 1) / fl studio للقران الكريم ', academic: 'Mathematics / رياضيات' },
+      1: { sport: 'سباحة 🏊 / مواي تاي 🥊 / جيو-جيتسو 🥋', ppl: 'Push (Chest upper/side/normal) / تمارين الدفع', cognitive: 'فيلم وثائقي / fl studio للقران الكريم ', academic: 'Natural Sciences / علوم طبيعية' },
+      2: { sport: 'سباحة 🏊 / مواي تاي 🥊 / جيو-جيتسو 🥋', ppl: 'Pull (Back & Triceps) / تمارين السحب', cognitive: 'قراءة كتب + مشاهدة تطوير الذات', academic: 'Physics / فيزياء' },
+      3: { sport: 'كرة السلة 🏀 / كرة القدم ⚽ / 1-Hour Run 🏃', ppl: 'Legs (Front & Calves) / تمارين للساقين', cognitive: 'فيلم وثائقي', academic: 'Math Review / مراجعة الرياضيات' },
+      4: { sport: 'كرة السلة 🏀 / كرة القدم ⚽ / 1-Hour Run 🏃', ppl: 'Abs & Biceps / تمارين للبطن والعضلة ذات الرأسين', cognitive: 'مشاهدة تطوير الذات + fl studio للقران الكريم ', academic: 'Islamic/History/Geo / دراسات إسلامية/تاريخ/جغرافيا' },
+      5: { sport: 'راحة واستشفاء وجري لمدة ساعة 🏃', ppl: 'Push (Chest inner/pelvis/lower) / تمارين الدفع', cognitive: 'Dual N-Back + مراجعة كتاب', academic: 'Science Review / مراجعة العلوم' },
+      6: { sport: 'كرة السلة 🏀 / كرة القدم ⚽ / 1-Hour Run 🏃', ppl: 'Abs (Six-pack) & Triceps / تمارين للبطن والترايسبس', cognitive: 'Dual N-Back + تقييم أسبوعي "ياسين تيا" + fl studio للقران الكريم', academic: 'Physics Review / مراجعة الفيزياء' }
+    },
+    special: { 
+      4: {
+        title: 'Achievement Thursday (Fasting and Diligence) / خميس الإنجاز (الصيام والاجتهاد)',
+        blocks: [
+          { time: '02:45-05:00', title: 'Night Prayer and Suhoor / صلاة العشاء والسحور', desc: 'صلاة العشاء + سحور غني بالبروتين + ذكر الله + مراجعة ذهنية سريعة' },
+          { time: '05:00-06:30', title: 'Quran Session / جلسة قرآنية', desc: 'تلاوة وحفظ القرآن الكريم (ساعة ونصف)' },
+          { time: '06:30-09:30', title: 'Religious Studies / دراسات دينية', desc: 'رياض الصالحين + البداية والنهاية + الأربعين نووية (٣ ساعات)' },
+          { time: '09:30-11:30', title: 'Study Marathon / ماراثون دراسي', desc: 'التاريخ والجغرافيا والفرنسية باستخدام الخرائط الذهنية الجلسة الاولى' },
+          { time: '11:30-13:30', title: 'Language Skills / مهارات لغوية', desc: 'مراجعة المصطلحات الإنجليزية وفهم قواعد اللغة كجزء من منطق البرمجيات' },
+          { time: '13:30-15:00', title: 'Website Development / تطوير مواقع الويب', desc: 'تطوير مواقع الويب وتحقيق الربح منها' },
+          { time: '15:00-16:30', title: 'Targeted Muscle Building / تمارين تقوية العضلات المستهدفة', desc: 'عضلات الساق (الفخذين/الساقين) مهمة جانبية + عضلات البطن ورؤوس العضلات' },
+          { time: '16:30-18:30', title: 'Specific Outdoor Sport / الرياضة الخارجية المحددة', desc: '(رياضة سباحة 🏊 أو كرة القدم ⚽ أو 🥊 مواي تاي) و (🏀 Basketball أو 🥋 BJJ أو 🏃 1-Hour Run)' },
+          { time: '18:30-19:30', title: 'Content Creation / إنشاء وصناعة المحتوى', desc: 'يوتيوب وإنستقرام وتيكتوك وفيسبوك / Creating and producing content for YouTube, Instagram, TikTok, and Facebook' },
+          { time: '19:30-20:30', title: 'Study Marathon / ماراثون دراسي', desc: 'التاريخ والجغرافيا والفرنسية باستخدام الخرائط الذهنية الجلسة الثانية' },
+          { time: '20:30-22:00', title: 'Crafts / الحرف اليدوية / fl studio للقران الكريم + Opening the pelvis / فتح الحوض ', desc: 'fl studio للقران الكريم + Opening the pelvis / فتح الحوض' }
+        ]
+      },
+      5: {
+        title: 'Creativity Friday / جمعة الإبداع',
+        blocks: [
+          { time: '05:00-08:00', title: 'Spiritual Meditation / التأمل الروحي', desc: 'سورة الكهف + أذكار الصباح + مراجعة العلوم الطبيعية' },
+          { time: '08:00-10:00', title: 'Mind Reset / إعادة ضبط الذهن', desc: 'التحضير لمونتاج الفيديو' },
+          { time: '10:00-14:00', title: 'Ethical Hacking and Terminology / الاختراق الأخلاقي والمصطلحات', desc: 'تعلم الاختراق الأخلاقي + ماراثون دراسي للغة العربية/الإنجليزية والدراسات الإسلامية باستخدام الخرائط الذهنية' },
+          { time: '14:00-15:00', title: 'Audio Meditation / صوت التأمل', desc: 'الاستماع إلى القرآن الكريم والتأمل (يشمل تحسين نبرة الصوت)' },
+          { time: '15:00-16:00', title: 'Physical Preparation / التحضير البدني', desc: 'تمارين الضغط (للصدر والكتفين)' },
+          { time: '16:00-17:00', title: 'Website Management / إدارة الموقع الإلكتروني', desc: 'متابعة مشاريع تطوير الموقع الإلكتروني المنجزة' },
+          { time: '17:00-18:30', title: 'Energy Generation / توليد الطاقة', desc: 'جري لمدة ساعة واحدة (لاتعمل إذا كانت لديك سباحة بعدها 🏊)' },
+          { time: '18:30-19:30', title: 'Energy Generation / توليد الطاقة', desc: '(رياضة سباحة 🏊 أو كرة القدم ⚽ أو 🥊 مواي تاي) و (🏀 Basketball أو 🥋 BJJ أو 🏃 1-Hour Run)' },
+          { time: '19:30-20:30', title: 'System Review, Tactical Planning / مراجعة النظام ، التخطيط التكتيكي + Opening the pelvis / فتح الحوض', desc: 'التطوير الذاتي والتقييم الأسبوعي + تحديث قائمة "المهام الصعبة" للأسبوع القادم + مشاهدة مباريات ومراوغات للتعلم وأخذ الفائدة+ Opening the pelvis / فتح الحوض' }
+        ]
+      },
+      6: {
+        title: 'Mastery Saturday / سبت الإتقان',
+        blocks: [
+          { time: '05:00-10:00', title: 'Academic Focus / التركيز الأكاديمي', desc: 'مراجعة الفيزياء + حفظ القرآن الكريم (٥ الساعات)' },
+          { time: '10:00-14:00', title: 'Technical Immersion / التعمق التقني/ fl studio', desc: 'الاختراق الأخلاقي + fl studio (الجلسة الأولى) + إتقان اللغة الإنجليزية (٤ ساعات) + مادة فلسفة' },
+          { time: '14:00-15:00', title: 'Crafts / الحرف اليدوية/ fl studio للقران الكريم ', desc: 'تعلم fl studio (الجلسة الثانية)' },
+          { time: '15:00-16:30', title: 'Fitness & Physical Therapy / لياقة وعلاج طبيعي', desc: 'Physical Exercises: Abdominal Exercises (Six-pack) and Triceps / تمارين بدنية: تمارين البطن (سكس باك) والترايسبس' },
+          { time: '16:30-17:00', title: 'Therapy and Nutrition / علاج وتغذية', desc: 'Micronutrient Intake (Calcium / Magnesium / Zinc) / تناول المغذيات الدقيقة (كالسيوم / مغنيسيوم / زنك)' },
+          { time: '17:00-18:30', title: 'Competitive Sports / رياضات تنافسية', desc: '(رياضة سباحة 🏊 أو كرة القدم ⚽ أو 🥊 مواي تاي) و (🏀 Basketball أو 🥋 BJJ أو 🏃 1-Hour Run)' },
+          { time: '18:30-19:30', title: 'Digital Architecture / هيكلة رقمية', desc: 'System Programming and Web Project Monitoring & Updates / برمجة النظام ومراقبة وتحديثات مشاريع الويب' },
+          { time: '19:30-20:30', title: 'Calibration / معايرة', desc: 'Sudoku + System Calibration & Comprehensive Review... Weekly Evaluation "Yassine Tia" / سودوكو + معايرة النظام ومراجعة شاملة... تقييم أسبوعي "ياسين تيا"' },
+          { time: '20:30-22:00', title: 'Maximum Stimulation / تحفيز أقصى + Opening the pelvis / فتح الحوض', desc: 'Stretching & Lengthening Workouts + Sleep Preparation and Deep Rest / تمارين إطالة وتمدد + التحضير للنوم وراحة عميقة ومشاهدة مراوغات ومهارات في رياضة كرة السلة وكرة القدم (خلاصة لتسفيد من المشاهدة) + Opening the pelvis / فتح الحوض' }
+        ]
+      }
+    }
+},
+week5: {
+    id: 'week5',
+    title: 'System Update 1000.0 — Infinity / تحديث النظام 1000.0 — اللانهاية',
+    version: '∞',
+    range: 'LVL 1000 → ∞ /  1000 → ∞  ',
+        desc: 'مرحلة السيادة المطلقة والحرية الكاملة: أنت الآن تتحكم في النظام، تختار برامجك بنفسك، وتدبر أمورك باستقلالية تامة.',
+
+    schedule: [
+      { start: 5.0,  end: 6.0,  title: 'Spiritual Session / جلسة حوار روحي',        desc: 'تلاوة القرآن (فردي: تأملي / ثنائي: جديد) + صلاة الفجر، الأذكار، وتمارين التمدد' },
+      { start: 6.0,  end: 8.5,  title: '؟؟؟',                                        desc: 'مخير من البرامج السابقة (لديك حرية الإختيار أيها العاهل الشاب)' },
+      { start: 8.5,  end: 10.5, title: '؟؟؟',                                        desc: 'مخير من البرامج السابقة (لديك حرية الإختيار أيها العاهل الشاب)' },
+      { start: 10.5, end: 12.0, title: 'English Mastery / إتقان اللغة الإنجليزية',        desc: 'شرح تقني معمق + مفردات التدريب على البناء والتطبيق العملي ( إذا أتقنت الإنجليزية إنتقل إلى لغة أخرى مفيدة )' },
+      { start: 12.0, end: 13.0, title: ' ؟؟؟ ',              desc: 'مخير من البرامج السابقة (لديك حرية الإختيار أيها العاهل الشاب)' },
+      { start: 13.0, end: 15.0, title: '؟؟؟ + Grand Rest / استراحة طويلة ',                                        desc: 'مخير من البرامج السابقة (لديك حرية الإختيار أيها العاهل الشاب)' },
+      { start: 15.0, end: 16.5, title: 'PPL & Calisthenics / برنامج التطوير البدني المتقدم', desc: 'تمارين الدفع والسحب وتمارين الأرجل + الجمباز والكاليستينكس التمارين الرياضية' },
+      { start: 16.5, end: 17.5, title: 'Rest & Dinner / راحة من التعب / Sheikh Al-Raslan / الشيخ الرسلان أو مواعض دينية لشيوخ مختلفة',       desc: 'راحة من التعب / Sheikh Al-Raslan / الشيخ الرسلان أو مواعض دينية لشيوخ مختلفة' },
+      { start: 17.5, end: 19.5, title: 'Academic Focus / العلوم التجريبية',          desc: 'المناهج الدراسية: الرياضيات (الأحد/الأربعاء)، العلوم (الاثنين/الجمعة)، الفيزياء (الثلاثاء/السبت)' },
+      { start: 19.5, end: 20.5, title: '؟؟؟',                                        desc: 'مخير من البرامج السابقة (لديك حرية الإختيار أيها العاهل الشاب)' },
+      { start: 20.5, end: 22.0, title: 'System Prep / إعداد النظام + Opening the pelvis / فتح الحوض',              desc: 'إنشاء جدولك + أذكار المساء + استرخاء العضلات والعقل + Opening the pelvis / فتح الحوض' }
+    ],
+    days: {
+      0: { sport: 'سباحة 🏊 / مواي تاي 🥊 / جيو-جيتسو 🥋', ppl: 'Pull (Back & Biceps) / تمارين السحب', cognitive: 'صنع كتاب رقمي (الجلسة 1) / مخير من البرامج السابقة (لديك حرية الإختيار أيها العاهل الشاب)', academic: 'Mathematics / رياضيات' },
+      1: { sport: 'سباحة 🏊 / مواي تاي 🥊 / جيو-جيتسو 🥋', ppl: 'Push (Chest upper/side/normal) / تمارين الدفع', cognitive: 'مخير من البرامج السابقة (لديك حرية الإختيار أيها العاهل الشاب)', academic: 'Natural Sciences / علوم طبيعية' },
+      2: { sport: 'سباحة 🏊 / مواي تاي 🥊 / جيو-جيتسو 🥋', ppl: 'Pull (Back & Triceps) / تمارين السحب', cognitive: 'مخير من البرامج السابقة (لديك حرية الإختيار أيها العاهل الشاب)', academic: 'Physics / فيزياء' },
+      3: { sport: 'كرة السلة 🏀 / كرة القدم ⚽ / 1-Cycling ​🚴​', ppl: 'Legs (Front & Calves) / تمارين للساقين', cognitive: 'مخير من البرامج السابقة (لديك حرية الإختيار أيها العاهل الشاب)', academic: 'Math Review / مراجعة الرياضيات' },
+      4: { sport: 'كرة السلة 🏀 / كرة القدم ⚽ / 1-Duel or horseback riding ​🤺 ​🏇​', ppl: 'Abs & Biceps / تمارين للبطن والعضلة ذات الرأسين', cognitive: 'مخير من البرامج السابقة (لديك حرية الإختيار أيها العاهل الشاب)', academic: 'Islamic/History/Geo / دراسات إسلامية/تاريخ/جغرافيا' },
+      5: { sport: 'راحة واستشفاء وجري لمدة ساعة 🏃', ppl: 'Push (Chest inner/pelvis/lower) / تمارين الدفع', cognitive: 'مخير من البرامج السابقة (لديك حرية الإختيار أيها العاهل الشاب)', academic: 'Science Review / مراجعة العلوم' },
+      6: { sport: 'كرة السلة 🏀 / كرة القدم ⚽ / 1- Karate 🐉​👘​​', ppl: 'Abs (Six-pack) & Triceps / تمارين للبطن والترايسبس', cognitive: 'مخير من البرامج السابقة (لديك حرية الإختيار أيها العاهل الشاب)', academic: 'Physics Review / مراجعة الفيزياء' }
+    },
+    special: { 
+      4: {
+        title: 'Achievement Thursday (Fasting and Diligence) / خميس الإنجاز (الصيام والاجتهاد)',
+        blocks: [
+          { time: '02:45-05:00', title: 'Night Prayer and Suhoor / صلاة العشاء والسحور', desc: 'صلاة العشاء + سحور غني بالبروتين + ذكر الله + مراجعة ذهنية سريعة' },
+          { time: '05:00-06:30', title: 'Quran Session / جلسة قرآنية', desc: 'تلاوة وحفظ القرآن الكريم (ساعة ونصف)' },
+          { time: '06:30-09:30', title: '؟؟؟', desc: 'مخير من البرامج السابقة (لديك حرية الإختيار أيها العاهل الشاب)' },
+          { time: '09:30-11:30', title: 'Study Marathon / ماراثون دراسي', desc: 'التاريخ والجغرافيا والفرنسية باستخدام الخرائط الذهنية الجلسة الاولى' },
+          { time: '11:30-13:30', title: 'Language Skills / مهارات لغوية', desc: 'مراجعة المصطلحات الإنجليزية وفهم قواعد اللغة كجزء من منطق البرمجيات' },
+          { time: '13:30-15:00', title: 'Website Development / تطوير مواقع الويب', desc: 'تطوير مواقع الويب وتحقيق الربح منها' },
+          { time: '15:00-16:30', title: 'Targeted Muscle Building / تمارين تقوية العضلات المستهدفة', desc: 'عضلات الساق (الفخذين/الساقين) مهمة جانبية + عضلات البطن ورؤوس العضلات' },
+          { time: '16:30-18:30', title: 'Specific Outdoor Sport / الرياضة الخارجية المحددة', desc: '(رياضة سباحة 🏊 أو كرة القدم ⚽ أو 🥊 مواي تاي) و (🏀 Basketball أو 🥋 BJJ أو 🏃 1-Hour Run) مخير من البرامج السابقة (لديك حرية الإختيار أيها العاهل الشاب)' },
+          { time: '18:30-19:30', title: 'Content Creation / إنشاء وصناعة المحتوى', desc: 'يوتيوب وإنستقرام وتيكتوك وفيسبوك / Creating and producing content for YouTube, Instagram, TikTok, and Facebook' },
+          { time: '19:30-20:30', title: 'Study Marathon / ماراثون دراسي', desc: 'التاريخ والجغرافيا والفرنسية باستخدام الخرائط الذهنية الجلسة الثانية' },
+          { time: '20:30-22:00', title: '؟؟؟ + Opening the pelvis / فتح الحوض', desc: 'مخير من البرامج السابقة (لديك حرية الإختيار أيها العاهل الشاب) يفضل مراجعة مادة علمية + Opening the pelvis / فتح الحوض' }
+        ]
+      },
+      5: {
+        title: 'Creativity Friday / جمعة الإبداع',
+        blocks: [
+          { time: '05:00-08:00', title: 'Spiritual Meditation / التأمل الروحي', desc: 'سورة الكهف + أذكار الصباح + مراجعة العلوم الطبيعية' },
+          { time: '08:00-10:00', title: 'Mind Reset / إعادة ضبط الذهن', desc: 'التحضير لمونتاج الفيديو' },
+          { time: '10:00-14:00', title: 'Ethical Hacking and Terminology / الاختراق الأخلاقي والمصطلحات', desc: 'تعلم الاختراق الأخلاقي + ماراثون دراسي للغة العربية/الإنجليزية والدراسات الإسلامية باستخدام الخرائط الذهنية' },
+          { time: '14:00-15:00', title: 'Audio Meditation / صوت التأمل', desc: 'الاستماع إلى القرآن الكريم والتأمل (يشمل تحسين نبرة الصوت)' },
+          { time: '15:00-16:00', title: 'Physical Preparation / التحضير البدني', desc: 'تمارين الضغط (للصدر والكتفين)' },
+          { time: '16:00-17:00', title: 'Website Management / إدارة الموقع الإلكتروني', desc: 'متابعة مشاريع تطوير الموقع الإلكتروني المنجزة' },
+          { time: '17:00-18:30', title: 'تمارين مادة علمية مهمة', desc: '' },
+          { time: '18:30-19:30', title: 'Energy Generation / توليد الطاقة', desc: '(رياضة سباحة 🏊 أو كرة القدم ⚽ أو 🥊 مواي تاي) و (🏀 Basketball أو 🥋 BJJ أو 🏃 1-Hour Run) مخير من البرامج السابقة (لديك حرية الإختيار أيها العاهل الشاب)' },
+          { time: '19:30-20:30', title: '؟؟؟ + Opening the pelvis / فتح الحوض', desc: 'مخير من البرامج السابقة (لديك حرية الإختيار أيها العاهل الشاب) + Opening the pelvis / فتح الحوض' }
+        ]
+      },
+      6: {
+        title: 'Mastery Saturday / سبت الإتقان',
+        blocks: [
+          { time: '05:00-10:00', title: 'Academic Focus / التركيز الأكاديمي', desc: 'مراجعة الفيزياء + حفظ القرآن الكريم (٥ الساعات)' },
+          { time: '10:00-14:00', title: 'Technical Immersion / التعمق التقني/ fl studio', desc: 'الاختراق الأخلاقي + تمارين مادة علمية مهمة + إتقان اللغة الإنجليزية (٤ ساعات) + مادة فلسفة' },
+          { time: '14:00-15:00', title: 'Crafts / الحرف اليدوية/ fl studio للقران الكريم', desc: 'تمارين مادة علمية مهمة (الجلسة الثانية)' },
+          { time: '15:00-16:30', title: 'Fitness & Physical Therapy / لياقة وعلاج طبيعي', desc: 'Physical Exercises: Abdominal Exercises (Six-pack) and Triceps / تمارين بدنية: تمارين البطن (سكس باك) والترايسبس' },
+          { time: '16:30-17:00', title: 'Therapy and Nutrition / علاج وتغذية', desc: 'Micronutrient Intake (Calcium / Magnesium / Zinc) / تناول المغذيات الدقيقة (كالسيوم / مغنيسيوم / زنك)' },
+          { time: '17:00-18:30', title: 'Competitive Sports / رياضات تنافسية', desc: '(رياضة سباحة 🏊 أو كرة القدم ⚽ أو 🥊 مواي تاي) و (🏀 Basketball أو 🥋 BJJ أو 🏃 1-Hour Run) مخير من البرامج السابقة (لديك حرية الإختيار أيها العاهل الشاب)' },
+          { time: '18:30-19:30', title: 'Digital Architecture / هيكلة رقمية', desc: 'System Programming and Web Project Monitoring & Updates / برمجة النظام ومراقبة وتحديثات مشاريع الويب' },
+          { time: '19:30-20:30', title: '؟؟؟', desc: 'مخير من البرامج السابقة (لديك حرية الإختيار أيها العاهل الشاب)' },
+          { time: '20:30-22:00', title: 'Maximum Stimulation / تحفيز أقصى + Opening the pelvis / فتح الحوض', desc: 'Stretching & Lengthening Workouts + Sleep Preparation and Deep Rest / تمارين إطالة وتمدد + التحضير للنوم وراحة عميقة ومشاهدة مراوغات ومهارات في رياضة كرة السلة وكرة القدم (خلاصة لتسفيد من المشاهدة) + Opening the pelvis / فتح الحوض' }
+        ]
+      }
+    }
+}
+};
+// ==========================================
+// UTILITIES
+// ==========================================
+const Utils = {
+    formatDecimalTime(dec) {
+        const h = Math.floor(dec);
+        const m = Math.floor((dec - h) * 60);
+        return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+    },
+    getCurrentDecimalTime() {
+        const now = new Date();
+        return now.getHours() + now.getMinutes() / 60;
+    },
+    getDayName(dayIndex) {
+        const days = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+        return days[dayIndex];
+    }
+};
+
+const Toast = {
+    show(message, type = 'info') {
+        const container = document.getElementById('toastContainer');
+        if (!container) return;
+        const toast = document.createElement('div');
+        const colors = {
+            success: 'border-emerald-500 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.3)]',
+            error: 'border-rose-500 text-rose-400 shadow-[0_0_15px_rgba(225,29,72,0.3)]',
+            info: 'border-[var(--sys-cyan)] text-[var(--sys-cyan)] shadow-[0_0_15px_rgba(0,240,255,0.3)]',
+            purple: 'border-[var(--sys-purple)] text-[var(--sys-purple)] shadow-[0_0_15px_rgba(157,78,221,0.3)]',
+            gold: 'border-[var(--sys-gold)] text-[var(--sys-gold)] shadow-[0_0_15px_rgba(251,191,36,0.3)]'
+        };
+        toast.className = `pointer-events-auto px-5 py-3 bg-[#02040a]/95 border backdrop-blur-md text-sm font-bold sys-font tracking-wide animate-system-pop ${colors[type] || colors.info}`;
+        toast.textContent = message;
+        container.appendChild(toast);
+        setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 4000);
+    }
+};
+
+        // ==========================================
+        // SYSTEM AUDIO CONTROLLERS
+        // ==========================================
+        const SoundEffects = {
+            track1: new Audio('SHADOWBORN.mp3'),
+            track2: new Audio('Kingdom_of_Iron.mp3'),
+            currentTrackNumber: null,
+            isMusicPlaying: false,
+
+            init() {
+                this.track1.loop = true;
+                this.track2.loop = true;
+            },
+
+            toggleMusic(trackNumber) {
+                const icon1 = document.getElementById('musicIcon1');
+                const icon2 = document.getElementById('musicIcon2');
+
+                if (this.isMusicPlaying && this.currentTrackNumber === trackNumber) {
+                    this.stopAllAudio();
+                    return;
+                }
+                if (this.isMusicPlaying) this.stopAllAudio();
+
+                this.isMusicPlaying = true;
+                this.currentTrackNumber = trackNumber;
+
+                if (trackNumber === 1) {
+                    this.track1.play().catch(err => console.log("Blocked:", err));
+                    if (icon1) icon1.textContent = '⏸️';
+                    if (icon2) icon2.textContent = '🎼';
+                } else if (trackNumber === 2) {
+                    this.track2.play().catch(err => console.log("Blocked:", err));
+                    if (icon1) icon1.textContent = '🎵';
+                    if (icon2) icon2.textContent = '⏸️';
+                }
+            },
+
+            stopAllAudio() {
+                this.track1.pause(); this.track1.currentTime = 0;
+                this.track2.pause(); this.track2.currentTime = 0;
+                const icon1 = document.getElementById('musicIcon1');
+                const icon2 = document.getElementById('musicIcon2');
+                if (icon1) icon1.textContent = '🎵';
+                if (icon2) icon2.textContent = '🎼';
+                this.isMusicPlaying = false;
+                this.currentTrackNumber = null;
+            },
+
+            playSystemClick() {
+                try {
+                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(880, ctx.currentTime);
+                    gain.gain.setValueAtTime(0.04, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+                    osc.connect(gain); gain.connect(ctx.destination);
+                    osc.start(); osc.stop(ctx.currentTime + 0.08);
+                } catch(e) {}
+            },
+
+            playSuccess() {
+                try {
+                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    const notes = [523.25, 659.25, 783.99, 1046.50];
+                    notes.forEach((freq, i) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.08);
+                        gain.gain.setValueAtTime(0.08, ctx.currentTime + i * 0.08);
+                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.08 + 0.25);
+                        osc.connect(gain); gain.connect(ctx.destination);
+                        osc.start(ctx.currentTime + i * 0.08);
+                        osc.stop(ctx.currentTime + i * 0.08 + 0.25);
+                    });
+                } catch(e) {}
+            }
+        };
+        SoundEffects.init();
+
+        // ==========================================
+        // PLAYER CORE SYNCHRONIZER
+        // ==========================================
+        const PlayerSync = {
+            data: { level: 1, xp: 0, gold: 0, title: 'Recruit Shadow' },
+            init() {
+                this.load();
+                this.updateUI();
+            },
+            load() {
+                try {
+                    const saved = window.SovereignCore ? SovereignCore.data : JSON.parse(localStorage.getItem('monarch_system_data') || '{}');
+                    this.data.level = saved.level || 1;
+                    this.data.xp = saved.xp || 0;
+                    this.data.gold = saved.gold || 0;
+                    this.data.title = saved.title || 'Recruit Shadow';
+                } catch(e) {}
+            },
+            addXP(amount) {
+                this.data.xp += amount;
+                if (this.data.xp < 0) this.data.xp = 0;
+                let needed = this.data.level * 100;
+                while (this.data.xp >= needed) {
+                    this.data.xp -= needed;
+                    this.data.level++;
+                    needed = this.data.level * 100;
+                    LogManager.addLog('level', `🧬 ترقية المستوى السيادي: تم الارتقاء للمستوى [${this.data.level}]`);
+                }
+                this.save();
+                this.updateUI();
+            },
+            addGold(amount) {
+                this.data.gold = Math.max(0, this.data.gold + amount);
+                this.save();
+                this.updateUI();
+            },
+            save() {
+                if (window.SovereignCore) {
+                    SovereignCore.save(this.data);
+                } else {
+                    localStorage.setItem('monarch_system_data', JSON.stringify(this.data));
+                }
+                // البث عبر الألسنة
+                if (typeof BroadcastChannel !== 'undefined') {
+                    const bc = new BroadcastChannel('sovereign_sync');
+                    bc.postMessage({ type: 'SYSTEM_DATA_UPDATED' });
+                }
+            },
+            updateUI() {
+                const lvlEl = document.getElementById('player-level');
+                const barEl = document.getElementById('player-xp-bar');
+                const goldEl = document.getElementById('player-gold');
+                
+                if(lvlEl) lvlEl.textContent = this.data.level;
+                if(goldEl) goldEl.textContent = this.data.gold;
+                if(barEl) {
+                    const needed = this.data.level * 100;
+                    const pct = Math.min((this.data.xp / needed) * 100, 100);
+                    barEl.style.width = `${pct}%`;
+                }
+
+                // تحديث حالة بوابة القفل الظلي للمهام الحرة
+                const lockScreen = document.getElementById('free-tasks-locked');
+                const lockStatus = document.getElementById('lock-level-status');
+                if (lockScreen && lockStatus) {
+                    if (this.data.level >= 50) {
+                        lockScreen.classList.add('hidden');
+                    } else {
+                        lockScreen.classList.remove('hidden');
+                        lockStatus.textContent = `CURRENT LEVEL: ${this.data.level} / 50`;
+                    }
+                }
+            }
+        };
+
+        // ==========================================
+        // OPERATIONS CHARTER & ACTIVE PROGRAM SWITCHER
+        // ==========================================
+        const Charter = {
+            activeProgramId: 'week1',
+            init() {
+                const saved = localStorage.getItem('sovereign_active_program');
+                const unlockedId = window.SovereignCore ? SovereignCore.getCurrentProgramId() : 'week1';
+                this.activeProgramId = (saved === unlockedId) ? saved : unlockedId;
+                if (this.activeProgramId !== saved) localStorage.setItem('sovereign_active_program', this.activeProgramId);
+                const badge = document.getElementById('active-program-badge');
+                if (badge) badge.textContent = this.activeProgramId.replace('week', 'WEEK ').toUpperCase();
+                this.renderButtons();
+                this.renderCurrentBlock();
+            },
+            switch(id) {
+                if (this.activeProgramId === id) return;
+                if (window.SovereignCore) {
+                    const status = SovereignCore.getProgramStatus(id);
+                    if (status.locked) {
+                        const msg = status.reason === 'surpassed'
+                            ? '🔒 تم تجاوز هذه البوابة بالفعل — برنامج أحدث بانتظارك'
+                            : `🔒 بوابة مقفلة — يتطلب الوصول إلى المستوى ${status.requiredLevel}`;
+                        Toast.show(msg, 'error');
+                        return;
+                    }
+                }
+                this.activeProgramId = id;
+                localStorage.setItem('sovereign_active_program', id);
+                const badge = document.getElementById('active-program-badge');
+                if (badge) badge.textContent = id.replace('week', 'WEEK ').toUpperCase();
+                this.renderButtons();
+                this.renderCurrentBlock();
+                Toast.show('تم تبديل البروتوكول النشط: ' + id.toUpperCase(), 'info');
+                LogManager.addLog('system', `Protocol Switch: Activated Program ${id.toUpperCase()}`);
+            },
+            renderButtons() {
+                ['week1','week2','week3','week4','week5'].forEach(id => {
+                    const btn = document.getElementById('btn-' + id);
+                    if (!btn) return;
+                    
+                    const isSelected = this.activeProgramId === id;
+                    btn.classList.toggle('active', isSelected);
+                    if (isSelected) {
+                        btn.style.background = (id === 'week1') ? 'var(--sys-cyan)' : 'var(--sys-purple)';
+                        btn.style.color = (id === 'week1') ? 'black' : 'white';
+                    } else {
+                        btn.style.background = '';
+                        btn.style.color = '';
+                    }
+
+                    const status = window.SovereignCore ? SovereignCore.getProgramStatus(id) : { locked: false };
+                    let chip = btn.querySelector('.shadow-lock-chip');
+                    if (status.locked) {
+                        btn.dataset.locked = 'true';
+                        btn.style.cursor = 'not-allowed';
+                        btn.style.filter = 'grayscale(0.7) brightness(0.55)';
+                        btn.style.position = 'relative';
+                        if (!chip) {
+                            chip = document.createElement('div');
+                            chip.className = 'shadow-lock-chip';
+                            chip.style.cssText = 'position:absolute;inset:0;z-index:4;display:flex;align-items:center;justify-content:center;background:rgba(2,4,10,0.8);border-radius:inherit;font-family:Rajdhani,sans-serif;font-size:11px;font-weight:800;color:var(--sys-purple);';
+                            btn.appendChild(chip);
+                        }
+                        chip.innerHTML = status.reason === 'surpassed' ? '✓ بوابة مُجتازة' : `🔒 يتطلب المستوى ${status.requiredLevel}`;
+                    } else {
+                        btn.removeAttribute('data-locked');
+                        btn.style.cursor = 'pointer';
+                        btn.style.filter = '';
+                        if (chip) chip.remove();
+                    }
+                });
+                
+            },
+
+            
+            
+    // تأكد من وضع هذا داخل كائن Charter الخاص بك
+renderCurrentBlock() {
+    const container = document.getElementById('today-schedule-container');
+    if (!container) {
+        console.error("خطأ: الحاوية 'today-schedule-container' غير موجودة في الصفحة.");
+        return;
+    }
+
+    // 1. تحديد الشهر واليوم الحالي
+    const currentMonth = 'week1'; // تأكد أن هذا المفتاح يطابق مفاتيح PROGRAM_DATA لديك
+    const activeProg = this.activeProgramId || 'week1';
+    
+    // 2. محاولة جلب البيانات
+    const data = (typeof PROGRAM_DATA !== 'undefined') ? PROGRAM_DATA : null;
+    let prog = data ? (data[currentMonth] ? data[currentMonth][activeProg] : data[activeProg]) : null;
+
+    if (!prog) {
+        container.innerHTML = `<div class="p-4 text-slate-500 italic">لا توجد بيانات متاحة لـ ${activeProg}</div>`;
+        return;
+    }
+
+    // 3. بناء الجدول اليومي
+    const now = new Date();
+    const currentHour = now.getHours() + now.getMinutes() / 60;
+    let html = '';
+
+    const schedule = prog.schedule || [];
+    
+    schedule.forEach(block => {
+        const isActive = currentHour >= block.start && currentHour < block.end;
+        const startStr = (block.start < 10 ? '0' : '') + block.start.toString().replace('.', ':') + (block.start % 1 === 0 ? '0' : '');
+        const endStr = (block.end < 10 ? '0' : '') + block.end.toString().replace('.', ':') + (block.end % 1 === 0 ? '0' : '');
+
+        html += `
+        <div class="p-3 mb-2 rounded border ${isActive ? 'bg-slate-900 border-[var(--sys-cyan)]' : 'bg-slate-950/50 border-slate-800'} transition-all">
+            <div class="flex justify-between items-center mb-1">
+                <span class="text-[10px] font-bold text-[var(--sys-cyan)] font-mono">${startStr} - ${endStr}</span>
+                ${isActive ? '<span class="text-[8px] bg-cyan-900/50 text-[var(--sys-cyan)] px-1.5 py-0.5 rounded border border-[var(--sys-cyan)] animate-pulse">جاري الآن</span>' : ''}
+            </div>
+            <h4 class="text-xs font-bold text-white mb-0.5">${block.title}</h4>
+            <p class="text-[10px] text-slate-400 font-semibold">${block.desc || ''}</p>
+        </div>`;
+    });
+
+    container.innerHTML = html;
+}
+        };
+        
+
+
+
+  
+
+        // ==========================================
+        // SOVEREIGN ANALYTICS ENGINE (SVG PLOTTER)
+        // ==========================================
+        const SovereignAnalytics = {
+            currentView: 'daily',
+            historyKey: 'sovereign_exact_telemetry',
+
+            init() {
+                this.syncWithCore();
+                this.renderHub();
+                
+                // مزامنة صامتة كل 5 ثوانٍ لاستقبال التحديثات من النوافذ الأخرى
+                setInterval(() => this.syncWithCore(), 5000);
+            },
+            syncWithCore() {
+                PlayerSync.load();
+                
+                const level = PlayerSync.data.level || 1;
+                const xp = PlayerSync.data.xp || 0;
+                const neededXp = level * 100;
+                const exactLevel = parseFloat((level + (xp / neededXp)).toFixed(3));
+
+                const todayStr = new Date().toISOString().split('T')[0];
+                let history = JSON.parse(localStorage.getItem(this.historyKey) || '[]');
+                
+                // بذر بيانات تلقائية متناسقة لآخر 7 أيام إذا كان المستخدم جديداً لئلا تظهر الشاشة فارغة بصرياً
+                if (history.length === 0) {
+                    const now = new Date();
+                    for (let i = 6; i >= 0; i--) {
+                        const tempDate = new Date();
+                        tempDate.setDate(now.getDate() - i);
+                        const dStr = tempDate.toISOString().split('T')[0];
+                        // منحنى صعود متجانس
+                        const seededLevel = Math.max(1.0, exactLevel - (i * 0.45) - (Math.random() * 0.15));
+                        history.push({
+                            date: dStr,
+                            exactLevel: parseFloat(seededLevel.toFixed(2)),
+                            tasks: Math.floor(Math.random() * 3) + 1
+                        });
+                    }
+                }
+
+                // حساب تصفية المهام الحرة والاعتيادية المنجزة اليوم لدمجها بيانيا
+                let customQuestsToday = TaskManager.tasks.filter(t => t.completed && t.completedAt && t.completedAt.startsWith(todayStr)).length;
+                let activeQuestsToday = 0;
+                try {
+                    const activeLogs = JSON.parse(localStorage.getItem('sovereign_system_logs') || '[]');
+                    activeQuestsToday = activeLogs.filter(l => l.type === 'quest' && l.timestamp).length;
+                } catch(e){}
+                
+                const totalClearedToday = customQuestsToday + activeQuestsToday;
+
+                const existingIndex = history.findIndex(h => h.date === todayStr);
+                if (existingIndex !== -1) {
+                    history[existingIndex].exactLevel = Math.max(history[existingIndex].exactLevel, exactLevel);
+                    history[existingIndex].tasks = Math.max(history[existingIndex].tasks, totalClearedToday);
+                } else {
+                    history.push({ date: todayStr, exactLevel: exactLevel, tasks: totalClearedToday });
+                }
+
+                // تصفية أقصى حجم (90 يوماً كأقصى حد للتتبع)
+                if (history.length > 90) history.shift();
+                localStorage.setItem(this.historyKey, JSON.stringify(history));
+
+                this.updateUI(exactLevel, totalClearedToday, level);
+                this.renderGraph(history);
+            },
+            updateUI(exactLevel, todayTasks, baseLvl) {
+                const exactLvlEl = document.getElementById('stat-exact-level');
+                const todayTasksEl = document.getElementById('stat-today-tasks');
+                if (exactLvlEl) exactLvlEl.textContent = exactLevel.toFixed(2);
+                if (todayTasksEl) todayTasksEl.textContent = todayTasks;
+
+                // رتب العواهل وتنسيق أشرطة النفوذ والسلطة
+                const rankEl = document.getElementById('perf-rank-title');
+                const rankBar = document.getElementById('perf-rank-bar');
+                let title = "Recruit Shadow";
+                let progress = (baseLvl / 50) * 100;
+
+                if (baseLvl >= 1000) { title = "ABSOLUTE SOVEREIGN"; progress = 100; }
+                else if (baseLvl >= 800) { title = "Divine Architect"; progress = ((baseLvl-800)/200)*100; }
+                else if (baseLvl >= 600) { title = "Tech Warlord"; progress = ((baseLvl-600)/200)*100; }
+                else if (baseLvl >= 450) { title = "Shadow Monarch"; progress = ((baseLvl-450)/150)*100; }
+                else if (baseLvl >= 50) { title = "Elite Knight"; progress = ((baseLvl-50)/400)*100; }
+
+                if (rankEl) rankEl.textContent = title;
+                if (rankBar) rankBar.style.width = `${Math.min(100, Math.max(6, progress))}%`;
+
+                this.analyzeTrend();
+            },
+            analyzeTrend() {
+                const history = JSON.parse(localStorage.getItem(this.historyKey) || '[]');
+                if (history.length < 2) return;
+
+                const badge = document.getElementById('perf-condition-badge');
+                const textEl = document.getElementById('perf-analysis-text');
+                const bgIcon = document.getElementById('perf-bg-icon');
+
+                const today = history[history.length - 1];
+                const yesterday = history[history.length - 2];
+                const delta = today.exactLevel - yesterday.exactLevel;
+
+                if (delta > 0 || today.tasks > 0) {
+                    if (badge) {
+                        badge.textContent = "IMPROVING / ارتقاء مستمر";
+                        badge.className = "px-3 py-1 text-xs font-black rounded sys-font tracking-widest border border-[var(--sys-cyan)] text-[var(--sys-cyan)] bg-[var(--sys-cyan)]/10 shadow-[0_0_15px_rgba(0,240,255,0.3)] animate-pulse";
+                    }
+                    if (textEl) {
+                        textEl.innerHTML = `تم رصد منحنى نمو صاعد بمقدار <span class="text-[var(--sys-cyan)] font-bold">+${delta.toFixed(3)}</span> مستوى اليوم. بروتوكولات الأنشطة تعمل بكفاءة عصبية ممتازة.`;
+                    }
+                    if(bgIcon) bgIcon.textContent = "📈";
+                } else {
+                    if (badge) {
+                        badge.textContent = "REGRESSING / ركود زمني";
+                        badge.className = "px-3 py-1 text-xs font-black rounded sys-font tracking-widest border border-[var(--sys-red)] text-[var(--sys-red)] bg-[var(--sys-red)]/10 shadow-[0_0_15px_rgba(239,68,68,0.2)]";
+                    }
+                    if (textEl) {
+                        textEl.innerHTML = `لم يتم تسجيل صعود للخبرات أو إكمال للمهام اليوم. يُرصد خلل جزئي في زخم التحميل. استعد فوراً لتفادي تراجع رتبتك القيادية!`;
+                    }
+                    if(bgIcon) bgIcon.textContent = "⚠️";
+                }
+            },
+            switchView(view) {
+                SoundEffects.playSystemClick();
+                this.currentView = view;
+                this.renderHub();
+            },
+            renderHub() {
+                // تلوين الأزرار النشطة برمجياً
+                ['daily', 'weekly', 'monthly'].forEach(v => {
+                    const btn = document.getElementById(`btn-chart-${v}`);
+                    if (!btn) return;
+                    if (v === this.currentView) {
+                        btn.className = "px-3 py-1 text-[10px] font-bold rounded text-black bg-[var(--sys-cyan)] shadow-[0_0_10px_var(--sys-cyan-glow)] transition-all uppercase sys-font";
+                    } else {
+                        btn.className = "px-3 py-1 text-[10px] font-bold rounded text-slate-400 hover:text-[var(--sys-cyan)] transition-all uppercase sys-font";
+                    }
+                });
+                
+                const history = JSON.parse(localStorage.getItem(this.historyKey) || '[]');
+                this.renderGraph(history);
+            },
+            renderGraph(history) {
+                const container = document.getElementById('perf-chart-container');
+                if (!container || history.length === 0) return;
+
+                let chartData = [];
+                if (this.currentView === 'daily') {
+                    chartData = history.slice(-7).map(h => ({ label: h.date.slice(5), val: h.exactLevel }));
+                } else if (this.currentView === 'weekly') {
+                    for (let i = history.length - 1; i >= 0; i -= 7) {
+                        if (chartData.length >= 6) break;
+                        chartData.unshift({ label: `W-${Math.floor(i/7)+1}`, val: history[i].exactLevel });
+                    }
+                } else if (this.currentView === 'monthly') {
+                    let observedMonths = {};
+                    for (let i = history.length - 1; i >= 0; i--) {
+                        let m = history[i].date.slice(5, 7);
+                        if (!observedMonths[m]) {
+                            chartData.unshift({ label: m + 'M', val: history[i].exactLevel });
+                            observedMonths[m] = true;
+                        }
+                        if (chartData.length >= 6) break;
+                    }
+                }
+
+                if (chartData.length === 1) {
+                    chartData.unshift({ label: 'Origin', val: Math.max(1, chartData[0].val - 1) });
+                }
+
+                const width = container.clientWidth || 600;
+                const height = container.clientHeight || 220;
+                const paddingX = 40;
+                const paddingY = 40;
+                const graphW = width - paddingX * 2;
+                const graphH = height - paddingY * 2;
+
+                const maxVal = Math.max(...chartData.map(d => d.val));
+                const minVal = Math.min(...chartData.map(d => d.val));
+                const range = maxVal === minVal ? 1 : (maxVal - minVal) * 1.25;
+
+                const points = chartData.map((d, i) => {
+                    const x = paddingX + (i / (chartData.length - 1)) * graphW;
+                    const y = height - paddingY - ((d.val - minVal) / range) * graphH;
+                    return { x, y, label: d.label, val: d.val };
+                });
+
+                let pathD = `M ${points[0].x} ${points[0].y} `;
+                let areaD = `M ${points[0].x} ${height - paddingY} L ${points[0].x} ${points[0].y} `;
+                for (let i = 1; i < points.length; i++) {
+                    const cx = (points[i-1].x + points[i].x) / 2;
+                    pathD += `C ${cx} ${points[i-1].y}, ${cx} ${points[i].y}, ${points[i].x} ${points[i].y} `;
+                    areaD += `C ${cx} ${points[i-1].y}, ${cx} ${points[i].y}, ${points[i].x} ${points[i].y} `;
+                }
+                areaD += `L ${points[points.length - 1].x} ${height - paddingY} Z`;
+
+                container.innerHTML = `
+                <svg width="100%" height="100%" viewBox="0 0 ${width} ${height}" class="overflow-visible chart-glow-cyan">
+                    <defs>
+                        <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="var(--sys-cyan)" stop-opacity="0.35"/>
+                            <stop offset="100%" stop-color="var(--sys-bg-dark)" stop-opacity="0.0"/>
+                        </linearGradient>
+                        <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+                            <feGaussianBlur stdDeviation="5" result="blur" />
+                            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                        </filter>
+                    </defs>
+                    
+                    <!-- Vertical grid lines -->
+                    <line x1="${paddingX}" y1="${paddingY}" x2="${width-paddingX}" y2="${paddingY}" stroke="rgba(255,255,255,0.03)" stroke-width="1" stroke-dasharray="2" />
+                    <line x1="${paddingX}" y1="${height/2}" x2="${width-paddingX}" y2="${height/2}" stroke="rgba(255,255,255,0.03)" stroke-width="1" stroke-dasharray="2" />
+                    <line x1="${paddingX}" y1="${height-paddingY}" x2="${width-paddingX}" y2="${height-paddingY}" stroke="rgba(0,240,255,0.15)" stroke-width="1.5" />
+                    
+                    <!-- Area of Curve -->
+                    <path d="${areaD}" fill="url(#chartGradient)" />
+                    
+                    <!-- Vector Cubic Bezier Curve -->
+                    <path d="${pathD}" fill="none" stroke="var(--sys-cyan)" stroke-width="2.5" filter="url(#neonGlow)" stroke-linecap="round" />
+                    <path d="${pathD}" fill="none" stroke="#fff" stroke-width="0.8" opacity="0.6" />
+                    
+                    <!-- العقد التفاعلية على المنحنيات -->
+                    ${points.map(p => `
+                        <g class="group cursor-pointer">
+                            <circle cx="${p.x}" cy="${p.y}" r="4" fill="var(--sys-bg-dark)" stroke="var(--sys-cyan)" stroke-width="2" class="transition-all duration-350 hover:r-6 hover:fill-[var(--sys-cyan)]" />
+                            <text x="${p.x}" y="${p.y - 12}" text-anchor="middle" fill="#fff" font-size="9" class="sys-font font-black">${p.val.toFixed(2)}</text>
+                            <text x="${p.x}" y="${height - 15}" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="9" class="sys-font font-bold uppercase tracking-wider">${p.label}</text>
+                        </g>
+                    `).join('')}
+                </svg>`;
+            }
+        };
+
+        // ==========================================
+        // INITIALIZATION DISPATCHER
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            PlayerSync.init();
+            Charter.init();
+            TaskManager.init();
+            LogManager.init();
+            SovereignAnalytics.init();
+
+            // الاستجابة الفورية لقنوات البث لضمان تزامن الألسنة في المتصفح تلقائياً
+            if (window.SovereignCore) {
+                SovereignCore.onChange(() => {
+                    PlayerSync.load();
+                    PlayerSync.updateUI();
+                    Charter.renderButtons();
+                    SovereignAnalytics.syncWithCore();
+                });
+            }
+
+            // الاستماع لأي كويست جديد مضاف من ألسنة أخرى
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'sovereign_active_tasks') {
+                    TaskManager.loadTasks();
+                    TaskManager.render();
+                } else if (e.key === 'sovereign_system_logs') {
+                    LogManager.updateStats();
+                    LogManager.render();
+                }
+            });
+
+            // تحديث ساعة المحاذاة والبروتوكول كل دقيقة
+            setInterval(() => {
+                Charter.renderCurrentBlock();
+            }, 60000);
+        });
+
+        // تصدير الكائنات عالمياً لدعم نداءات onClick في الواجهات
+        window.Charter = Charter;
+        window.TaskManager = TaskManager;
+        window.LogManager = LogManager;
+        window.SovereignAnalytics = SovereignAnalytics;
+    </script>
+    <script>// محرك إدارة وعرض جدول الفترات الزمنية والمهام
+
+
+// إدارة وعرض حاوية المهام من الـ LocalStorage المزامنة
+const TaskManager = {
+    init() {
+        this.loadTasks();
+    },
+    loadTasks() {
+        const container = document.getElementById('tasksListContainer');
+        if (!container) return;
+
+        // جلب المهام النشطة من كاش النظام الموحد
+        const storedQuests = localStorage.getItem('sovereign_active_tasks');
+        const tasks = storedQuests ? JSON.parse(storedQuests) : [];
+
+        if (tasks.length === 0) {
+            container.innerHTML = `
+                <div class="h-full flex flex-col items-center justify-center text-center p-6 border border-dashed border-slate-800 rounded-lg">
+                    <span class="text-2xl mb-2">📋</span>
+                    <p class="text-xs text-slate-500 font-bold">لا يوجد كويستات نشطة حالياً. تفقد لوحة التحكم الرئيسية.</p>
+                </div>`;
+            return;
+        }
+
+        container.innerHTML = tasks.map(task => `
+            <div class="p-3 bg-slate-900/40 border border-slate-800/80 hover:border-[var(--sys-cyan)]/30 rounded-lg flex justify-between items-center transition-all duration-300">
+                <div class="flex flex-col gap-1">
+                    <span class="text-sm font-bold text-slate-200">${task.title || task.name}</span>
+                    <span class="text-[11px] text-slate-500 font-medium">${task.desc || 'بروتوكول سيادي نشط'}</span>
+                </div>
+                <div class="sys-font text-[10px] text-amber-400 font-bold bg-amber-950/20 px-2 py-1 border border-amber-500/20 rounded">
+                    ${task.reward || '+100 XP'}
+                </div>
+            </div>
+        `).join('');
+    }
+};
+
+// إطلاق خط المزامنة الشامل فور اكتمال الـ DOM
+document.addEventListener('DOMContentLoaded', () => {
+    Charter.init();
+    TaskManager.init();
+
+    // الاستجابة الفورية لقنوات البث والتغيرات عبر الـ Tabs الأخرى عبر محرك SovereignCore
+    if (window.SovereignCore) {
+        SovereignCore.onChange(() => {
+            TaskManager.loadTasks();
+            Charter.renderCurrentBlock();
+        });
+    }
+
+    // الاستماع المباشر للتعديلات في الكواشف المستقلة للمهام والبروتوكول
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'sovereign_active_tasks') {
+            TaskManager.loadTasks();
+        }
+    });
+
+    // تحديث نبض المحاذاة الزمنية للفترة الحالية كل دقيقة كاملة
+    setInterval(() => {
+        Charter.renderCurrentBlock();
+    }, 60000);
+});
+// ==========================================
+// PROGRAM MANAGER
+// ==========================================
+const ProgramManager = {
+    activeProgramId: 'week1',
+
+    init() {
+        const saved = localStorage.getItem('sovereign_active_program');
+        if (saved) {
+            this.activeProgramId = saved;
+        } else {
+            const lvl = PlayerSync.data.level;
+            if (lvl >= 1000) this.activeProgramId = 'week5';
+            else if (lvl >= 800) this.activeProgramId = 'week4';
+            else if (lvl >= 600) this.activeProgramId = 'week3';
+            else if (lvl >= 450) this.activeProgramId = 'week2';
+            else this.activeProgramId = 'week1';
+        }
+        this.renderButtons();
+        this.renderProgramInfo();
+        this.renderTodaySchedule();
+    },
+
+    switch(weekId) {
+        this.activeProgramId = weekId;
+        localStorage.setItem('sovereign_active_program', weekId);
+        this.renderButtons();
+        this.renderProgramInfo();
+        this.renderTodaySchedule();
+        Toast.show(`Protocol switched to ${PROGRAM_DATA[weekId].title}`, 'info');
+        LogManager.addLog('system', `Protocol Switched: ${PROGRAM_DATA[weekId].title}`);
+    },
+
+    renderButtons() {
+        ['week1','week2','week3','week4','week5'].forEach(id => {
+            const btn = document.getElementById('btn-' + id);
+            if (btn) {
+                if (this.activeProgramId === id) {
+                    btn.classList.add('active');
+                    if (id === 'week1') {
+                        btn.style.background = 'var(--sys-cyan)';
+                        btn.style.color = 'black';
+                    } else {
+                        btn.style.background = 'var(--sys-purple)';
+                        btn.style.color = 'white';
+                    }
+                } else {
+                    btn.classList.remove('active');
+                    btn.style.background = '';
+                    btn.style.color = '';
+                }
+            }
+        });
+        const badge = document.getElementById('active-program-badge');
+        if (badge) badge.textContent = this.activeProgramId.replace('week', 'WEEK ').toUpperCase();
+    },
+
+    renderProgramInfo() {
+        const msg = document.getElementById('program-message');
+        const prog = PROGRAM_DATA[this.activeProgramId];
+        if (msg && prog) {
+            msg.textContent = prog.desc;
+            msg.classList.remove('hidden');
+        }
+    },
+
+    renderTodaySchedule() {
+        const container = document.getElementById('today-schedule-container');
+        const dayLabel = document.getElementById('current-day-label');
+        if (!container) return;
+
+        const now = new Date();
+        const day = now.getDay();
+        const prog = PROGRAM_DATA[this.activeProgramId];
+        if (!prog) return;
+
+        if (dayLabel) dayLabel.textContent = Utils.getDayName(day);
+
+        const currentTime = Utils.getCurrentDecimalTime();
+        let html = '';
+
+        // Check special day
+        if (prog.special && prog.special[day]) {
+            const special = prog.special[day];
+            html += `<div class="p-3 bg-[var(--sys-purple)]/10 border border-[var(--sys-purple)]/30 rounded mb-3">
+                <div class="text-[var(--sys-purple)] font-bold text-xs sys-font mb-1">${special.title}</div>
+            </div>`;
+            special.blocks.forEach(block => {
+                html += `<div class="p-3 bg-slate-900/40 rounded border border-slate-800 mb-2">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-[var(--sys-cyan)] font-bold text-xs sys-font">${block.time}</span>
+                    </div>
+                    <div class="text-white text-sm font-bold mb-1">${block.title}</div>
+                    <div class="text-[11px] text-slate-400">${block.desc}</div>
+                </div>`;
+            });
+        } else {
+            // Regular schedule
+            const dayData = prog.days[day];
+            if (dayData) {
+                html += `<div class="p-3 bg-emerald-950/20 border border-emerald-500/30 rounded mb-3">
+                    <div class="grid grid-cols-2 gap-2 text-[11px]">
+                        <div><span class="text-slate-500">رياضة:</span> <span class="text-white">${dayData.sport}</span></div>
+                        <div><span class="text-slate-500">PPL:</span> <span class="text-white">${dayData.ppl}</span></div>
+                        <div><span class="text-slate-500">ذهني:</span> <span class="text-white">${dayData.cognitive}</span></div>
+                        <div><span class="text-slate-500">أكاديمي:</span> <span class="text-emerald-400">${dayData.academic}</span></div>
+                    </div>
+                </div>`;
+            }
+
+            prog.schedule.forEach(block => {
+                const isActive = currentTime >= block.start && currentTime < block.end;
+                const startStr = Utils.formatDecimalTime(block.start);
+                const endStr = Utils.formatDecimalTime(block.end);
+
+                html += `<div class="p-3 rounded border mb-2 transition-all ${isActive ? 'block-active bg-[var(--sys-cyan)]/5' : 'bg-slate-900/40 border-slate-800'}">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="${isActive ? 'text-[var(--sys-cyan)]' : 'text-slate-500'} font-bold text-xs sys-font">${startStr} - ${endStr}</span>
+                        ${isActive ? '<span class="text-[10px] bg-[var(--sys-cyan)]/20 text-[var(--sys-cyan)] px-2 py-0.5 rounded sys-font animate-pulse">ACTIVE NOW</span>' : ''}
+                    </div>
+                    <div class="text-white text-sm font-bold mb-1">${block.title}</div>
+                    <div class="text-[11px] text-slate-400">${block.desc}</div>
+                </div>`;
+            });
+        }
+
+        container.innerHTML = html;
+    }
+};
+
+// ==========================================
+// LOG MANAGER (Archive Engine)
+// ==========================================
+const LogManager = {
+    currentFilter: 'all',
+
+    init() {
+        this.updateStats();
+        this.render();
+        this.setupFilters();
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'sovereign_system_logs') { this.updateStats(); this.render(); }
+        });
+    },
+
+    getLogs() {
+        try { return JSON.parse(localStorage.getItem('sovereign_system_logs') || '[]'); }
+        catch(e) { return []; }
+    },
+
+    addLog(type, message) {
+        if (!message || typeof message !== 'string') {
+            console.warn('LogManager: Attempted to add log with invalid message');
+            return;
+        }
+        const logs = this.getLogs();
+        const newLog = {
+            id: 'log_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+            timestamp: new Date().toLocaleTimeString('ar-EG'),
+            type: type || 'system',
+            message: message
+        };
+        logs.unshift(newLog);
+        localStorage.setItem('sovereign_system_logs', JSON.stringify(logs.slice(0, 200)));
+        this.updateStats();
+        this.render();
+    },
+
+    updateStats() {
+        const logs = this.getLogs().filter(l => l && l.message); // Only count valid logs
+        const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
+        set('stat-total', logs.length);
+        set('stat-quests', logs.filter(l => l.type === 'quest').length);
+        set('stat-system', logs.filter(l => !l.type || l.type === 'system').length);
+        set('stat-errors', logs.filter(l => l.type === 'error').length);
+    },
+
+    setupFilters() {
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                this.currentFilter = e.target.dataset.filter;
+                this.render();
+            });
+        });
+    },
+
+    getIcon(type) {
+        switch(type) {
+            case 'quest': return '<span class="text-[var(--sys-gold)]">⚔️</span>';
+            case 'system': return '<span class="text-[var(--sys-cyan)]">⚙️</span>';
+            case 'level': return '<span class="text-[var(--sys-purple)]">⭐</span>';
+            case 'error': return '<span class="text-[var(--sys-red)]">⚠️</span>';
+            default: return '<span class="text-slate-400">📄</span>';
+        }
+    },
+
+    getColorClass(type) {
+        switch(type) {
+            case 'quest': return 'log-quest';
+            case 'system': return 'log-system';
+            case 'level': return 'log-level';
+            case 'error': return 'log-error';
+            default: return 'border-slate-600';
+        }
+    },
+
+    render() {
+        const container = document.getElementById('logsContainer');
+        let logs = this.getLogs();
+
+        // Clean and validate logs - remove entries with no message or fix undefined fields
+        logs = logs.filter(log => log && log.message).map(log => ({
+            id: log.id || ('log_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5)),
+            timestamp: log.timestamp || new Date().toLocaleTimeString('ar-EG'),
+            type: log.type || 'system',
+            message: log.message
+        }));
+
+        if (this.currentFilter !== 'all') {
+            logs = logs.filter(log => log.type === this.currentFilter);
+        }
+
+        if (logs.length === 0) {
+            container.innerHTML = `<div class="h-full flex flex-col items-center justify-center text-slate-500 space-y-3 py-10">
+                <div class="text-4xl opacity-30">📂</div>
+                <p class="font-bold tracking-widest uppercase sys-font text-xs">لا توجد سجلات مطابقة</p>
+            </div>`;
+            return;
+        }
+
+        container.innerHTML = logs.map((log, index) => `
+            <div class="log-item ${this.getColorClass(log.type)} bg-slate-900/40 rounded-lg p-3 flex gap-3 items-start" style="animation-delay: ${index * 0.03}s;">
+                <div class="flex-shrink-0 text-lg bg-slate-950 p-1.5 rounded border border-slate-800 w-10 h-10 flex items-center justify-center">
+                    ${this.getIcon(log.type)}
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-[10px] font-mono text-slate-400 bg-black/50 px-2 py-0.5 rounded">${log.timestamp}</span>
+                        <span class="text-[9px] uppercase tracking-wider text-slate-600 sys-font">${log.id}</span>
+                    </div>
+                    <p class="text-sm text-slate-200 leading-relaxed font-semibold break-words">${log.message}</p>
+                </div>
+            </div>
+        `).join('');
+    },
+
+    clearLogs() {
+        if(confirm('تحذير: هل أنت متأكد من مسح جميع السجلات التاريخية؟ لا يمكن التراجع عن هذا الإجراء.')) {
+            localStorage.setItem('sovereign_system_logs', '[]');
+            this.updateStats();
+            this.render();
+            Toast.show('تم مسح السجلات التاريخية بنجاح.', 'error');
+        }
+    },
+
+    exportLogs() {
+        const logs = this.getLogs();
+        if(logs.length === 0) {
+            Toast.show('لا توجد سجلات للتصدير.', 'error');
+            return;
+        }
+        const dataStr = JSON.stringify(logs, null, 2);
+        const blob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `sovereign_logs_${new Date().toISOString().slice(0,10)}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        Toast.show('تم تصدير السجلات بنجاح.', 'success');
+    }
+};
+
+// ==========================================
+// CLOCK & AUTO REFRESH
+// ==========================================
+setInterval(() => {
+    ProgramManager.renderTodaySchedule();
+}, 60000);
+
+// ==========================================
+// INITIALIZATION
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+    PlayerSync.init();
+    ProgramManager.init();
+    LogManager.init();
+    TaskManager.init();
+});
+
+// Global exposure
+window.ProgramManager = ProgramManager;
+window.LogManager = LogManager;
+window.TaskManager = TaskManager;
+window.Toast = Toast;
+window.PlayerSync = PlayerSync;
+const UI = {
+    toggleTimerSettings() {
+        if (typeof SoundEffects !== 'undefined') SoundEffects.playSystemClick();
+        document.getElementById('timerModal').classList.toggle('hidden');
+    }
+};
+// POMODORO TIMER
+// ==========================================
+const Pomodoro = {
+    defaultTime: parseInt(localStorage.getItem('SL_SYS_TIMER')) || (5 * 3600),
+    timeLeft: 0, timer: null, isRunning: false,
+    init() { this.timeLeft = this.defaultTime; this.updateUI(); },
+    saveSettings() {
+        const h = parseInt(document.getElementById('inputHours').value) || 0;
+        const m = parseInt(document.getElementById('inputMinutes').value) || 0;
+        const tot = (h * 3600) + (m * 60);
+        if (tot > 0) {
+            this.defaultTime = tot;
+            localStorage.setItem('SL_SYS_TIMER', this.defaultTime.toString());
+            document.getElementById('timerModal').classList.add('hidden');
+            clearInterval(this.timer); this.timeLeft = this.defaultTime; this.isRunning = false;
+            this.toggle();
+        }
+    },
+    toggle() {
+        if(typeof SoundEffects !== 'undefined') SoundEffects.playSystemClick();
+        const btn = document.getElementById('timerBtn');
+        const st = document.getElementById('timerStatus');
+        if (this.isRunning) {
+            clearInterval(this.timer);
+            btn.textContent = 'START'; btn.classList.remove('bg-rose-600/30');
+            st.textContent = 'PAUSED'; st.className = 'sys-font text-[9px] px-2 py-0.5 bg-amber-900 border border-amber-600 text-amber-300 uppercase';
+        } else {
+            if (this.timeLeft <= 0) this.timeLeft = this.defaultTime;
+            this.timer = setInterval(() => { if (this.timeLeft > 0) { this.timeLeft--; this.updateUI(); } else { this.finish(); } }, 1000);
+            btn.textContent = '⏸️'; btn.classList.add('bg-rose-600/30');
+            st.textContent = 'IN COMBAT'; st.className = 'sys-font text-[9px] px-2 py-0.5 bg-rose-900 border border-rose-600 text-rose-300 uppercase animate-pulse';
+        }
+        this.isRunning = !this.isRunning;
+    },
+    reset() {
+        if(typeof SoundEffects !== 'undefined') SoundEffects.playSystemClick();
+        clearInterval(this.timer);
+        this.timeLeft = this.defaultTime; this.isRunning = false;
+        const btn = document.getElementById('timerBtn'); btn.textContent = 'START'; btn.classList.remove('bg-rose-600/30');
+        const st = document.getElementById('timerStatus');
+        st.textContent = 'IDLE'; st.className = 'sys-font text-[9px] px-2 py-0.5 bg-slate-800 border border-slate-600 text-slate-300 uppercase';
+        this.updateUI();
+    },
+    finish() {
+        clearInterval(this.timer);
+        if(typeof SoundEffects !== 'undefined') SoundEffects.playSuccess();
+        if (typeof confetti !== 'undefined') confetti({ particleCount: 100, colors: ['#00f0ff'] });
+        this.reset();
+    },
+    updateUI() {
+        const h = Math.floor(this.timeLeft / 3600).toString().padStart(2, '0');
+        const m = Math.floor((this.timeLeft % 3600) / 60).toString().padStart(2, '0');
+        const s = (this.timeLeft % 60).toString().padStart(2, '0');
+        if(document.getElementById('timerDisplay')) document.getElementById('timerDisplay').textContent = `${h}:${m}:${s}`;
+    }
+};
+
+const Milestone = {
+    hide() {
+        document.getElementById('milestoneModal').classList.add('hidden');
+        if(typeof SoundEffects !== 'undefined') SoundEffects.playSystemClick();
+    }
+};
+
+</script>
+    <script>
+    // تفعيل الهالة السيادية المحفوظة فور تحميل الصفحة
+    const savedAura = localStorage.getItem('sovereign_aura_color');
+    if(savedAura) {
+        document.documentElement.style.setProperty('--sys-cyan', savedAura);
+        document.documentElement.style.setProperty('--sys-cyan-glow', savedAura + '99');
+        // للاندماج المطلق يمكنك توحيد اللونين الأساسيين
+        // document.documentElement.style.setProperty('--sys-purple', savedAura); 
+    }
+</script>
+</script>
+
+</body>
+</html>
+
+

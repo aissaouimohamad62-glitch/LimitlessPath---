@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran System - The Heavenly Archive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&family=Amiri:wght@400;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="index11.css">
+    <script src="monarch-core.js"></script>
+    <style>
+        :root {
+            --primary: #00e5ff;
+            --primary-glow: rgba(0, 229, 255, 0.4);
+            --gold: #ffd700;
+            --gold-glow: rgba(255, 215, 0, 0.4);
+            --panel-bg: rgba(5, 7, 15, 0.95);
+            --border-color: #0077ff;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #02040a;
+            color: #e2e8f0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .sys-font { font-family: 'Rajdhani', sans-serif; letter-spacing: 0.05em; }
+
+        .system-panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow), inset 0 0 10px rgba(0, 240, 255, 0.1);
+            backdrop-filter: blur(12px);
+            position: relative;
+        }
+        
+        .system-panel::before, .system-panel::after {
+            content: ''; position: absolute; width: 15px; height: 15px; pointer-events: none;
+        }
+        .system-panel::before { top: -1px; left: -1px; border-top: 2px solid var(--primary); border-left: 2px solid var(--primary); }
+        .system-panel::after { bottom: -1px; right: -1px; border-bottom: 2px solid var(--primary); border-right: 2px solid var(--primary); }
+
+        .system-text {
+            color: var(--primary);
+            text-shadow: 0 0 8px var(--primary-glow);
+            letter-spacing: 1px;
+        }
+
+        .gold-text {
+            color: var(--gold);
+            text-shadow: 0 0 8px var(--gold-glow);
+        }
+
+        .btn-system {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        .btn-system:hover, .btn-system.active {
+            background: rgba(0, 240, 255, 0.15);
+            box-shadow: 0 0 15px var(--primary-glow);
+            color: #fff;
+        }
+
+        .btn-gold {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        .btn-gold:hover {
+            background: rgba(255, 215, 0, 0.15);
+            box-shadow: 0 0 15px var(--gold-glow);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .quran-text {
+            font-family: 'Amiri', serif;
+            font-size: 1.8rem;
+            line-height: 2.6;
+            color: #f0f9ff;
+            text-align: justify;
+            direction: rtl;
+            background-image: radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .ayah-text {
+            display: inline;
+            transition: color 0.2s;
+        }
+        .ayah-text:hover { color: var(--primary); cursor: pointer; }
+
+        .quran-text .ayah-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: var(--gold);
+            margin: 0 6px;
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .select-menu {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: bold;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .select-menu:focus { box-shadow: 0 0 10px var(--primary-glow); }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #02040a; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+
+        .nav-item {
+            padding: 12px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #94a3b8;
+            border: 1px solid transparent;
+        }
+        .nav-item:hover, .nav-item.active {
+            background: rgba(0, 240, 255, 0.05);
+            color: var(--primary);
+            border-color: rgba(0, 240, 255, 0.3);
+        }
+
+        .loading-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(2, 4, 10, 0.9);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 100; color: var(--primary); font-family: 'Share Tech Mono', monospace;
+            font-weight: bold; letter-spacing: 2px;
+        }
+
+        .surah-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .surah-card:hover {
+            background: rgba(0, 240, 255, 0.08);
+            border-color: var(--primary);
+            box-shadow: 0 0 10px var(--primary-glow);
+            transform: translateY(-2px);
+        }
+
+        /* Notification System */
+        .system-toast {
+            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%) translateY(100px);
+            background: var(--panel-bg); border: 1px solid var(--primary);
+            color: var(--primary); padding: 12px 24px; border-radius: 6px;
+            box-shadow: 0 0 15px var(--primary-glow);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10000; font-size: 0.95rem; text-align: center; font-weight: bold;
+        }
+        .system-toast.show { transform: translateX(-50%) translateY(0); }
+
+        /* Reward Window */
+        .modal-overlay { display: none; }
+        .modal-overlay.active { display: flex; animation: fadeIn 0.3s ease forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+<base target="_blank">
+</head>
+<body class="p-4 md:p-6">
+    <div class="sov-secondary-bg" aria-hidden="true"></div>
+
+    <!-- Sidebar (Mobile Toggle) -->
+    <button onclick="toggleSidebar()" class="md:hidden fixed top-4 right-4 z-50 btn-system p-2 rounded">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed top-0 right-0 w-64 h-screen overflow-y-auto p-4 z-40 border-l border-blue-900 bg-[#02040a] transform translate-x-full md:translate-x-0 transition-transform duration-300">
+        <div class="flex justify-between items-center mb-8 border-b border-blue-900 pb-4">
+            <h2 class="text-xl font-bold system-text"><i class="fa-solid fa-book-quran"></i> The Heavenly Archive</h2>
+            <button onclick="toggleSidebar()" class="md:hidden text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <nav class="space-y-3">
+            <div class="nav-item active" onclick="showView('index')">
+                <i class="fa-solid fa-list-check w-5"></i><span>Surah Index</span>
+            </div>
+            <a href="index11.html" class="nav-item">
+                <i class="fa-solid fa-house w-5" style="color: var(--gold);"></i><span>Dashboard</span>
+            </a>
+            <a href="ppo.html" class="nav-item">
+                <i class="fa-solid fa-chart-line w-5" style="color: var(--primary);"></i><span>Quran Control Panel</span>
+            </a>
+                             <nav class="flex flex-wrap justify-center gap-2 md:gap-4 text-sm font-bold">
+    <nav id="sovereign-nav" class="flex flex-wrap gap-3 justify-center md:justify-start items-center p-4 bg-slate-950/60 border border-slate-850/50 backdrop-blur-md rounded-lg shadow-[inset_0_0_15px_rgba(0,0,0,0.8)] my-4 select-none">
+        
+       
+        
+ <!-- Sports Pages Hub -->
+<a href="basketball.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-orange-500 hover:border-orange-500 hover:shadow-[0_0_12px_rgba(249,115,22,0.3)]">
+    <span>🏀</span> <span>BASKETBALL...</span>
+</a>
+<hr class="border-slate-800/40 my-1">
+
+<a href="bjj.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-indigo-500 hover:border-indigo-500 hover:shadow-[0_0_12px_rgba(99,102,241,0.3)]">
+    <span>🥋</span> <span>BJJ Grappling...</span>
+</a>
+<hr class="border-slate-800/40 my-1">
+
+<a href="football.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-emerald-500 hover:border-emerald-500 hover:shadow-[0_0_12px_rgba(16,185,129,0.3)]">
+    <span>⚽</span> <span>FOOTBALL...</span>
+</a>
+<hr class="border-slate-800/40 my-1">
+
+<a href="swimming.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-sky-400 hover:border-sky-400 hover:shadow-[0_0_12px_rgba(56,189,248,0.3)]">
+    <span>🏊</span> <span>SWIMMING...</span>
+</a>
+<hr class="border-slate-800/40 my-1">
+
+<a href="Muay Thai.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-red-500 hover:border-red-500 hover:shadow-[0_0_12px_rgba(239,68,68,0.3)]">
+    <span>🥊</span> <span>MUAY THAI...</span>
+</a>
+<hr class="border-slate-800/40 my-1">
+
+<!-- MMA Sovereign Arena Button -->
+<a href="mma_sovereign_arena.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-amber-500 hover:border-amber-500 hover:shadow-[0_0_12px_rgba(245,158,11,0.3)]">
+    <span>🤼‍♂️</span> <span>MMA SOVEREIGN ARENA...</span>
+</a>
+<hr class="border-slate-800/40 my-1">
+        <!-- Rest of your original buttons -->
+        <a href="ifortress_muslim.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🛡️</span> <span>FORTRESS.....</span>
+        </a><hr>
+        <a href="operational-charter.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>📜</span> <span>CHARTER...</span>
+        </a><hr>
+        <a href="active-quests.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>⚔️</span> <span>ACTIVE QUESTS...</span>
+        </a><hr>
+        <a href="brain-stats.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🧠</span> <span>BRAIN STATS...</span>
+        </a><hr>
+        <a href="monarch-ai.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🤖</span> <span>MONARCH AI...</span>
+        </a><hr>
+        <a href="sovereign-shop.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🛒</span> <span>SOVEREIGN SHOP...</span>
+        </a><hr>
+        <a href="culinary_sovereign_academy.html" target="_self" class="nav-item-active nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-sys-cyan hover:border-sys-cyan hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+                <span>🍳</span> <span>COOKING ACADEMY</span>
+            </a>
+        <a href="prayers.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🕋​</span> <span>PRAYERS......</span>
+        </a><hr>
+        <a href="quran.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>📘​​</span> <span>QURAN.....</span>
+        </a><hr>
+        <a href="dungeons.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🌋</span> <span>DUNGEONS...</span>
+        </a><hr>
+        <a href="system-logs.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>📂</span> <span>SYSTEM LOGS...</span>
+        </a><hr>
+        
+         
+    </nav>
+</nav>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="md:mr-64 min-h-screen">
+        
+        <!-- Monarch Status Bar -->
+        <header class="system-panel rounded-lg p-4 mb-6 max-w-5xl mx-auto flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-full border border-blue-500 flex items-center justify-center bg-blue-900/30">
+                    <i class="fa-solid fa-user-ninja text-xl text-blue-400"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold system-text">Player []</h1>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4 flex-wrap">
+                <div class="px-4 py-2 border border-blue-500/50 rounded bg-blue-900/20">
+                    <span class="text-gray-400 text-sm">👑 Level:</span>
+                    <span id="header-lvl" class="sys-font font-bold text-blue-400 ml-1">1</span>
+                </div>
+                <div class="px-4 py-2 border border-blue-500/50 rounded bg-blue-900/20">
+                    <span class="text-gray-400 text-sm">📊 XP:</span>
+                    <span id="header-xp" class="sys-font font-bold text-blue-400 ml-1">0/100</span>
+                </div>
+                <div class="px-4 py-2 border border-yellow-500/50 rounded bg-yellow-900/20">
+                    <span class="text-gray-400 text-sm">🪙 Gold:</span>
+                    <span id="header-gold" class="sys-font font-bold gold-text ml-1">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Index Interface -->
+        <section id="view-index" class="max-w-5xl mx-auto block">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-6 border-b border-blue-900 pb-4 gap-4">
+                <h2 class="text-2xl font-bold system-text"><i class="fa-solid fa-list"></i> Heavenly Tasks (Surahs)</h2>
+                <input type="text" id="search-input" class="select-menu w-full md:w-64" placeholder="> Search for a Surah..." onkeyup="filterSurahs()">
+            </div>
+            <ul id="surah-list" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4"></ul>
+        </section>
+
+        <!-- Reading Interface (Mushaf) -->
+        <section id="view-reader" class="max-w-5xl mx-auto hidden">
+            <!-- Control Tools & Switching (Hafs/Warsh) -->
+            <div class="system-panel rounded-lg p-4 mb-4 flex flex-col md:flex-row justify-between items-center gap-4 sticky top-2 z-30">
+                <div class="flex items-center gap-2">
+                    <button onclick="prevSurah()" class="btn-system px-3 py-1 rounded"><i class="fa-solid fa-chevron-right"></i></button>
+                    <h2 id="current-surah-title" class="text-xl font-bold text-white min-w-[120px] text-center"></h2>
+                    <button onclick="nextSurah()" class="btn-system px-3 py-1 rounded"><i class="fa-solid fa-chevron-left"></i></button>
+                </div>
+
+                <div class="flex items-center gap-3 bg-black/40 p-1 border border-blue-900 rounded">
+                    <button id="btn-hafs" onclick="changeRiwaya('hafs')" class="btn-system active px-4 py-1.5 rounded text-sm">Hafs Riwaya</button>
+                    <button id="btn-warsh" onclick="changeRiwaya('warsh')" class="btn-system px-4 py-1.5 rounded text-sm">Warsh Riwaya</button>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <select id="reciter-select" class="select-menu text-sm min-w-[180px]" onchange="changeReciter()"></select>
+                    <button onclick="showView('index')" class="text-gray-400 hover:text-white text-sm"><i class="fa-solid fa-arrow-right"></i> To Index</button>
+                </div>
+            </div>
+
+            <!-- Audio Player -->
+            <div class="system-panel rounded-lg p-3 mb-4 flex items-center gap-4">
+                <audio id="quran-audio" controls class="w-full h-10 outline-none rounded bg-transparent"></audio>
+            </div>
+
+            <!-- Quran Text Container -->
+            <div id="quran-content" class="system-panel quran-text min-h-[400px]"></div>
+
+            <!-- Reward Button -->
+            <div class="mt-6 flex justify-center">
+                <button onclick="completeSurah()" class="btn-gold px-8 py-3 rounded text-lg flex items-center gap-2">
+                    <i class="fa-solid fa-crown"></i> [ Complete Reading & Collect Reward ]
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Loading Screen -->
+    <div id="loading" class="loading-overlay hidden">
+        > DECODING ARCHIVE...
+    </div>
+
+    <!-- System Messages -->
+    <div id="toast" class="system-toast"></div>
+
+    <!-- Reward Collection Window -->
+    <div id="reward-modal" class="modal-overlay fixed inset-0 bg-black/80 z-50 items-center justify-center p-4 backdrop-blur-sm">
+        <div class="system-panel rounded-lg p-8 max-w-sm w-full text-center border-t-4 border-t-yellow-400 relative">
+            <h2 class="text-2xl font-black text-yellow-400 mb-2 tracking-widest">[ Sovereign Achievement ]</h2>
+            <p class="text-white mb-6">You have completed reading <span id="modal-surah-name" class="font-bold text-blue-300"></span></p>
+            <div class="bg-gray-900/80 rounded border border-blue-800 p-4 mb-6 flex justify-center gap-8">
+                <div class="text-center"><span class="block text-xs text-gray-400">XP</span><span id="modal-xp-val" class="text-xl font-bold text-blue-400"></span></div>
+                <div class="text-center"><span class="block text-xs text-gray-400">Gold</span><span id="modal-gold-val" class="text-xl font-bold gold-text"></span></div>
+            </div>
+            <button onclick="closeModal()" class="btn-system w-full py-2 rounded font-bold text-white">Confirm & Continue</button>
+        </div>
+    </div>
+
+    <script>
+        // ================= CORE DATA =================
+        const API_BASE = "https://api.alquran.cloud/v1";
+        let allSurahs = [];
+        let currentSurahId = null;
+        let currentRiwaya = 'hafs'; 
+        let audioPlayer = document.getElementById('quran-audio');
+
+        // Complete reciters list based on riwaya (from mp3quran)
+        const RECITERS_DB = {
+            hafs: [
+                { id: "afs", name: "Mishari Al-Afasy", url: "https://server8.mp3quran.net/afs/" },
+                { id: "maher", name: "Maher Al-Muaiqly", url: "https://server12.mp3quran.net/maher/" },
+                { id: "husr", name: "Mahmoud Khalil Al-Husary", url: "https://server13.mp3quran.net/husr/" },
+                { id: "basit", name: "Abdul Basit Abdul Samad", url: "https://server7.mp3quran.net/basit/" }
+            ],
+            warsh: [
+                { id: "yassin", name: "Yassine Al-Jazairi", url: "https://server11.mp3quran.net/yassin/" },
+                { id: "omar_warsh", name: "Omar Al-Qazabri", url: "https://server9.mp3quran.net/omar_warsh/" },
+                { id: "husr_warsh", name: "Mahmoud Khalil Al-Husary (Warsh)", url: "https://server13.mp3quran.net/husr_warsh/" },
+                { id: "basit_warsh", name: "Abdul Basit Abdul Samad (Warsh)", url: "https://server10.mp3quran.net/basit_warsh/" }
+            ]
+        };
+
+        // ================= MONARCH SYSTEM (SYNC) =================
+        const PlayerSync = {
+            data: { level: 1, xp: 0, gold: 0 },
+            init() {
+                this.load();
+                this.updateUI();
+                window.addEventListener('storage', (e) => {
+                    if (e.key === 'monarch_system_data') { this.load(); this.updateUI(); }
+                });
+            },
+            load() {
+                try {
+                    const saved = JSON.parse(localStorage.getItem('monarch_system_data') || '{}');
+                    this.data.level = saved.level || 1;
+                    this.data.xp = saved.xp || 0;
+                    this.data.gold = saved.gold || 0;
+                } catch (e) { console.error("Error loading monarch core data"); }
+            },
+            save() {
+                localStorage.setItem('monarch_system_data', JSON.stringify(this.data));
+                this.updateUI();
+            },
+            addRewards(xpToAdd, goldToAdd) {
+                this.load();
+                this.data.xp += xpToAdd;
+                this.data.gold += goldToAdd;
+                
+                let xpNeeded = this.data.level * 100;
+                let leveledUp = false;
+                while (this.data.xp >= xpNeeded) {
+                    this.data.xp -= xpNeeded;
+                    this.data.level += 1;
+                    leveledUp = true;
+                    xpNeeded = this.data.level * 100;
+                }
+                
+                this.save();
+                if (leveledUp) {
+                    showToast(`⚡ Sovereign Ascension! You reached Level ${this.data.level}!`);
+                    this.triggerConfetti();
+                }
+            },
+            updateUI() {
+                const lvlNeeded = this.data.level * 100;
+                document.getElementById('header-lvl').innerText = this.data.level;
+                document.getElementById('header-xp').innerText = `${this.data.xp}/${lvlNeeded}`;
+                document.getElementById('header-gold').innerText = this.data.gold.toLocaleString();
+            },
+            triggerConfetti() {
+                confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#00e5ff', '#ffd700'] });
+            }
+        };
+
+        // ================= BASIC INITIALIZATION =================
+        document.addEventListener("DOMContentLoaded", async () => {
+            PlayerSync.init();
+            showLoading(true);
+            try {
+                // Fetch Surah Index
+                const response = await fetch(`${API_BASE}/surah`);
+                const data = await response.json();
+                allSurahs = data.data;
+                renderSurahs(allSurahs);
+                populateReciters(); // Prepare reciters
+            } catch (error) {
+                showToast("Failed to sync The Heavenly Archive");
+            }
+            showLoading(false);
+        });
+
+        function showLoading(show) { document.getElementById("loading").style.display = show ? "flex" : "none"; }
+        function showToast(msg) {
+            const toast = document.getElementById("toast");
+            toast.innerText = msg; toast.classList.add("show");
+            setTimeout(() => toast.classList.remove("show"), 3000);
+        }
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('translate-x-full');
+        }
+        function showView(view) {
+            document.getElementById('view-index').style.display = view === 'index' ? 'block' : 'none';
+            document.getElementById('view-reader').style.display = view === 'reader' ? 'block' : 'none';
+            if(window.innerWidth < 768) document.getElementById('sidebar').classList.add('translate-x-full');
+            if (view === 'index') audioPlayer.pause();
+        }
+
+        // ================= INDEX =================
+        function renderSurahs(surahs) {
+            const list = document.getElementById("surah-list");
+            list.innerHTML = "";
+            surahs.forEach(surah => {
+                const li = document.createElement("li");
+                li.className = "surah-card sys-font text-lg";
+                li.onclick = () => openSurah(surah.number, surah.name);
+                li.innerHTML = `
+                    <span class="text-blue-400 font-bold">${surah.number.toString().padStart(3, '0')}</span>
+                    <span class="font-bold" style="font-family: 'Amiri', serif;">${surah.name}</span>
+                `;
+                list.appendChild(li);
+            });
+        }
+
+        function filterSurahs() {
+            const query = document.getElementById("search-input").value.replace(/[\u064B-\u065F]/g, '');
+            const filtered = allSurahs.filter(s => s.name.replace(/[\u064B-\u065F]/g, '').includes(query));
+            renderSurahs(filtered);
+        }
+
+        // ================= READING & SWITCHING (HAFS/WARSH) =================
+        function populateReciters() {
+            const select = document.getElementById("reciter-select");
+            select.innerHTML = "";
+            RECITERS_DB[currentRiwaya].forEach(reciter => {
+                const option = document.createElement("option");
+                option.value = reciter.url;
+                option.text = reciter.name;
+                select.appendChild(option);
+            });
+            if(currentSurahId) updateAudioSource();
+        }
+
+        async function changeRiwaya(riwaya) {
+            currentRiwaya = riwaya;
+            
+            // Update buttons
+            document.getElementById('btn-hafs').classList.remove('active');
+            document.getElementById('btn-warsh').classList.remove('active');
+            document.getElementById(`btn-${riwaya}`).classList.add('active');
+            
+            showToast(`[ Switched to Riwaya ${riwaya === 'hafs' ? 'Hafs' : 'Warsh'} ]`);
+            
+            populateReciters(); // Update reciters list and update audio
+            if(currentSurahId) {
+                await loadSurahText(currentSurahId); // Reload text with the new riwaya
+            }
+        }
+
+        function changeReciter() {
+            if(currentSurahId) updateAudioSource();
+        }
+
+        function updateAudioSource() {
+            const baseUrl = document.getElementById("reciter-select").value;
+            const surahFormatted = currentSurahId.toString().padStart(3, '0');
+            const wasPlaying = !audioPlayer.paused;
+            audioPlayer.src = `${baseUrl}${surahFormatted}.mp3`;
+            if (wasPlaying) audioPlayer.play();
+        }
+
+        async function openSurah(id, name) {
+            currentSurahId = id;
+            document.getElementById("current-surah-title").innerText = name;
+            showView('reader');
+            updateAudioSource();
+            await loadSurahText(id);
+        }
+
+        async function loadSurahText(id) {
+            showLoading(true);
+            const container = document.getElementById("quran-content");
+            container.innerHTML = "";
+            
+            // Determine edition based on riwaya
+            const edition = currentRiwaya === 'hafs' ? 'quran-uthmani' : 'quran-warsh';
+            
+            try {
+                let response = await fetch(`${API_BASE}/surah/${id}/${edition}`);
+                let data = await response.json();
+                
+                // Fallback if Warsh edition is not available in the API
+                if (!data.data || !data.data.ayahs) {
+                    response = await fetch(`${API_BASE}/surah/${id}/quran-simple`);
+                    data = await response.json();
+                }
+
+                const ayahs = data.data.ayahs;
+                
+                if (id !== 1 && id !== 9) {
+                    container.innerHTML = `<div style="text-align: center; margin-bottom: 25px; color: var(--primary); font-size: 1.5rem;">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>`;
+                }
+
+                ayahs.forEach(ayah => {
+                    let text = ayah.text;
+                    if (id !== 1 && ayah.numberInSurah === 1) {
+                        text = text.replace("بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ", "").replace("بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ", "").trim();
+                    }
+                    container.innerHTML += `<span class="ayah-text">${text}</span><span class="ayah-number">${ayah.numberInSurah}</span>`;
+                });
+            } catch (error) {
+                container.innerHTML = `<div class="text-center text-red-400">An error occurred while decrypting the verses.</div>`;
+            }
+            showLoading(false);
+            container.scrollTop = 0;
+        }
+
+        function nextSurah() { if (currentSurahId > 1) openSurah(currentSurahId - 1, allSurahs[currentSurahId - 2].name); }
+        function prevSurah() { if (currentSurahId < 114) openSurah(currentSurahId + 1, allSurahs[currentSurahId].name); }
+
+        // ================= REWARD SYSTEM (UNLOCKED) =================
+        function completeSurah() {
+            if(!currentSurahId) return;
+            
+            const xpReward = 50;
+            const goldReward = 20;
+            const surahName = document.getElementById("current-surah-title").innerText;
+            
+            PlayerSync.addRewards(xpReward, goldReward);
+            
+            // Show reward window
+            document.getElementById('modal-surah-name').innerText = surahName;
+            document.getElementById('modal-xp-val').innerText = `+${xpReward} XP`;
+            document.getElementById('modal-gold-val').innerText = `+${goldReward} G`;
+            document.getElementById('reward-modal').classList.add('active');
+            PlayerSync.triggerConfetti();
+        }
+
+        function closeModal() {
+            document.getElementById('reward-modal').classList.remove('active');
+        }
+    </script>
+</body>
+</html>

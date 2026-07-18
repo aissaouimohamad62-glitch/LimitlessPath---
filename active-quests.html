@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sovereign System | Active Quests</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="index11.css">
+    <script src="monarch-core.js"></script>
+
+    <style>
+        /* ══════════════════════════════════════════════════════════════
+           DESIGN TOKENS — single source of truth for the whole page
+           (merged from index11.css + nn.html + active-quests.html)
+        ══════════════════════════════════════════════════════════════ */
+        :root {
+            --sys-cyan:         #00f0ff;
+            --sys-cyan-glow:    rgba(0, 240, 255, 0.40);
+            --sys-purple:       #9d4edd;
+            --sys-purple-glow:  rgba(157, 78, 221, 0.30);
+            --sys-red:          #ef4444;
+            --sys-red-glow:     rgba(239, 68, 68, 0.40);
+            --sys-green:        #10b981;
+            --sys-gold:         #fbbf24;
+            --sys-bg-dark:      #02040a;
+            --sys-panel:        rgba(5, 10, 25, 0.88);
+            --sys-border:       rgba(0, 240, 255, 0.22);
+            --transition:       all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ── BODY ── */
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--sys-bg-dark);
+            color: #e2e8f0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ── UTILITY ── */
+        .sys-font { font-family: 'Rajdhani', sans-serif; letter-spacing: 0.05em; }
+
+        /* ── PANELS ──
+           sovereign-panel  → Tailwind-class-friendly (nav, header, sidebar)
+           sl-panel         → corner-bracket variant (decorative only on page hero areas)
+        */
+        .sovereign-panel {
+            background: var(--sys-panel);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 240, 255, 0.14);
+            box-shadow: 0 8px 32px rgba(0,0,0,.5), inset 0 0 15px rgba(0,240,255,.04);
+        }
+
+        .sl-panel {
+            background: var(--sys-panel);
+            backdrop-filter: blur(16px);
+            border: 2px solid var(--sys-border);
+            box-shadow: 0 0 25px rgba(0,240,255,.12), inset 0 0 15px rgba(0,240,255,.06);
+            position: relative;
+        }
+        /* Corner brackets for sl-panel */
+        .sl-panel::before,
+        .sl-panel::after {
+            content: '';
+            position: absolute;
+            width: 20px; height: 20px;
+            pointer-events: none;
+        }
+        .sl-panel::before { top:-2px; left:-2px;  border-top:3px solid var(--sys-cyan); border-left:3px solid var(--sys-cyan); }
+        .sl-panel::after  { bottom:-2px; right:-2px; border-bottom:3px solid var(--sys-cyan); border-right:3px solid var(--sys-cyan); }
+
+        /* ── GLOW TEXT ── */
+        .sl-glow-text { color:var(--sys-cyan); text-shadow:0 0 8px var(--sys-cyan-glow); }
+
+        /* ── PENALTY FLASH (header blink on penalty) ── */
+        .penalty-flash { animation: redFlash .5s ease-out; }
+        @keyframes redFlash {
+            0%   { box-shadow:inset 0 0 50px var(--sys-red-glow); border-color:var(--sys-red); }
+            100% { box-shadow:inset 0 0 15px rgba(0,240,255,.04); border-color:rgba(0,240,255,.14); }
+        }
+
+        /* ── ENTRANCE ANIMATIONS ── */
+        @keyframes systemPopIn {
+            0%   { opacity:0; transform:scale(.95) translateY(10px); filter:brightness(2); }
+            100% { opacity:1; transform:scale(1) translateY(0);      filter:brightness(1); }
+        }
+        .animate-system-pop { animation: systemPopIn .4s cubic-bezier(.2,.8,.2,1) forwards; }
+
+        @keyframes slideDown {
+            from { transform:translateY(-18px); opacity:0; }
+            to   { transform:translateY(0);     opacity:1; }
+        }
+        .slide-down { animation: slideDown .45s cubic-bezier(.175,.885,.32,1.275); }
+
+        /* ── PROGRESS BARS ── */
+        .progress-bar-track {
+            width:100%; height:6px;
+            background:rgba(255,255,255,.05);
+            border-radius:9999px;
+            overflow:hidden;
+        }
+        .progress-bar-fill {
+            height:100%; width:0%;
+            background: linear-gradient(90deg, var(--sys-cyan), #00a8ff);
+            box-shadow: 0 0 8px var(--sys-cyan-glow);
+            border-radius:9999px;
+            transition: width .6s cubic-bezier(.4,0,.2,1);
+        }
+
+        /* ── SCROLLBAR ── */
+        ::-webkit-scrollbar { width:4px; }
+        ::-webkit-scrollbar-thumb { background:var(--sys-cyan); border-radius:2px; }
+
+        /* ── NAVIGATION ACTIVE STATE ── */
+        .nav-item-active {
+            background: rgba(0,240,255,.10) !important;
+            border-color: var(--sys-cyan)   !important;
+            color: var(--sys-cyan)          !important;
+            box-shadow: 0 0 12px rgba(0,240,255,.20);
+        }
+
+        /* ════════════════════════════════════════════════════════
+           SYSTEM QUEST CARDS
+           (ported from active-quests.html, refactored to match
+           the nn.html / index11.css design language)
+        ════════════════════════════════════════════════════════ */
+        .sq-card {
+            background:    rgba(4, 8, 22, 0.92);
+            border:        1px solid rgba(0,240,255,.18);
+            box-shadow:    0 0 18px rgba(0,240,255,.08), inset 0 0 10px rgba(0,240,255,.04);
+            border-radius: 8px;
+            position:      relative;
+            overflow:      hidden;
+            backdrop-filter: blur(10px);
+            transition:    var(--transition);
+        }
+        /* Cyan top-border stripe (signature element from active-quests.html) */
+        .sq-card::before {
+            content:'';
+            position:absolute; top:0; left:0;
+            width:100%; height:2px;
+            background: var(--sys-cyan);
+            box-shadow: 0 0 10px var(--sys-cyan);
+        }
+        .sq-card:hover {
+            border-color: var(--sys-cyan);
+            box-shadow: 0 0 30px rgba(0,240,255,.18);
+            transform: translateY(-1px);
+        }
+
+        /* card exit animation */
+        .sq-card-exit {
+            transform: scale(.92) translateY(-8px);
+            opacity:   0;
+            transition: all .32s ease-out;
+        }
+
+        .sq-header {
+            background: rgba(0,240,255,.06);
+            padding: 11px 16px;
+            border-bottom: 1px solid rgba(0,240,255,.12);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .sq-header-title {
+            font-family: 'Rajdhani', sans-serif;
+            color: var(--sys-cyan);
+            letter-spacing: 2px;
+            font-weight: 900;
+            font-size: .82rem;
+            text-shadow: 0 0 8px rgba(0,240,255,.8);
+            text-transform: uppercase;
+        }
+        .sq-type-badge {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: .72rem;
+            letter-spacing: 1px;
+            color: var(--sys-gold);
+            border: 1px solid rgba(251,191,36,.3);
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: rgba(251,191,36,.06);
+        }
+
+        .sq-body    { padding: 16px; }
+        .sq-title   { font-size: 1.1em; font-weight: 900; margin-bottom: 8px; color: #fff; }
+        .sq-desc    { color: #7f8ea0; line-height: 1.65; margin-bottom: 16px; font-size: .88em; }
+
+        /* Detail grid: cost | reward | penalty (full-width) */
+        .sq-details-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:14px; }
+        .sq-detail-box {
+            background:rgba(0,0,0,.38);
+            padding:8px 10px;
+            border-radius:5px;
+            border-left: 2px solid; /* LTR – border on left side */
+        }
+        .sq-cost-box    { border-color:#f97316; }
+        .sq-reward-box  { border-color:#10b981; }
+        .sq-penalty-box { border-color:#ef4444; grid-column:span 2; }
+
+        .sq-detail-label {
+            font-family:'Rajdhani', sans-serif;
+            font-size:.72rem;
+            text-transform:uppercase;
+            letter-spacing:1px;
+            font-weight:700;
+            margin-bottom:3px;
+        }
+        .sq-cost-box    .sq-detail-label { color:#f97316; }
+        .sq-reward-box  .sq-detail-label { color:#10b981; text-shadow:0 0 5px rgba(16,185,129,.4); }
+        .sq-penalty-box .sq-detail-label { color:#ef4444; text-shadow:0 0 5px rgba(239,68,68,.4); }
+
+        .sq-detail-value { font-family:'Rajdhani',sans-serif; font-size:.95em; font-weight:700; color:#dde6f0; }
+
+        /* Action button strip */
+        .sq-actions {
+            display:flex; justify-content:space-between; gap:10px;
+            padding:12px 16px;
+            background:rgba(0,0,0,.22);
+            border-top:1px solid rgba(0,240,255,.08);
+        }
+        .sq-btn {
+            padding:9px 18px;
+            font-family:'Cairo',sans-serif;
+            font-weight:700; font-size:.82em;
+            border:none; cursor:pointer;
+            border-radius:5px;
+            transition:var(--transition);
+            text-transform:uppercase;
+            letter-spacing:.5px;
+        }
+        .sq-btn-complete {
+            flex:1;
+            background:rgba(16,185,129,.08);
+            color:#10b981;
+            border:1px solid #10b981;
+        }
+        .sq-btn-complete:hover {
+            background:#10b981; color:#000;
+            box-shadow:0 0 22px rgba(16,185,129,.55);
+        }
+        .sq-btn-fail {
+            background:rgba(239,68,68,.07);
+            color:#ef4444;
+            border:1px solid rgba(239,68,68,.35);
+        }
+        .sq-btn-fail:hover {
+            background:#ef4444; color:#fff;
+            box-shadow:0 0 22px rgba(239,68,68,.55);
+        }
+
+        /* ── VITALITY BARS (sidebar) ── */
+        .hp-fill { background:linear-gradient(90deg,#ef4444,#f87171); }
+        .mp-fill { background:linear-gradient(90deg,#3b82f6,#60a5fa); }
+
+        /* ── LEGACY ALERT POPUP (kept for BC) ── */
+        .system-alert-popup {
+            position:fixed; top:20px; left:50%; transform:translateX(-50%);
+            background:var(--sys-cyan); color:#000;
+            padding:10px 30px; border-radius:50px;
+            font-weight:bold; font-size:.9rem;
+            box-shadow:0 0 20px var(--sys-cyan);
+            opacity:0; pointer-events:none;
+            transition:opacity .3s;
+            z-index:998;
+        }
+    </style>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'sys-dark':   '#010206',
+                        'sys-cyan':   'var(--sys-cyan, #00f0ff)',
+                        'sys-purple': '#8b5cf6',
+                        'sys-gold':   '#fbbf24',
+                        'sys-rose':   '#ef4444',
+                        'sys-green':  '#10b981',
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+
+<body class="min-h-screen p-4 md:p-8">
+<div class="sov-secondary-bg" aria-hidden="true"></div>
+
+    <div class="system-alert-popup" id="alertPopup"></div>
+
+    <div id="toastContainer"
+         class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[200]
+                flex flex-col-reverse gap-2 pointer-events-none">
+    </div>
+
+
+
+    <div class="max-w-[1440px] mx-auto space-y-5">
+
+        <header id="main-header"
+                class="sovereign-panel rounded-xl p-5
+                       flex flex-col lg:flex-row justify-between items-center gap-4
+                       border-b-2 border-[var(--sys-cyan)] transition-all duration-300
+                       mt-16">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-lg bg-[var(--sys-cyan)]/10
+                            border border-[var(--sys-cyan)]
+                            flex items-center justify-center text-xl
+                            shadow-[0_0_15px_rgba(0,240,255,.2)]">
+                    📜
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-black tracking-wide text-white">
+                        SOVEREIGN SYSTEM
+                    </h1>
+                    <p class="text-xs text-[var(--sys-cyan)] sys-font tracking-widest uppercase">
+                        Active Quests Monitor
+                    </p>
+                </div>
+                <div class="sov-identity-strip">
+                    <span data-sov-name></span>
+                    <span data-sov-title></span>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-6
+                        bg-slate-950/60 px-6 py-3 rounded-lg border border-slate-800">
+                <div class="text-center">
+                    <span class="block text-[10px] text-slate-500 sys-font">LEVEL</span>
+                    <span id="player-level" class="text-xl font-bold text-white sys-font">1</span>
+                </div>
+                <div class="h-8 w-px bg-slate-800"></div>
+                <div class="min-w-[140px]">
+                    <div class="flex justify-between text-[10px] text-slate-500 sys-font mb-1">
+                        <span>EXP</span>
+                        <span id="xpText" class="text-[var(--sys-cyan)]">0 / 100</span>
+                    </div>
+                    <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                        <div id="player-xp-bar"
+                             class="bg-[var(--sys-cyan)] h-full transition-all duration-500"
+                             style="width:0%"></div>
+                    </div>
+                </div>
+                <div class="h-8 w-px bg-slate-800"></div>
+                <div class="text-center">
+                    <span class="block text-[10px] text-slate-500 sys-font">GOLD</span>
+                    <div class="flex items-center gap-1">
+                        <span class="text-yellow-500 text-sm">🪙</span>
+                        <span id="player-gold" class="text-lg font-bold text-yellow-400 sys-font">0</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+                 <nav class="flex flex-wrap justify-center gap-2 md:gap-4 text-sm font-bold">
+    <nav id="sovereign-nav" class="flex flex-wrap gap-3 justify-center md:justify-start items-center p-4 bg-slate-950/60 border border-slate-850/50 backdrop-blur-md rounded-lg shadow-[inset_0_0_15px_rgba(0,0,0,0.8)] my-4 select-none">
+        
+        <a href="index11.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🏠</span> <span>DASHBOARD...</span>
+        </a>
+        <hr>
+        
+ <a href="basketball.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-orange-500 hover:border-orange-500 hover:shadow-[0_0_12px_rgba(249,115,22,0.3)]">
+    <span>🏀</span> <span>BASKETBALL...</span>
+</a>
+<hr class="border-slate-800/40 my-1">
+
+<a href="bjj.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-indigo-500 hover:border-indigo-500 hover:shadow-[0_0_12px_rgba(99,102,241,0.3)]">
+    <span>🥋</span> <span>BJJ Grappling...</span>
+</a>
+<hr class="border-slate-800/40 my-1">
+
+<a href="football.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-emerald-500 hover:border-emerald-500 hover:shadow-[0_0_12px_rgba(16,185,129,0.3)]">
+    <span>⚽</span> <span>FOOTBALL...</span>
+</a>
+<hr class="border-slate-800/40 my-1">
+
+<a href="swimming.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-sky-400 hover:border-sky-400 hover:shadow-[0_0_12px_rgba(56,189,248,0.3)]">
+    <span>🏊</span> <span>SWIMMING...</span>
+</a>
+<hr class="border-slate-800/40 my-1">
+
+<a href="Muay Thai.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-red-500 hover:border-red-500 hover:shadow-[0_0_12px_rgba(239,68,68,0.3)]">
+    <span>🥊</span> <span>MUAY THAI...</span>
+</a>
+<hr class="border-slate-800/40 my-1">
+
+<a href="mma_sovereign_arena.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-amber-500 hover:border-amber-500 hover:shadow-[0_0_12px_rgba(245,158,11,0.3)]">
+    <span>🤼‍♂️</span> <span>MMA SOVEREIGN ARENA...</span>
+</a>
+<hr class="border-slate-800/40 my-1">
+        <a href="ifortress_muslim.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🛡️</span> <span>FORTRESS.....</span>
+        </a><hr>
+        <a href="operational-charter.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>📜</span> <span>CHARTER...</span>
+        </a><hr>
+        <a href="active-quests.html" target="_self" class="nav-item-active nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>⚔️</span> <span>ACTIVE QUESTS...</span>
+        </a><hr>
+        <a href="brain-stats.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🧠</span> <span>BRAIN STATS...</span>
+        </a><hr>
+        <a href="monarch-ai.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🤖</span> <span>MONARCH AI...</span>
+        </a><hr>
+        <a href="sovereign-shop.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🛒</span> <span>SOVEREIGN SHOP...</span>
+        </a><hr>
+        <a href="culinary_sovereign_academy.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+                <span>🍳</span> <span>COOKING ACADEMY</span>
+            </a>
+        <a href="prayers.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🕋​</span> <span>PRAYERS......</span>
+        </a><hr>
+        <a href="quran.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>📘​​</span> <span>QURAN.....</span>
+        </a><hr>
+        <a href="dungeons.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🌋</span> <span>DUNGEONS...</span>
+        </a><hr>
+        <a href="system-logs.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>📂</span> <span>SYSTEM LOGS...</span>
+        </a><hr>
+        
+          <button onclick="SystemReset.confirmAndReset()" class="sl-btn w-full text-left p-3 rounded-sm flex justify-between items-center group !border-rose-500 hover:!bg-rose-950/30 mt-4">
+                    <span class="sys-font text-sm font-black text-rose-500 group-hover:text-rose-400" style="color: red;">⚠️ 𝐒𝐘𝐒𝐓𝐄𝐌 𝐇𝐀𝐑𝐃 𝐑𝐄𝐒𝐄𝐓</span>
+                    <span class="sys-font text-[10px] bg-rose-950 text-rose-500 px-2 py-0.5 border border-rose-500 animate-pulse">DANGER</span>
+                </button>
+    </nav>
+</nav>
+         
+ <div class="sq-header hidden">
+                        <span class="sq-header-title">Message from the System</span>
+                        <span class="sq-type-badge">${quest.type}</span>
+                    </div>
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+
+            <div class="lg:col-span-2 space-y-5">
+
+                <section class="sovereign-panel rounded-xl p-6 min-h-[280px]
+                                flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-0.5
+                                bg-gradient-to-r from-transparent via-[var(--sys-cyan)] to-transparent
+                                opacity-50"></div>
+
+                    <div>
+                        <div class="flex justify-between items-center
+                                    border-b border-slate-800 pb-3 mb-4">
+                            <h2 class="text-sm font-bold text-white
+                                       flex items-center gap-2 sys-font tracking-widest uppercase">
+                                <span class="animate-pulse inline-block w-2 h-2
+                                             rounded-full bg-emerald-500"></span>
+                                Current Active Directive
+                            </h2>
+                            <span id="quest-category"
+                                  class="px-2 py-0.5 text-[10px] sys-font rounded
+                                         bg-slate-800 text-[var(--sys-cyan)] border border-slate-700">
+                                NONE
+                            </span>
+                        </div>
+
+                        <div id="no-quest-state" class="text-center py-10 space-y-4">
+                            <div class="text-4xl opacity-25 mb-2">🛡️</div>
+                            <p class="text-slate-500 text-sm font-bold tracking-wide">
+                                There is no active quest protocol currently in the central memory.
+                            </p>
+                            <a href="index11.html"
+                               class="inline-block px-6 py-3 text-xs font-black
+                                      bg-cyan-950/40 border border-[var(--sys-cyan)]
+                                      text-[var(--sys-cyan)] rounded
+                                      hover:bg-[var(--sys-cyan)] hover:text-black
+                                      transition duration-300 uppercase tracking-widest
+                                      shadow-[0_0_15px_rgba(0,240,255,.08)]">
+                                Summon Quest from Dashboard ⚡
+                            </a>
+                        </div>
+
+                        <div id="active-quest-state" class="hidden space-y-4">
+                            <div>
+                                <h3 id="quest-title"
+                                    class="text-2xl font-black text-white
+                                           drop-shadow-[0_0_8px_rgba(255,255,255,.2)]">—</h3>
+                                <p id="quest-desc"
+                                   class="text-sm text-slate-400 mt-2 leading-relaxed font-semibold">—</p>
+                            </div>
+
+                            <div class="p-4 bg-slate-950/80 rounded-lg
+                                        border border-slate-800/80 grid grid-cols-2 gap-4">
+                                <div>
+                                    <span class="text-[10px] text-slate-500 sys-font block mb-1">XP REWARD</span>
+                                    <span id="quest-xp-reward"
+                                          class="text-lg font-black text-[var(--sys-cyan)] sys-font">+0 XP</span>
+                                </div>
+                                <div>
+                                    <span class="text-[10px] text-slate-500 sys-font block mb-1">GOLD REWARD</span>
+                                    <span id="quest-gold-reward"
+                                          class="text-lg font-black text-yellow-400 sys-font">+0 🪙</span>
+                                </div>
+                            </div>
+
+                         
+
+                    <div id="quest-actions"
+                         class="hidden flex gap-3 pt-5 border-t border-slate-800/60 mt-5">
+                        <button onclick="QuestManager.completeActiveQuest()"
+                                class="flex-1 py-3 bg-emerald-950/40 border border-emerald-500
+                                       text-emerald-400 hover:bg-emerald-500 hover:text-black
+                                       transition duration-300 font-black text-xs sys-font
+                                       tracking-widest uppercase rounded
+                                       shadow-[0_0_15px_rgba(16,185,129,.08)]
+                                       hover:shadow-[0_0_25px_rgba(16,185,129,.3)]">
+                            ✔️ Complete Protocol
+                        </button>
+                        <button onclick="QuestManager.cancelActiveQuest()"
+                                class="py-3 px-6 bg-rose-950/20 border border-rose-500/50
+                                       text-rose-400 hover:bg-rose-500 hover:text-white
+                                       transition duration-300 text-xs font-black sys-font
+                                       tracking-widest uppercase rounded
+                                       hover:shadow-[0_0_20px_rgba(239,68,68,.4)]">
+                            ❌ Cancel (Penalty)
+                        </button>
+                    </div>
+                </section>
+
+              
+                   
+                </section>
+            </div>
+
+            <aside class="space-y-5">
+
+                <div class="sovereign-panel rounded-xl p-5
+                            border-r-4 border-r-[var(--sys-purple)] relative overflow-hidden">
+                    <div class="absolute -right-4 -top-4 text-6xl opacity-5 pointer-events-none">📅</div>
+                    <h3 class="text-xs font-black text-[var(--sys-purple)]
+                               border-b border-slate-800 pb-2 sys-font tracking-widest uppercase">
+                        System Day Sync
+                    </h3>
+                    <div class="mt-3 flex items-center justify-between">
+                        <span class="text-xs font-bold text-slate-300">Standard Day Index:</span>
+                        <div class="flex items-center gap-2">
+                            <span id="sync-day-index"
+                                  class="text-lg font-black text-white sys-font">0</span>
+                            <span id="sync-day-name"
+                                  class="text-[10px] bg-purple-950/50 border border-[var(--sys-purple)]
+                                         text-[var(--sys-purple)] px-2 py-1 rounded sys-font
+                                         uppercase tracking-widest">
+                                SUNDAY
+                            </span>
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-slate-500 mt-2 leading-relaxed">
+                        Synchronized with Operational Charter.
+                        (0 = Sunday, 4 = Thursday, 5 = Friday, 6 = Saturday).
+                    </p>
+                </div>
+
+                <div class="sovereign-panel rounded-xl p-5 space-y-3
+                            border-r-4 border-r-rose-500">
+                    <h3 class="text-xs font-black text-rose-500
+                               border-b border-slate-800 pb-2 sys-font tracking-widest uppercase">
+                        ⚠️ Strict Engagement Laws
+                    </h3>
+                    <ul class="text-[11px] text-slate-300 space-y-3
+                               list-disc list-inside font-semibold leading-relaxed">
+                        <li>
+                            <span class="text-white">Penalty Activation:</span>
+                            Abandoning an active quest leads to an immediate deduction of
+                            <span class="text-rose-400">10 XP and 15 Gold</span>.
+                        </li>
+                        <li>Authentication is done instantly to raise level and resources.</li>
+                        <li>
+                            Discipline is the only driver of evolution —
+                            retreating means losing gains.
+                        </li>
+                        
+                    </ul>
+                </div>
+
+              
+            </aside>
+        </main>
+    </div><script>
+    'use strict';
+
+    /* ════════════════════════════════════════════════════════════════
+       MODULE 1 — SOUND EFFECTS
+       Source: nn.html (full music-toggle API) + index11.js (playSuccess)
+    ════════════════════════════════════════════════════════════════ */
+    const SoundEffects = {
+        track1: new Audio('SHADOWBORN.mp3'),
+        track2: new Audio('Kingdom_of_Iron.mp3'),
+        currentTrackNumber: null,
+        isMusicPlaying:     false,
+
+        init() {
+            this.track1.loop = true;
+            this.track2.loop = true;
+        },
+
+        toggleMusic(trackNumber) {
+            const icon1 = document.getElementById('musicIcon1');
+            const icon2 = document.getElementById('musicIcon2');
+
+            if (this.isMusicPlaying && this.currentTrackNumber === trackNumber) {
+                this.stopAllAudio();
+                return;
+            }
+            if (this.isMusicPlaying) this.stopAllAudio();
+
+            this.isMusicPlaying     = true;
+            this.currentTrackNumber = trackNumber;
+
+            if (trackNumber === 1) {
+                this.track1.play().catch(() => {});
+                if (icon1) icon1.textContent = '⏸️';
+                if (icon2) icon2.textContent = '🎼';
+            } else {
+                this.track2.play().catch(() => {});
+                if (icon1) icon1.textContent = '🎵';
+                if (icon2) icon2.textContent = '⏸️';
+            }
+        },
+
+        stopAllAudio() {
+            this.track1.pause(); this.track1.currentTime = 0;
+            this.track2.pause(); this.track2.currentTime = 0;
+            const icon1 = document.getElementById('musicIcon1');
+            const icon2 = document.getElementById('musicIcon2');
+            if (icon1) icon1.textContent = '🎵';
+            if (icon2) icon2.textContent = '🎼';
+            this.isMusicPlaying     = false;
+            this.currentTrackNumber = null;
+        },
+
+        playSystemClick() {
+            try {
+                const ctx  = new (window.AudioContext || window.webkitAudioContext)();
+                const osc  = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(880, ctx.currentTime);
+                gain.gain.setValueAtTime(0.05, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.start(); osc.stop(ctx.currentTime + 0.1);
+            } catch(e) { /* audio ctx blocked — silent fail */ }
+        },
+
+        playSuccess() {
+            try {
+                const ctx   = new (window.AudioContext || window.webkitAudioContext)();
+                const notes = [523.25, 659.25, 783.99, 1046.50];
+                notes.forEach((freq, i) => {
+                    const osc  = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.1);
+                    gain.gain.setValueAtTime(0.08, ctx.currentTime + i * 0.1);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.1 + 0.3);
+                    osc.connect(gain); gain.connect(ctx.destination);
+                    osc.start(ctx.currentTime + i * 0.1);
+                    osc.stop(ctx.currentTime + i * 0.1 + 0.3);
+                });
+            } catch(e) {}
+        }
+    };
+    SoundEffects.init();
+
+
+    /* ════════════════════════════════════════════════════════════════
+       MODULE 2 — TOAST NOTIFICATION SYSTEM
+       Source: nn.html / index11.js (identical API)
+    ════════════════════════════════════════════════════════════════ */
+    const Toast = {
+        show(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+
+            const toast  = document.createElement('div');
+            const colors = {
+                success: 'border-emerald-500 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,.3)]',
+                error:   'border-rose-500   text-rose-400   shadow-[0_0_15px_rgba(225,29,72,.3)]',
+                info:    'border-[var(--sys-cyan)] text-[var(--sys-cyan)] shadow-[0_0_15px_rgba(0,240,255,.3)]'
+            };
+
+            toast.className = `pointer-events-auto px-5 py-3 bg-[#02040a]/95 border
+                               backdrop-blur-md text-sm font-bold sys-font tracking-wide
+                               animate-system-pop ${colors[type] || colors.info}`;
+            toast.textContent = message;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity   = '0';
+                toast.style.transform = 'translateY(8px)';
+                toast.style.transition = 'all .3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 4200);
+        }
+    };
+
+
+    /* ════════════════════════════════════════════════════════════════
+       MODULE 3 — TIME SYNC
+       Source: nn.html — displays current day index on sidebar
+    ════════════════════════════════════════════════════════════════ */
+    const TimeSync = {
+        init() {
+            const now      = new Date();
+            const dayIndex = now.getDay();
+            const dayNames = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY',
+                              'THURSDAY','FRIDAY','SATURDAY'];
+            const idxEl  = document.getElementById('sync-day-index');
+            const nameEl = document.getElementById('sync-day-name');
+            if (idxEl)  idxEl.textContent  = dayIndex;
+            if (nameEl) nameEl.textContent = dayNames[dayIndex];
+        }
+    };
+
+
+    /* ════════════════════════════════════════════════════════════════
+       MODULE 4 — PLAYER STATE ENGINE  (CANONICAL STORE)
+       ─────────────────────────────────────────────────────────────
+       • Canonical key : 'monarch_system_data'  (from index11.js)
+       • Legacy bridge : 'sovereignStats'        (from active-quests.html)
+
+       ANTI-OVERWRITE SHIELD
+       • On init:
+         1. Read 'monarch_system_data' first.
+         2. If absent, migrate 'sovereignStats' and promote it.
+       • On every save:
+         - Write 'monarch_system_data'
+         - Mirror a compact summary to 'sovereignStats' so pages
+           still reading the old key stay in sync.
+         - The mirror carries a _canonical marker so any reader
+           knows the authoritative key.
+
+       SAFETY GUARANTEE
+       • QuestSystem (index11.js → SL_QUESTS) is never touched here.
+       • Pomodoro / DirectiveTimer in index11.js are unaffected.
+    ════════════════════════════════════════════════════════════════ */
+    const PlayerState = {
+        data: {
+            level:  1,
+            xp:     0,
+            gold:   0,
+            hp:     100,
+            mp:     100,
+            title:  '[Block Novice]',
+            stats:  { str:10, vit:10, agi:10, int:10, sen:10 }
+        },
+
+        /* ── init ─────────────────────────────────────────────── */
+        init() {
+            let saved = null;
+            try { saved = localStorage.getItem('monarch_system_data'); } catch(e) {}
+
+            /* Migrate from legacy sovereignStats if canonical is absent */
+            if (!saved) {
+                try {
+                    const legacy = localStorage.getItem('sovereignStats');
+                    if (legacy) {
+                        const leg = JSON.parse(legacy);
+                        // Only migrate real gameplay fields — ignore the _canonical marker
+                        if (!leg._canonical) {
+                            this.data.level = leg.level || 1;
+                            this.data.xp    = leg.xp    || 0;
+                            this.data.gold  = leg.gold  || 0;
+                            this.data.hp    = leg.hp    || 100;
+                            this.data.mp    = leg.mp    || 100;
+                        }
+                        this.save(); // promote to canonical store
+                        saved = localStorage.getItem('monarch_system_data');
+                    }
+                } catch(e) { console.warn('[PlayerState] Legacy migration failed:', e); }
+            }
+
+            /* Load from canonical */
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    this.data = {
+                        ...this.data,
+                        ...parsed,
+                        stats: { ...this.data.stats, ...(parsed.stats || {}) }
+                    };
+                    // Guarantee HP/MP fields exist (may be absent in old snapshots)
+                    if (this.data.hp === undefined) this.data.hp = 100;
+                    if (this.data.mp === undefined) this.data.mp = 100;
+                } catch(e) {
+                    console.error('[PlayerState] Load error:', e);
+                }
+            } else {
+                this.save();
+            }
+
+            this.updateUI();
+        },
+
+        /* ── save ─────────────────────────────────────────────── */
+        save() {
+            try {
+                if (window.SovereignCore) {
+                    // Central state engine handles save + unified cross-tab broadcast
+                    SovereignCore.save(this.data);
+                } else {
+                    localStorage.setItem('monarch_system_data', JSON.stringify(this.data));
+                }
+            } catch(e) { console.error('[PlayerState] Save failed:', e); }
+            this._bridgeLegacyStore();
+        },
+
+        /* Writes a summary mirror to sovereignStats for backward-compat */
+        _bridgeLegacyStore() {
+            try {
+                localStorage.setItem('sovereignStats', JSON.stringify({
+                    level:      this.data.level,
+                    xp:         this.data.xp,
+                    gold:       this.data.gold,
+                    hp:         this.data.hp,
+                    mp:         this.data.mp,
+                    fatigue:    this.data.fatigue || 0,
+                    _canonical: 'monarch_system_data'   // pointer for legacy readers
+                }));
+            } catch(e) {}
+        },
+
+        /* ── XP (with level-up cascade) ─────────────────────── */
+        addXP(amount) {
+            this.data.xp = Math.max(0, this.data.xp + amount);
+            let xpNeeded = this.data.level * 100;
+            while (this.data.xp >= xpNeeded) {
+                this.data.xp -= xpNeeded;
+                this.data.level++;
+                xpNeeded = this.data.level * 100;
+                // HP reward on level-up
+                this.data.hp = Math.min((this.data.hp || 0) + 20, 100);
+                // Safe guard: QuestManager may not be defined during early init
+                if (typeof QuestManager !== 'undefined' && QuestManager.logAction) {
+                    QuestManager.logAction('system',
+                        `🚀 Major Sovereign Promotion! Level [ ${this.data.level} ] reached`);
+                }
+                Toast.show(`🚀 Level Up! Level ${this.data.level}`, 'success');
+                SoundEffects.playSuccess();
+            }
+            this.save();
+            this.updateUI();
+        },
+
+        /* ── Gold ────────────────────────────────────────────── */
+        addGold(amount) {
+            this.data.gold = Math.max(0, this.data.gold + amount);
+            this.save();
+            this.updateUI();
+        },
+
+        /* ── HP (clamped 1–100) ──────────────────────────────── */
+        addHP(amount) {
+            this.data.hp = Math.max(1, Math.min(100, (this.data.hp || 100) + amount));
+            this.save();
+            this.updateUI();
+        },
+
+        /* ── MP (clamped 0–100) ──────────────────────────────── */
+        addMP(amount) {
+            this.data.mp = Math.max(0, Math.min(100, (this.data.mp || 100) + amount));
+            this.save();
+            this.updateUI();
+        },
+
+        /* ── Unified REWARD (used by both QuestManager & SystemQuestProcessor) */
+        addReward(xpAmt, goldAmt, hpAmt = 0, mpAmt = 0) {
+            if (xpAmt)   this.addXP(xpAmt);
+            if (goldAmt) this.addGold(goldAmt);
+            if (hpAmt)   this.addHP(hpAmt);
+            if (mpAmt)   this.addMP(mpAmt);
+        },
+
+        /* ── Unified PENALTY (used by both QuestManager & SystemQuestProcessor)
+           All arguments are POSITIVE amounts to subtract.              */
+        applyPenalty(xpPenalty = 0, goldPenalty = 0, hpPenalty = 0, mpPenalty = 0) {
+            if (xpPenalty)   this.addXP(-xpPenalty);
+            if (goldPenalty) this.addGold(-goldPenalty);
+            if (hpPenalty)   this.addHP(-hpPenalty);
+            if (mpPenalty)   this.addMP(-mpPenalty);
+            // Visual header flash
+            const header = document.getElementById('main-header');
+            if (header) {
+                header.classList.add('penalty-flash');
+                setTimeout(() => header.classList.remove('penalty-flash'), 500);
+            }
+        },
+
+        /* ── UI update ────────────────────────────────────────── */
+        updateUI() {
+            const lvl      = this.data.level;
+            const xp       = this.data.xp;
+            const xpNeeded = lvl * 100;
+            const xpPct    = Math.min((xp / xpNeeded) * 100, 100);
+            const hp       = this.data.hp  || 100;
+            const mp       = this.data.mp  || 100;
+
+            /* Header stats */
+            const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+            setEl('player-level', lvl);
+            setEl('xpText',       `${xp} / ${xpNeeded}`);
+            setEl('player-gold',  this.data.gold);
+            if (document.getElementById('player-xp-bar'))
+                document.getElementById('player-xp-bar').style.width = `${xpPct}%`;
+
+            /* Vitality sidebar */
+            setEl('stat-hp', `${hp} / 100`);
+            setEl('stat-mp', `${mp} / 100`);
+            const hpBar = document.getElementById('hp-bar');
+            const mpBar = document.getElementById('mp-bar');
+            if (hpBar) hpBar.style.width = `${hp}%`;
+            if (mpBar) mpBar.style.width = `${mp}%`;
+        }
+    };
+
+
+    /* ════════════════════════════════════════════════════════════════
+       MODULE 5 — QUEST MANAGER  (Active Directive Tracker)
+       Source: nn.html — manages the single 'sovereign_active_quest'
+       localStorage entry and its countdown timer.
+
+       SAFETY: never touches SL_QUESTS (QuestSystem) or SL_SYS_TIMER
+       (Pomodoro). It only reads/writes:
+         • sovereign_active_quest
+         • directive_start_time
+         • sovereign_system_logs
+    ════════════════════════════════════════════════════════════════ */
+    const QuestManager = {
+        activeQuest:    null,
+        timerInterval:  null,
+        baseXPReward:   0,
+        baseGoldReward: 0,
+
+        init() {
+            let savedActive = null;
+            try { savedActive = localStorage.getItem('sovereign_active_quest'); } catch(e) {}
+
+            if (savedActive) {
+                try {
+                    this.activeQuest    = JSON.parse(savedActive);
+                    this.baseXPReward   = parseInt(this.activeQuest.xp || this.activeQuest.rewardXP || 30, 10);
+                    this.baseGoldReward = this.baseXPReward * 2;
+                } catch(e) {
+                    this.activeQuest = null;
+                }
+            } else {
+                this.activeQuest = null;
+            }
+
+            this.render();
+            this.renderLogs();
+        },
+
+        render() {
+            const noState  = document.getElementById('no-quest-state');
+            const aqState  = document.getElementById('active-quest-state');
+            const actions  = document.getElementById('quest-actions');
+
+            if (!this.activeQuest) {
+                if (noState)  noState.classList.remove('hidden');
+                if (aqState)  aqState.classList.add('hidden');
+                if (actions)  actions.classList.add('hidden');
+                clearInterval(this.timerInterval);
+                return;
+            }
+
+            if (noState)  noState.classList.add('hidden');
+            if (aqState)  aqState.classList.remove('hidden');
+            if (actions)  actions.classList.remove('hidden');
+
+            const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+            setEl('quest-title',       this.activeQuest.title   || 'Active Sovereign Quest');
+            setEl('quest-desc',        this.activeQuest.details || this.activeQuest.desc || 'No description available.');
+            setEl('quest-category',   (this.activeQuest.type   || this.activeQuest.category || 'DIRECTIVE').toUpperCase());
+            setEl('quest-xp-reward',   `+${this.baseXPReward} XP`);
+            setEl('quest-gold-reward', `+${this.baseGoldReward} 🪙`);
+
+            this.startTimer();
+        },
+
+        startTimer() {
+            clearInterval(this.timerInterval);
+            const timerText = document.getElementById('quest-timer-text');
+            const timerBar  = document.getElementById('quest-timer-bar');
+
+            /* Recover or set start timestamp */
+            let startKey = localStorage.getItem('directive_start_time');
+            if (!startKey) {
+                startKey = Date.now().toString();
+                localStorage.setItem('directive_start_time', startKey);
+            }
+
+            /* Parse quest duration: supports "MM:SS" string or numeric minutes */
+            let totalMs = 60 * 60 * 1000; // default 60 min
+            const q = this.activeQuest;
+            if (q.timeLimit && q.timeLimit.includes(':')) {
+                const parts = q.timeLimit.split(':');
+                totalMs = (parseInt(parts[0], 10) * 60 + parseInt(parts[1] || 0, 10)) * 1000;
+            } else if (q.duration) {
+                totalMs = parseInt(q.duration, 10) * 60 * 1000;
+            }
+
+            const tick = () => {
+                const remaining = totalMs - (Date.now() - parseInt(startKey, 10));
+                if (remaining <= 0) {
+                    if (timerText) timerText.textContent = '00:00:00 — Target time completed';
+                    if (timerBar)  timerBar.style.width  = '100%';
+                    clearInterval(this.timerInterval);
+                    return;
+                }
+                const h = Math.floor(remaining / 3600000);
+                const m = Math.floor((remaining % 3600000) / 60000);
+                const s = Math.floor((remaining % 60000)   / 1000);
+                if (timerText) timerText.textContent =
+                    `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+                if (timerBar)  timerBar.style.width = `${Math.min((remaining / totalMs) * 100, 100)}%`;
+            };
+            tick();
+            this.timerInterval = setInterval(tick, 1000);
+        },
+
+        completeActiveQuest() {
+            if (!this.activeQuest) return;
+            SoundEffects.playSystemClick();
+            PlayerState.addReward(this.baseXPReward, this.baseGoldReward);
+            this.logAction('quest',
+                `✅ Completed active quest [${this.activeQuest.title}]: +${this.baseXPReward} XP | +${this.baseGoldReward} 🪙`);
+            Toast.show(`✅ Quest complete: +${this.baseXPReward} XP | +${this.baseGoldReward} 🪙`, 'success');
+            this._clearQuestMemory();
+            this.init();
+        },
+
+        cancelActiveQuest() {
+            if (!this.activeQuest) return;
+            SoundEffects.playSystemClick();
+            PlayerState.applyPenalty(10, 15);
+            this.logAction('error',
+                `⚠️ Canceled quest [${this.activeQuest.title}] — penalty 10 XP and 15 🪙`);
+            Toast.show('⚠️ Cancellation penalty: -10 XP | -15 🪙', 'error');
+            this._clearQuestMemory();
+            this.init();
+        },
+
+        _clearQuestMemory() {
+            try { localStorage.removeItem('sovereign_active_quest'); } catch(e) {}
+            try { localStorage.removeItem('directive_start_time');   } catch(e) {}
+            this.activeQuest = null;
+        },
+
+        /* Shared log writer — also called by PlayerState (level-up) & SystemQuestProcessor */
+        logAction(type, detail) {
+            let logs = [];
+            try { logs = JSON.parse(localStorage.getItem('sovereign_system_logs') || '[]'); } catch(e) {}
+            logs.unshift({
+                id:        'log_' + Date.now(),
+                timestamp: new Date().toLocaleTimeString('en-US', { hour12: false }),
+                type,
+                message: detail
+            });
+            try {
+                localStorage.setItem('sovereign_system_logs', JSON.stringify(logs.slice(0, 100)));
+            } catch(e) {}
+            this.renderLogs();
+        },
+
+        renderLogs() {
+            const container = document.getElementById('local-logs-container');
+            if (!container) return;
+            let logs = [];
+            try { logs = JSON.parse(localStorage.getItem('sovereign_system_logs') || '[]'); } catch(e) {}
+
+            if (logs.length === 0) {
+                container.innerHTML = `<p class="text-slate-600 text-center py-4">Log is currently empty.</p>`;
+                return;
+            }
+            const colorMap = { quest:'text-emerald-400', error:'text-rose-400', system:'text-[var(--sys-cyan)]' };
+            container.innerHTML = logs.slice(0, 15).map(log => {
+                const color = colorMap[log.type] || colorMap.system;
+                return `<div class="p-1.5 bg-slate-950/60 border border-slate-900 rounded mb-1
+                                    flex items-start gap-2">
+                            <span class="text-slate-500 flex-shrink-0 mt-0.5 text-[10px]">
+                                [${log.timestamp}]
+                            </span>
+                            <span class="${color} font-bold leading-tight text-[11px]">
+                                ${log.message}
+                            </span>
+                        </div>`;
+            }).join('');
+        }
+    };
+
+
+    /* ════════════════════════════════════════════════════════════════
+       MODULE 6 — SYSTEM QUEST PROCESSOR
+       Source: active-quests.html — refactored for clean code principles.
+
+       Key changes vs original:
+       • No direct sovereignStats reads/writes — all state goes through
+         PlayerState (canonical) which bridges back automatically.
+       • penalties defined as POSITIVE magnitudes; applyPenalty() subtracts.
+       • Card removal is animated then the array is filtered + re-rendered
+         (no page reload needed).
+       • Calls QuestManager.logAction() to keep the live log unified.
+
+       SAFETY: never touches sovereign_active_quest, SL_QUESTS,
+       monarch_system_data (directly), or any timer keys.
+    ════════════════════════════════════════════════════════════════ */
+    const SystemQuestProcessor = {
+
+        /* Quest definitions — extend this array to add new system quests.
+            penalties: positive magnitudes passed to PlayerState.applyPenalty()
+        */
+        questsData: [
+            {
+                id:    'quest_001',
+                type:  '[ Daily Quest ]',
+                title: 'Preparing to Become the Strongest',
+                desc:  'The system noted a drop in performance. Finish your current tasks immediately. Failure to complete will trigger system penalty.',
+                cost:  '10 Fatigue',
+                rewards:      { xp: 500,  gold: 100, hp: 10 },
+                penalties:    { xp: 50,   gold: 50,  hp: 20 },
+                rewardsText:  '+500 XP | +100 Gold | +10 HP',
+                penaltiesText: '-50 XP | -50 Gold | -20 HP'
+            },
+            {
+                id:    'quest_002',
+                type:  '[ Emergency Quest ]',
+                title: 'Repairing Operational Charter',
+                desc:  'There is a flaw in time management. Review and apply the rules in the Operational Charter.',
+                cost:  '20 MP',
+                rewards:      { xp: 1000, gold: 300, hp: 50,  mp: 20 },
+                penalties:    { xp: 200,  gold: 100, hp: 30,  mp: 20 },
+                rewardsText:  '+1000 XP | +300 Gold | +50 HP | +20 MP',
+                penaltiesText: '-200 XP | -100 Gold | -30 HP | -20 MP'
+            }
+        ],
+
+    
+
+}
+    /* ════════════════════════════════════════════════════════════════
+       INITIALIZATION
+       Order matters: SoundEffects → TimeSync → PlayerState → QuestManager
+       → SystemQuestProcessor.render()
+
+       Cross-tab sync: storage events keep the UI live across tabs.
+    ════════════════════════════════════════════════════════════════ */
+    window.addEventListener('DOMContentLoaded', () => {
+
+        // Aura color and identity applied automatically by SovereignCore.init() (Unified engine)
+        TimeSync.init();
+        PlayerState.init();     // safe: QuestManager.logAction guarded inside addXP
+        QuestManager.init();
+        SystemQuestProcessor.render();
+
+        /* Sync player data across the unified line for SovereignCore (covers
+           cross-tab storage + instant broadcast + local save combined) */
+        if (window.SovereignCore) {
+            SovereignCore.onChange(() => PlayerState.init());
+        }
+
+        /* Keys specific to this page not managed by the central engine */
+        window.addEventListener('storage', e => {
+            if (e.key === 'sovereign_active_quest' || e.key === 'sovereign_system_logs') {
+                QuestManager.init();
+            }
+        });
+    });
+    </script>
+<script src="monarch-core.js"></script>
+<script src="index11.js"></script>
+</body>
+</html>

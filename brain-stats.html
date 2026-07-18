@@ -1,0 +1,1837 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sovereign System | Brain & Body Stats</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sys-cyan: #00f0ff;
+            --sys-cyan-glow: rgba(0, 240, 255, 0.6);
+            --sys-purple: #9d4edd;
+            --sys-purple-glow: rgba(157, 78, 221, 0.4);
+            --sys-bg-dark: #02040a;
+            --sys-panel: rgba(5, 10, 25, 0.85);
+            --sys-border: rgba(0, 240, 255, 0.3);
+            --sys-gold: #fbbf24;
+        }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--sys-bg-dark);
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+        .sys-font { font-family: 'Rajdhani', sans-serif; letter-spacing: 0.05em; }
+        .sl-panel {
+            background: var(--sys-panel);
+            backdrop-filter: blur(16px);
+            border: 2px solid var(--sys-border);
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.15), inset 0 0 15px rgba(0, 240, 255, 0.1);
+            position: relative;
+        }
+        .sl-panel::before, .sl-panel::after {
+            content: ''; position: absolute; width: 20px; height: 20px; pointer-events: none;
+        }
+        .sl-panel::before { top: -2px; left: -2px; border-top: 3px solid var(--sys-cyan); border-left: 3px solid var(--sys-cyan); }
+        .sl-panel::after { bottom: -2px; right: -2px; border-bottom: 3px solid var(--sys-cyan); border-right: 3px solid var(--sys-cyan); }
+        .sl-btn {
+            background: linear-gradient(180deg, rgba(0, 240, 255, 0.05) 0%, rgba(5, 10, 25, 0.8) 100%);
+            border: 1px solid var(--sys-cyan);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .sl-btn:hover {
+            box-shadow: 0 0 20px rgba(0,240,255,0.4);
+            background: rgba(0,240,255,0.15);
+            transform: translateY(-1px);
+        }
+        .sl-btn.active {
+            background: var(--sys-cyan);
+            color: black;
+            box-shadow: 0 0 20px var(--sys-cyan-glow);
+            font-weight: 900;
+        }
+        .sl-btn-purple {
+            border-color: var(--sys-purple);
+            background: linear-gradient(180deg, rgba(157, 78, 221, 0.05) 0%, rgba(5, 10, 25, 0.8) 100%);
+        }
+        .sl-btn-purple:hover {
+            box-shadow: 0 0 20px var(--sys-purple-glow);
+            background: rgba(157, 78, 221, 0.15);
+        }
+        .sl-btn-purple.active {
+            background: var(--sys-purple);
+            color: white;
+            box-shadow: 0 0 20px var(--sys-purple-glow);
+        }
+        .stat-bar-container {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        .stat-fill {
+            transition: width 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative;
+        }
+        .stat-fill::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        @keyframes systemPopIn {
+            0% { opacity: 0; transform: scale(0.95) translateY(10px); filter: brightness(2); }
+            100% { opacity: 1; transform: scale(1) translateY(0); filter: brightness(1); }
+        }
+        .animate-system-pop { animation: systemPopIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: var(--sys-cyan); }
+    </style>
+    <link rel="stylesheet" href="index11.css">
+    <script src="monarch-core.js"></script>
+</head>
+<body class="p-2 md:p-6">
+<div class="sov-secondary-bg" aria-hidden="true"></div>
+
+    <div class="max-w-[1400px] mx-auto space-y-6 relative z-10">
+        
+        <header class="sl-panel p-4 md:p-6 flex flex-col lg:flex-row justify-between items-center gap-4 animate-system-pop" style="border-color: rgba(157, 78, 221, 0.6);">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-lg bg-[var(--sys-cyan)]/10 border border-[var(--sys-cyan)] flex items-center justify-center text-xl shadow-[0_0_15px_rgba(0,240,255,0.2)]">
+                    🧠
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-black tracking-wide text-white">SOVEREIGN SYSTEM</h1>
+                    <p class="text-xs text-[var(--sys-cyan)] sys-font tracking-widest">COGNITIVE & PHYSICAL STATS</p>
+                </div>
+            </div>
+            <div class="sov-identity-strip">
+                <span data-sov-name></span>
+                <span data-sov-title></span>
+            </div>
+            
+            <div class="flex flex-wrap items-center gap-4 bg-slate-950/60 px-6 py-3 rounded-lg border border-slate-800">
+                <div class="text-center">
+                    <span class="block text-[10px] text-slate-500 sys-font">LEVEL</span>
+                    <span id="player-level" class="text-xl font-bold text-white sys-font">1</span>
+                </div>
+                <div class="h-8 w-[1px] bg-slate-800"></div>
+                <div class="text-right min-w-[120px]">
+                    <span class="block text-[10px] text-slate-500 sys-font">EXP PROGRESS</span>
+                    <div class="w-full bg-slate-800 h-2 rounded-full mt-1 overflow-hidden">
+                        <div id="player-xp-bar" class="bg-[var(--sys-cyan)] h-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="h-8 w-[1px] bg-slate-800"></div>
+                <div class="text-center">
+                    <span class="block text-[10px] text-slate-500 sys-font">GOLD</span>
+                    <div class="flex items-center gap-1">
+                        <span class="text-yellow-500 text-sm">🪙</span>
+                        <span id="player-gold" class="text-lg font-bold text-yellow-400 sys-font">0</span>
+                    </div>
+                </div>
+                <div class="h-8 w-[1px] bg-slate-800"></div>
+                <div class="text-center">
+                    <span class="block text-[10px] text-slate-500 sys-font">PROGRAM</span>
+                    <span id="active-program-badge" class="text-xs font-bold text-[var(--sys-cyan)] sys-font border border-[var(--sys-cyan)] px-2 py-0.5 rounded bg-[var(--sys-cyan)]/10">WEEK 1</span>
+                </div>
+            </div>
+        </header>
+                   <nav class="flex flex-wrap justify-center gap-2 md:gap-4 text-sm font-bold">
+    <nav id="sovereign-nav" class="flex flex-wrap gap-3 justify-center md:justify-start items-center p-4 bg-slate-950/60 border border-slate-850/50 backdrop-blur-md rounded-lg shadow-[inset_0_0_15px_rgba(0,0,0,0.8)] my-4 select-none">
+        
+        <a href="index11.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🏠</span> <span>DASHBOARD...</span>
+        </a>
+        <hr>
+        
+ <!-- Sports Pages Hub -->
+<a href="basketball.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-orange-500 hover:border-orange-500 hover:shadow-[0_0_12px_rgba(249,115,22,0.3)]">
+    <span>🏀</span> <span>BASKETBALL...</span>
+</a>
+<hr class="border-slate-800/40 my-1">
+
+<a href="bjj.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-indigo-500 hover:border-indigo-500 hover:shadow-[0_0_12px_rgba(99,102,241,0.3)]">
+    <span>🥋</span> <span>BJJ Grappling...</span>
+</a>
+<hr class="border-slate-800/40 my-1">
+
+<a href="football.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-emerald-500 hover:border-emerald-500 hover:shadow-[0_0_12px_rgba(16,185,129,0.3)]">
+    <span>⚽</span> <span>FOOTBALL...</span>
+</a>
+<hr class="border-slate-800/40 my-1">
+
+<a href="swimming.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-sky-400 hover:border-sky-400 hover:shadow-[0_0_12px_rgba(56,189,248,0.3)]">
+    <span>🏊</span> <span>SWIMMING...</span>
+</a>
+<hr class="border-slate-800/40 my-1">
+
+<a href="Muay Thai.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-red-500 hover:border-red-500 hover:shadow-[0_0_12px_rgba(239,68,68,0.3)]">
+    <span>🥊</span> <span>MUAY THAI...</span>
+</a>
+<hr class="border-slate-800/40 my-1">
+
+<!-- MMA Sovereign Arena Button -->
+<a href="mma_sovereign_arena.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-amber-500 hover:border-amber-500 hover:shadow-[0_0_12px_rgba(245,158,11,0.3)]">
+    <span>🤼‍♂️</span> <span>MMA SOVEREIGN ARENA...</span>
+</a>
+<hr class="border-slate-800/40 my-1">
+        <!-- Rest of your original buttons -->
+        <a href="ifortress_muslim.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🛡️</span> <span>FORTRESS.....</span>
+        </a><hr>
+        <a href="operational-charter.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>📜</span> <span>CHARTER...</span>
+        </a><hr>
+        <a href="active-quests.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>⚔️</span> <span>ACTIVE QUESTS...</span>
+        </a><hr>
+        <a href="brain-stats.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🧠</span> <span>BRAIN STATS...</span>
+        </a><hr>
+        <a href="monarch-ai.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🤖</span> <span>MONARCH AI...</span>
+        </a><hr>
+        <a href="sovereign-shop.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🛒</span> <span>SOVEREIGN SHOP...</span>
+        </a><hr>
+        <a href="culinary_sovereign_academy.html" target="_self" class="nav-item-active nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-sys-cyan hover:border-sys-cyan hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+                <span>🍳</span> <span>COOKING ACADEMY</span>
+            </a>
+        <a href="prayers.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🕋​</span> <span>PRAYERS......</span>
+        </a><hr>
+        <a href="quran.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>📘​​</span> <span>QURAN.....</span>
+        </a><hr>
+        <a href="dungeons.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>🌋</span> <span>DUNGEONS...</span>
+        </a><hr>
+        <a href="system-logs.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+            <span>📂</span> <span>SYSTEM LOGS...</span>
+        </a><hr>
+        
+          <button onclick="SystemReset.confirmAndReset()" class="sl-btn w-full text-left p-3 rounded-sm flex justify-between items-center group !border-rose-500 hover:!bg-rose-950/30 mt-4">
+                    <span class="sys-font text-sm font-black text-rose-500 group-hover:text-rose-400" style="color: red;">⚠️ SYSTEM HARD RESET</span>
+                    <span class="sys-font text-[10px] bg-rose-950 text-rose-500 px-2 py-0.5 border border-rose-500 animate-pulse">DANGER</span>
+                </button>
+    </nav>
+</nav>
+         
+
+        <main class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <div class="lg:col-span-8 space-y-6">
+                
+                <div class="sl-panel p-5 animate-system-pop" style="animation-delay: 0.2s;">
+                    <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
+                        <h2 class="text-sm font-black text-white sys-font tracking-widest">OPERATIONAL PROTOCOL SELECTOR</h2>
+                        <span class="text-[10px] text-slate-500 sys-font">ACTIVE DIRECTIVE</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <button onclick="Charter.switch('week1')" id="btn-week1" class="sl-btn w-full text-left p-4 rounded flex justify-between items-center group">
+                <div>
+                    <span class="sys-font text-sm font-black text-white group-hover:text-[var(--sys-cyan)] block uppercase">📜 Mind Games Protocol Active SYSTEM v8.0 — Infinity</span>
+                    <span class="text-[10px] text-slate-400">Integrated Operations Charter (Levels 1→25)</span>
+                </div>
+                <span class="sys-font text-[10px] bg-cyan-950 text-[var(--sys-cyan)] px-2 py-0.5 border border-[var(--sys-cyan)]">CORE</span>
+            </button>
+            <button onclick="Charter.switch('week2')" id="btn-week2" class="sl-btn-purple sl-btn w-full text-left p-4 rounded flex justify-between items-center group">
+                <div>
+                    <span class="sys-font text-sm font-black text-white group-hover:text-[var(--sys-purple)] block uppercase">🌌 SYSTEM v9.0 — Infinity</span>
+                    <span class="text-[10px] text-slate-400">System Update 8.0 (Levels 25→35)</span>
+                </div>
+                <span class="sys-font text-[10px] bg-purple-950 text-[var(--sys-purple)] px-2 py-0.5 border border-[var(--sys-purple)]">INFINITY</span>
+            </button>
+            <button onclick="Charter.switch('week3')" id="btn-week3" class="sl-btn-purple sl-btn w-full text-left p-4 rounded flex justify-between items-center group">
+                <div>
+                    <span class="sys-font text-sm font-black text-white group-hover:text-[var(--sys-purple)] block uppercase">🌩️​ SYSTEM v10.0 — Infinity</span>
+                    <span class="text-[10px] text-slate-400">System Update 8.0 (Levels 35→45)</span>
+                </div>
+                <span class="sys-font text-[10px] bg-purple-950 text-[var(--sys-purple)] px-2 py-0.5 border border-[var(--sys-purple)]">INFINITY</span>
+            </button>
+            <button onclick="Charter.switch('week4')" id="btn-week4" class="sl-btn-purple sl-btn w-full text-left p-4 rounded flex justify-between items-center group">
+                <div>
+                    <span class="sys-font text-sm font-black text-white group-hover:text-[var(--sys-purple)] block uppercase">😈​⚠️​​​ SYSTEM v11.0 — Infinity</span>
+                    <span class="text-[10px] text-slate-400">System Update 8.0 (Levels 45→50)</span>
+                </div>
+                <span class="sys-font text-[10px] bg-purple-950 text-[var(--sys-purple)] px-2 py-0.5 border border-[var(--sys-purple)]">INFINITY</span>
+            </button>
+            <button onclick="Charter.switch('week5')" id="btn-week5" class="sl-btn-purple sl-btn w-full text-left p-4 rounded flex justify-between items-center group">
+                <div>
+                    <span class="sys-font text-sm font-black text-white group-hover:text-[var(--sys-purple)] block uppercase">☠️​‼️​🌪️​​ SYSTEM v1000.0 — Infinity</span>
+                    <span class="text-[10px] text-slate-400">System Update 8.0 (Levels 50→∞)</span>
+                </div>
+                <span class="sys-font text-[10px] bg-purple-950 text-[var(--sys-purple)] px-2 py-0.5 border border-[var(--sys-purple)]">INFINITY</span>
+            </button>
+        
+                    </div>
+                    <div id="infinity-message" class="hidden mt-3 p-3 bg-cyan-950/40 border border-[var(--sys-cyan)] rounded animate-pulse text-center">
+                        <span class="text-[var(--sys-cyan)] font-bold sys-font text-xs block mb-1">[SYSTEM: SOVEREIGN AUTONOMY ACTIVATED]</span>
+                        <span class="text-white text-sm font-bold">Now you can manage your own affairs and decisions. This is the final enhancement of the system.</span>
+                    </div>
+                    <div class="bg-slate-900/80 backdrop-blur border border-slate-800 p-6 rounded-xl shadow-[0_0_30px_rgba(0,0,0,0.5)] mt-6 animate-system-pop">
+    <div class="border-b border-slate-800 pb-3 mb-4 flex justify-between items-center">
+        <h3 class="text-sm font-black tracking-widest text-[var(--sys-purple)] sys-font uppercase">⚔️ DUNGEON RECORDS // Clearing Log</h3>
+        <span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">Sovereign Protocol</span>
+    </div>
+    
+    
+                </div>
+
+                <div class="sl-panel p-6 animate-system-pop" style="animation-delay: 0.3s;">
+                    <h2 class="text-lg font-black text-white border-b border-slate-800 pb-3 mb-6 flex items-center gap-2 sys-font tracking-widest">
+                        <span class="text-[var(--sys-cyan)]">✦</span> ATTRIBUTES MATRIX — Attributes Matrix
+                    </h2>
+
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between items-end mb-2">
+                                <div>
+                                    <h3 class="text-sm font-bold text-slate-200">🧠 Intelligence (INT)</h3>
+                                    <p class="text-[10px] text-slate-500 sys-font">Deep programming, Artificial Intelligence, Algorithms</p>
+                                </div>
+                                <span id="stat-int-val" class="text-2xl font-black text-[var(--sys-cyan)] sys-font drop-shadow-[0_0_8px_var(--sys-cyan)]">10</span>
+                            </div>
+                            <div class="h-3 stat-bar-container rounded-full">
+                                <div id="stat-int-bar" class="stat-fill bg-gradient-to-r from-cyan-900 to-[var(--sys-cyan)] h-full w-0 shadow-[0_0_15px_rgba(0,240,255,0.5)]"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-end mb-2">
+                                <div>
+                                    <h3 class="text-sm font-bold text-slate-200">👁️ Perception (Sense - SEN)</h3>
+                                    <p class="text-[10px] text-slate-500 sys-font">Deep focus, Dopamine detox, Sudoku and Dual N-Back</p>
+                                </div>
+                                <span id="stat-sen-val" class="text-2xl font-black text-[var(--sys-purple)] sys-font drop-shadow-[0_0_8px_var(--sys-purple)]">10</span>
+                            </div>
+                            <div class="h-3 stat-bar-container rounded-full">
+                                <div id="stat-sen-bar" class="stat-fill bg-gradient-to-r from-purple-900 to-[var(--sys-purple)] h-full w-0 shadow-[0_0_15px_rgba(157,78,221,0.5)]"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-end mb-2">
+                                <div>
+                                    <h3 class="text-sm font-bold text-slate-200">⚔️ Strength (STR)</h3>
+                                    <p class="text-[10px] text-slate-500 sys-font">PPL, Explosive power, Martial Arts (Muay Thai/BJJ)</p>
+                                </div>
+                                <span id="stat-str-val" class="text-2xl font-black text-rose-500 sys-font drop-shadow-[0_0_8px_rgba(244,63,94,1)]">10</span>
+                            </div>
+                            <div class="h-3 stat-bar-container rounded-full">
+                                <div id="stat-str-bar" class="stat-fill bg-gradient-to-r from-rose-900 to-rose-500 h-full w-0 shadow-[0_0_15px_rgba(244,63,94,0.5)]"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-end mb-2">
+                                <div>
+                                    <h3 class="text-sm font-bold text-slate-200">🛡️ Endurance (Vitality - VIT)</h3>
+                                    <p class="text-[10px] text-slate-500 sys-font">Fasting, Hard work, Wolff's Law and Bone Resistance</p>
+                                </div>
+                                <span id="stat-vit-val" class="text-2xl font-black text-emerald-500 sys-font drop-shadow-[0_0_8px_rgba(16,185,129,1)]">10</span>
+                            </div>
+                            <div class="h-3 stat-bar-container rounded-full">
+                                <div id="stat-vit-bar" class="stat-fill bg-gradient-to-r from-emerald-900 to-emerald-500 h-full w-0 shadow-[0_0_15px_rgba(16,185,129,0.5)]"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-end mb-2">
+                                <div>
+                                    <h3 class="text-sm font-bold text-slate-200">⚡ Speed (Agility - AGI)</h3>
+                                    <p class="text-[10px] text-slate-500 sys-font">Explosive running, Flexibility, Motor response speed</p>
+                                </div>
+                                <span id="stat-agi-val" class="text-2xl font-black text-sky-400 sys-font drop-shadow-[0_0_8px_rgba(56,189,248,1)]">10</span>
+                            </div>
+                            <div class="h-3 stat-bar-container rounded-full">
+                                <div id="stat-agi-bar" class="stat-fill bg-gradient-to-r from-sky-900 to-sky-400 h-full w-0 shadow-[0_0_15px_rgba(56,189,248,0.5)]"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+      
+    </div>
+</div>
+            </div>
+
+            <div class="lg:col-span-4 space-y-6">
+                <div class="sl-panel p-6 animate-system-pop" style="animation-delay: 0.4s;">
+                    <h3 class="text-sm font-black text-white border-b border-slate-800 pb-2 mb-4 sys-font tracking-widest">🔬 SOVEREIGN ANALYSIS</h3>
+                    
+                    <div class="bg-slate-950/80 p-5 border border-slate-800 rounded-lg text-center space-y-3 relative overflow-hidden">
+                        <div class="absolute -top-4 -right-4 w-16 h-16 bg-[var(--sys-cyan)] opacity-10 rounded-full blur-xl animate-pulse"></div>
+                        <div class="text-5xl drop-shadow-[0_0_15px_rgba(0,240,255,0.4)]" id="dominant-icon">👑</div>
+                        <h4 class="text-[var(--sys-cyan)] font-black text-lg sys-font tracking-wider" id="dominant-title">Analyzing data...</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed font-semibold" id="dominant-desc">
+                            The system is currently scanning development levels to determine the dominant attribute of the Monarch.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="sl-panel p-6 border-l-4 border-emerald-500 animate-system-pop" style="animation-delay: 0.5s;">
+                    <h3 class="text-sm font-black text-white border-b border-slate-800 pb-2 mb-4 sys-font tracking-widest">💡 SOVEREIGN LAWS</h3>
+                    <ul class="text-xs text-slate-400 space-y-4 list-disc list-inside leading-relaxed font-semibold">
+                        <li>The system has been completely cleared of store blocks and virtual dungeons to prevent digital distraction and maintain commitment to reality.</li>
+                        <li>Development now relies entirely on the <span class="text-[var(--sys-cyan)]">Smart Task Analyzer</span> in the central dashboard.</li>
+                        <li>Evasion penalties have been canceled to ensure maximum flexibility with actual daily continuity; rewards are for positive achievement only.</li>
+                        <li>Tasks include Programming (INT), Running (AGI), PPL (STR), Meditation and Fasting (SEN/VIT).</li>
+                    </ul>
+                </div>
+            </div>
+
+        </main>
+        
+        <footer class="text-center text-[10px] text-slate-600 mt-8 sys-font uppercase tracking-widest pb-4">
+            Sovereign Core Intellect Layer | Cognitive Stats Engine v8.0 | No Penalties Enforced
+        </footer>
+    </div>
+    
+
+    <script>
+
+const PROGRAM_DATA = {
+week1: {
+    id: 'week1',
+    title: 'Integrated Operations Charter',
+    version: 'v9.0',
+    range: 'LVL 1 → 450',
+    desc: 'Comprehensive foundational stage: building the programming, physical, and spiritual base, establishing the complete sovereign path.',
+    schedule: [
+      { start: 5.0,  end: 6.0,  title: 'Spiritual Exchange Session / Morning Adhkar recitation, pondering two complete parts (Hizb) either with memorization or repetition, and stretching/lengthening exercises', desc: 'Quran Recitation (Individual: Meditative / Pairs: New) + Fajr Prayer, Adhkar, and Stretching Exercises' },
+      { start: 6.0,  end: 8.5,  title: 'Advanced Programming / Advanced Programming HTML5, CSS3, and JavaScript',       desc: 'Project (Python/JavaScript) - Architecture and Development' },
+      { start: 8.5,  end: 10.5, title: 'Academic Courses in Artificial Intelligence / Academic courses in AI, transferring your skills from Excel to Python, and understanding the language of numbers',        desc: 'Machine Learning, LLM Studies, and Algorithm Applications' },
+      { start: 10.5, end: 12.0, title: 'Mastering English / Mastering English through "Audio Immersion", "Vocabulary & Sentence Memorization", and "Writing"',   desc: 'Technical In-Depth + Vocabulary Building + Practical Application Training' },
+      { start: 12.0, end: 13.0, title: ' Applied Technical Lab / Applied Technical Lab, transferring your skills from Excel to Python, and understanding the language of numbers',                  desc: 'Rest & Recovery / System Architecture Monitoring & Updates' },
+      { start: 13.0, end: 15.0, title: 'Long Break / Long break + Applied Technical Lab / Applied Technical Lab, transferring your skills from Excel to Python, and understanding the language of numbers', desc: 'Rest & Recovery / System Architecture Monitoring & Updates + Dhuhr Prayer + Protein-Rich Lunch / Dhuhr Prayer + Protein-rich lunch + Nap' },
+      { start: 15.0, end: 16.5, title: 'Advanced Physical Development (PPL)', desc: 'Push/Pull/Leg Exercises' },
+      { start: 16.5, end: 17.5, title: 'Sheikh Al-Raslan / Sheikh Al-Raslan or religious sermons by different Sheikhs',          desc: 'Sheikh Al-Raslan / Sheikh Al-Raslan religious sermons' },
+      { start: 17.5, end: 19.5, title: 'Experimental Sciences',      desc: 'Academic Focus: Mathematics (Sunday/Wednesday), Science (Monday/Friday), Physics (Tuesday/Saturday)' },
+      { start: 19.5, end: 20.5, title: 'Mental and Physical Development',      desc: 'Reading + Documentaries + Brain Games + Physical Rest' },
+      { start: 20.5, end: 22.0, title: 'System Setup',         desc: 'Creating Your Schedule + Evening Adhkar + Muscle and Mind Relaxation (Sleep)' }
+    ],
+    days: {
+      0: { sport: '🏀 Basketball', ppl: 'Pull Exercises (Back & Biceps)', cognitive: 'Double Back Exercises + Digital Book (Session 1)', academic: 'Mathematics' },
+      1: { sport: '🥋 Brazilian Jiu-Jitsu', ppl: 'chest press exercises (upper/lateral/regular/shoulders)', cognitive: 'Chess + Documentary', academic: 'Natural Sciences' },
+      2: { sport: '🏀 Basketball', ppl: 'Pull Exercises (Front &  Triceps) + Leg Exercises (Thigh)', cognitive: 'Reading Books + Watching Nasser Al-Aqeel', academic: 'Physics' },
+      3: { sport: '⚽ Football Challenge', ppl: 'Leg Exercises (Back & Calves) + Forearm Exercises', cognitive: 'Sudoku + Documentary', academic: 'Math Review' },
+      4: { sport: '🥋 Brazilian Jiu-Jitsu', ppl: 'Abs and Biceps Exercises', cognitive: 'Chess + Watching Nasser Al-Aqeel', academic: 'Islamic Studies/History/Geography' },
+      5: { sport: '🏃 Rest, Recovery, and 1-Hour Run', ppl: 'Rest, young Monarch ', cognitive: ' Book Review', academic: 'Science Review' },
+      6: { sport: '⚽ Football', ppl: 'Abdominal Exercises (Six-Pack) and chest (lower / inner)', cognitive: 'Sudoku +weekly assessment "Yassine Tia"', academic: 'Physics Review' }
+    },
+    special: {
+      1: {
+        title: 'Fasting Protocol (Monday)',
+        blocks: [
+          { time: '02:45-05:00', title: 'Night Prayer and Suhoor', desc: 'Night Prayer + Protein-Rich Suhoor + Remembrance of Allah + Quick Mental Review' }
+        ]
+      },
+      4: {
+        title: 'Achievement Thursday (Fasting and Diligence)',
+        blocks: [
+          { time: '02:45-05:00', title: 'Night Prayer and Suhoor', desc: 'Night Prayer + Protein-Rich Suhoor + Remembrance of Allah + Quick Mental Review' },
+          { time: '05:00-06:30', title: 'Quran Session', desc: 'Recitation and Memorization of the Holy Quran (1.5 Hours)' },
+          { time: '06:30-09:30', title: 'Religious Studies', desc: 'The Book of Tawhid + Tajweed Rules (3 Hours)' },
+          { time: '09:30-11:30', title: 'Study Marathon', desc: 'History, Geography, and French using Mind Maps' },
+          { time: '11:30-13:30', title: 'Language Skills', desc: 'Reviewing English Terminology and Treating Grammar as Systemic Software Logic' },
+          { time: '13:30-15:00', title: 'Website Development', desc: 'Developing and Monetizing Websites' },
+          { time: '15:00-16:30', title: 'Targeted Muscle Building', desc: 'Leg Muscles (Thighs/Calves) + Abdominal Priority and Muscle Heads' },
+          { time: '16:30-18:30', title: 'Combat', desc: 'Jiu-Jitsu training' },
+          { time: '18:30-19:30', title: 'Content Creation', desc: 'Creating and producing content for YouTube, Instagram, TikTok, and Facebook' },
+          { time: '19:30-20:30', title: 'Spiritual Balance', desc: 'Listening to the Quran + Meditation and Improving Vocal Tone & Depth' },
+          { time: '20:30-22:00', title: ' Mindset', desc: ' Watching Nasser Al-Aqeel + Chess ' }
+        ]
+      },
+      5: {
+        title: 'Creativity Friday',
+        blocks: [
+          { time: '05:00-08:00', title: 'Spiritual Meditation', desc: 'Surah Al-Kahf + Morning Adhkar + Natural Sciences Review' },
+          { time: '08:00-10:00', title: 'Mind Reset', desc: 'Preparing for Video Editing (Montage)' },
+          { time: '10:00-14:00', title: 'Ethical Hacking and Terminology', desc: 'Learning Ethical Hacking + Study Marathon for Arabic/English and Islamic Studies using Mind Maps' },
+          { time: '14:00-15:00', title: 'Audio Meditation', desc: 'Listening to the Holy Quran and Meditation (Includes Voice Tone Improvement)' },
+          { time: '15:00-16:00', title: 'Nap / Rest, young Monarch', desc: 'Nap, rest, young Monarch' },
+          { time: '16:00-17:00', title: 'Website Management', desc: 'Following Up on Completed Website Development Projects' },
+          { time: '17:00-18:30', title: 'Energy Generation', desc: 'One-hour run' },
+          { time: '18:30-19:30', title: 'Energy Generation', desc: 'Football: Unleashing full physical energy on the pitch' },
+          { time: '19:30-20:30', title: 'System Review, Tactical Planning', desc: 'Self-Development and Weekly Evaluation' }
+        ]
+      },
+      6: {
+        title: 'Mastery Saturday',
+        blocks: [
+          { time: '05:00-10:00', title: 'Academic Focus', desc: 'Physics Review + New Quran Memorization (5 Hours)' },
+          { time: '10:00-14:00', title: 'Technical Immersion', desc: 'Advanced Ethical Hacking + English Mastery (4 Hours) + Philosophy course' },
+          { time: '14:00-15:00', title: 'Auditory Meditation', desc: 'Listening to the Quran + Voice Modification & Improvement' },
+          { time: '15:00-16:30', title: 'Fitness & Physical Therapy', desc: 'Physical Exercises: Abdominal Exercises (Six-pack) and chest' },
+          { time: '16:30-17:00', title: 'Therapy and Nutrition', desc: 'Micronutrient Intake (Calcium / Magnesium / Zinc)' },
+          { time: '17:00-18:30', title: 'Competitive Sports', desc: 'Football: Full Match (Maximum Physical Exertion)' },
+          { time: '18:30-19:30', title: 'Digital Architecture', desc: 'System Programming and Web Project Monitoring & Updates' },
+          { time: '19:30-20:30', title: 'Calibration', desc: 'Sudoku + System Calibration & Comprehensive Review... Weekly Evaluation "Yassine Tia"' },
+          { time: '20:30-22:00', title: 'Maximum Stimulation', desc: 'Stretching & Lengthening Workouts + Sleep Preparation and Deep Rest' }
+        ]
+      }
+    }
+},
+ week2: {
+    id: 'week2',
+    title: 'System Update 8.0 — Infinity',
+    version: '600',
+    range: 'LVL 450 → 600',
+        desc: 'Stage of absolute sovereignty: integrating chess logic into AI Agents, explosive running, and independent tactical operations.',
+
+    schedule: [
+      { start: 2.75, end: 5.0,  title: 'Night Prayer & Suhoor',    desc: 'Qiyam + Protein Suhoor + Adhkar + Mental Review' },
+      { start: 5.0,  end: 6.0,  title: 'Spiritual Session',        desc: 'Fajr + Adhkar + Recitation (Odd: Review / Even: New) + Fajr prayer, Adhkar, and stretching exercises' },
+      { start: 6.0,  end: 8.5,  title: 'Deep Programming',         desc: 'AiMoha (Python/JS) — Chess Logic into AI Agents / Project (Python/JS) - Learning architecture and development (Building the mastermind (Backend))' },
+      { start: 8.5,  end: 10.5, title: 'AI Academy / Academic courses in AI',               desc: 'Advanced ML + LLMs + Algorithm App / Machine Learning' },
+      { start: 10.5, end: 12.0, title: 'English Mastery',         desc: 'Lex Fridman Podcast + Tech Terms + Shadowing / In-depth technical explanation + building training vocabulary and practical application' },
+      { start: 12.0, end: 13.0, title: ' Applied Laboratory',               desc: 'Grand Rest + Applied Laboratory',       desc: 'Real AI Projects + Systems Integration / Rest & recreation' },
+      { start: 13.0, end: 15.0, title: ' Grand Rest + Applied Laboratory',       desc: 'Real AI Projects + Systems Integration / Rest & recreation / Academic courses in AI, deep learning, and neural networks (Weeks 7 - 10) + Dhuhr + Intense Protein Lunch + Nap' },
+      { start: 15.0, end: 16.5, title: 'PPL Preparation / Advanced Physical Development Program (PPL)',          desc: 'Push(Handstand)/Pull(Explosive)/Legs(Jump) + Calisthenics / Push, pull, and leg exercises + gymnastics and calisthenics' },
+      { start: 16.5, end: 17.5, title: 'Running Block / Relaxation light running or rest',            desc: '1 Hour Run (Wolfs Law Activation) light running if you can / Relaxation mental and physical rest' },
+      { start: 17.5, end: 19.5, title: 'Academic Focus / Experimental Sciences',           desc: 'Math/Science/Physics + Al-Rasoulan + Light Dinner / Academic curricula: Mathematics (Sunday/Wednesday), Science (Monday/Friday), Physics (Tuesday/Saturday)' },
+      { start: 19.5, end: 20.5, title: 'Team Competitions / Mental and Physical Development',        desc: 'Full Matches: Basketball/Football (High Intensity) / Reading + documentaries + mental games + physical rest' },
+      { start: 20.5, end: 21.5, title: 'Mental Elevation / Completing games and development',         desc: 'Chess/Sudoku + Digital Books + Tech Docs / Completing mental development + Sudoku and documentaries' },
+      { start: 21.5, end: 22.0, title: 'System Prep',              desc: 'Tomorrow Planning + Sleep Adhkar + Shutdown / Creating your schedule + evening Adhkar + muscle and mind relaxation (sleep)' }
+    ],
+    days: {
+      0: { sport: '🏀 Basketball (Match) / Swimming 🏊 or Football ⚽ or Muay Thai 🥊', ppl: 'Pull (Explosive) / Pull exercises (Back & Biceps)', cognitive: 'Programming + AI (Chess Logic) / Creating a digital book (Session 1)', academic: 'Mathematics' },
+      1: { sport: '🥊 Muay Thai / Swimming 🏊 or Football ⚽ or Muay Thai 🥊', ppl: 'Legs (Jumps/Wolf) / Chest press exercises (upper/lateral/regular/shoulders)', cognitive: 'Chess (AI Agent Analysis) / Learning haircutting 🪒 and sleight of hand 🃏♣️ + documentary', academic: 'Natural Sciences' },
+      2: { sport: '🏀 Basketball (Match) / Swimming 🏊 or Football ⚽ or Muay Thai 🥊', ppl: 'Push (Handstand) / Pull exercises (Back & Triceps)', cognitive: 'Programming + AI / Reading books + watching self-development', academic: 'Physics' },
+      3: { sport: '⚽ Football (Match) / Swimming 🏊 or Football ⚽ or Muay Thai 🥊', ppl: 'Pull & Abs/Triceps / Leg exercises (front and calves)', cognitive: 'Hard Sudoku (Error Tracking) / Dual N-Back + documentary', academic: 'Math Review' },
+      4: { sport: '🥋 Jiu-Jitsu / Swimming 🏊 or Football ⚽ or Muay Thai 🥊', ppl: 'Intense Legs (Jumps) / Abs and Biceps exercises', cognitive: 'Islamic Studies (Tawhid/Tajweed) / Learning haircutting 🪒 and sleight of hand 🃏♣️ + watching self-development', academic: 'Islamic/History/Geo / Islamic studies/history/geography' },
+      5: { sport: '🚶 Calm Walk (Recovery) / Rest, recovery, and 1-hour run', ppl: 'Push (Handstand) / Chest press exercises (inner/pelvic/lower/six abs)', cognitive: 'Dual N-Back + Digital Book Check / Double back exercises + book review', academic: 'Science Review' },
+      6: { sport: '⚽ Football (Match) / Swimming 🏊 or Football ⚽ or Muay Thai 🥊', ppl: 'Abs (Six-pack) & Triceps / Abdominal exercises (six pack) and triceps', cognitive: 'Ethical Hacking + Calibration / Dual N-Back + weekly assessment "Yassine Tia"', academic: 'Physics Review' }
+    },
+    special: { 
+      4: {
+        title: 'Achievement Thursday (Fasting and Diligence)',
+        blocks: [
+          { time: '02:45-05:00', title: 'Night Prayer and Suhoor', desc: 'Night Prayer + Protein-Rich Suhoor + Remembrance of Allah + Quick Mental Review / Night prayer + protein-rich Suhoor + Remembrance of Allah + quick mental review' },
+          { time: '05:00-06:30', title: 'Quran Session / Quranic Session', desc: 'Recitation and Memorization of the Holy Quran (1.5 Hours) / Recitation and memorization of the Holy Quran (one and a half hours)' },
+          { time: '06:30-09:30', title: 'Religious Studies', desc: 'Riyadh as-Salihin + Al-Bidayah wa\'n-Nihayah + 40 Nawawi (3 Hours) / Riyadh as-Salihin + Al-Bidayah wa\'n-Nihayah + The Forty Nawawi (3 hours)' },
+          { time: '09:30-11:30', title: 'Study Marathon', desc: 'History, Geography, and French using Mind Maps / History, geography, and French using mind maps' },
+          { time: '11:30-13:30', title: 'Language Skills', desc: 'Reviewing English Terminology and Grammar as Software Logic / Reviewing English terminology and understanding grammar as part of software logic' },
+          { time: '13:30-15:00', title: 'Website Development', desc: 'Developing and Monetizing Websites / Developing web sites and monetizing them' },
+          { time: '15:00-16:30', title: 'Targeted Muscle Building / Targeted muscle strengthening exercises', desc: 'Leg Muscles (Thighs/Calves) + Abdominal & Muscle Heads / ((Leg muscles (thighs/calves) side quest)) + abdominal muscles and muscle heads' },
+          { time: '16:30-18:30', title: 'Specific Outdoor Sport', desc: 'Swimming 🏊 or Football ⚽ or Muay Thai 🥊 / (Swimming 🏊 or Football ⚽ or 🥊 Muay Thai (Thai).. split it across the week)' },
+          { time: '18:30-19:30', title: 'Content Creation', desc: 'Creating and producing content for YouTube, Instagram, TikTok, and Facebook' },
+          { time: '19:30-20:30', title: 'Spiritual Balance', desc: 'Listening to the Quran + Meditation and Voice Tone / Listening to the Holy Quran + meditation and improving vocal tone & depth' },
+          { time: '20:30-22:00', title: 'Mindset and Crafts / Mindset and handcrafts', desc: 'Self-Development + Barbering 🪒 & Magic Tricks 🃏♣️ / Watching self-development + learning haircutting 🪒 and sleight of hand 🃏♣️' }
+        ]
+      },
+      5: {
+        title: 'Creativity Friday',
+        blocks: [
+          { time: '05:00-08:00', title: 'Spiritual Meditation', desc: 'Surah Al-Kahf + Morning Adhkar + Natural Sciences Review / Surah Al-Kahf + morning Adhkar + natural sciences review' },
+          { time: '08:00-10:00', title: 'Mind Reset / Resetting the mind', desc: 'Preparing for Video Editing (Montage) / Preparing for video montage' },
+          { time: '10:00-14:00', title: 'Ethical Hacking and Terminology / Ethical hacking and terms', desc: 'Learning Ethical Hacking + Study Marathon for Arabic/English and Islamic Studies / Learning ethical hacking + study marathon for Arabic/English and Islamic studies using mind maps' },
+          { time: '14:00-15:00', title: 'Audio Meditation / Sound of meditation', desc: 'Listening to the Holy Quran and Meditation / Listening to the Holy Quran and meditation (includes voice tone improvement)' },
+          { time: '15:00-16:00', title: 'Physical Preparation', desc: 'Push-ups (Chest and Shoulders) / Push-up exercises (for chest and shoulders)' },
+          { time: '16:00-17:00', title: 'Website Management / Website management', desc: 'Following Up on Completed Website Projects / Following up on completed web site development projects' },
+          { time: '17:00-18:30', title: 'Energy Generation', desc: 'One-hour run (Unless swimming later) / Running for one hour (do not do it if you have swimming afterwards 🏊)' },
+          { time: '18:30-19:30', title: 'Energy Generation', desc: 'Swimming 🏊 or Football ⚽ or Muay Thai 🥊 / (Swimming 🏊 or Football ⚽ or 🥊 Muay Thai (Thai).. split it across the week)' },
+          { time: '19:30-20:30', title: 'System Review, Tactical Planning + Viewing facts', desc: 'Self-Development + Updating "Hard Tasks" List / Self-development and weekly evaluation + updating the "hard tasks" list for the next week + watching facts (Daheeh or Riham Aydi)' }
+        ]
+      },
+      6: {
+        title: 'Mastery Saturday',
+        blocks: [
+          { time: '05:00-10:00', title: 'Academic Focus / Academic focus', desc: 'Physics Review + New Quran Memorization (5 Hours) / Physics review + memorization of a new Quran text (5 hours)' },
+          { time: '10:00-14:00', title: 'Technical Immersion / Technical deep dive / fl studio', desc: 'Advanced Ethical Hacking + English Mastery (4 Hours) / Ethical hacking + fl studio (first session) + mastering the English language (4 hours) + philosophy course' },
+          { time: '14:00-15:00', title: 'Crafts / Handcrafts / fl studio ', desc: 'Learning fl studio (second session)' },
+          { time: '15:00-16:30', title: 'Fitness & Physical Therapy / Fitness and physical therapy', desc: 'Physical Exercises: Abs (Six-pack) and Triceps / Physical exercises.. exercises for the abdomen (six pack) and triceps' },
+          { time: '16:30-17:00', title: 'Therapy and Nutrition / Treatment and nutrition', desc: 'Micronutrient Intake (Calcium / Magnesium / Zinc) / Consuming micronutrients (Calcium / Magnesium / Zinc)' },
+          { time: '17:00-18:30', title: 'Competitive Sports / Competitive sports', desc: 'Swimming 🏊 or Football ⚽ or Muay Thai 🥊 / (Swimming 🏊 or Football ⚽ or 🥊 Muay Thai (Thai).. split it across the week)' },
+          { time: '18:30-19:30', title: 'Digital Arch & Energy Generation / Digital architecture and energy generation', desc: 'Football: Unleashing full physical energy on the pitch / Football: releasing complete physical energy on the field' },
+          { time: '19:30-20:30', title: 'System Review, Tactical Planning', desc: 'Self-Development and Weekly Evaluation / Self-development and weekly evaluation' }
+        ]
+      }
+    }
+},
+week3: {
+    id: 'week3',
+    title: 'System Update 10.0 — Infinity',
+    version: '800',
+    range: 'LVL 600 → 800',
+        desc: 'Advanced technical deep dive stage: building the frontend and backend, deep learning, and neural networks.',
+
+    schedule: [
+      { start: 5.0,  end: 6.0,  title: 'Spiritual Session',        desc: 'Quran recitation (individual: meditative / pairs: new) + Fajr prayer, Adhkar, and stretching exercises' },
+      { start: 6.0,  end: 8.5,  title: 'Advanced Programming',         desc: 'Project (Python/JavaScript) - Learning architecture and development.. building the frontend + building the mastermind (Backend)' },
+      { start: 8.5,  end: 10.5, title: 'AI Academy', desc: 'Deep learning and neural networks (Weeks 7 - 10) machine learning | Machine Learning' },
+      { start: 10.5, end: 12.0, title: 'English Mastery',        desc: 'In-depth technical explanation + building training vocabulary and practical application' },
+      { start: 12.0, end: 13.0, title: ' Rest & Useful Learning',              desc: 'Orange Blender program courses for graphics deep learning' },
+      { start: 13.0, end: 15.0, title: ' Grand Rest + Rest & Useful Learning', desc: 'Orange Blender program courses for graphics deep learning + Dhuhr prayer + protein-rich lunch + nap' },
+      { start: 15.0, end: 16.5, title: 'PPL & Calisthenics', desc: 'Push, pull, and leg exercises + gymnastics and calisthenics athletic exercises' },
+      { start: 16.5, end: 17.5, title: 'Rest & Dinner / Sheikh Al-Raslan',       desc: 'Rest from fatigue / Sheikh Al-Raslan or religious sermons by different Sheikhs' },
+      { start: 17.5, end: 19.5, title: 'Academic Focus',          desc: 'Academic curricula: Mathematics (Sunday/Wednesday), Science (Monday/Friday), Physics (Tuesday/Saturday)' },
+      { start: 19.5, end: 20.5, title: 'Mental & Physical Dev',  desc: 'Reading + documentaries + mental games + physical rest' },
+      { start: 20.5, end: 22.0, title: 'System Prep',              desc: 'Creating your schedule + evening Adhkar + muscle and mind relaxation' }
+    ],
+    days: {
+      0: { sport: 'Swimming 🏊 / Muay Thai 🥊 / Jiu-Jitsu 🥋', ppl: 'Pull (Back & Biceps) / Pull exercises', cognitive: 'Creating a digital book (Session 1)', academic: 'Mathematics' },
+      1: { sport: 'Swimming 🏊 / Muay Thai 🥊 / Jiu-Jitsu 🥋', ppl: 'Push (Chest upper/side/normal) / Push exercises', cognitive: 'Learning music guitar piano 💎 + documentary', academic: 'Natural Sciences' },
+      2: { sport: 'Swimming 🏊 / Muay Thai 🥊 / Jiu-Jitsu 🥋', ppl: 'Pull (Back & Triceps) / Pull exercises', cognitive: 'Reading books + watching self-development', academic: 'Physics' },
+      3: { sport: 'Basketball 🏀 / Football ⚽ / 1-Hour Run 🏃', ppl: 'Legs (Front & Calves) / Exercises for the legs', cognitive: 'Dual N-Back + documentary', academic: 'Math Review' },
+      4: { sport: 'Basketball 🏀 / Football ⚽ / 1-Hour Run 🏃', ppl: 'Abs & Biceps / Abs and biceps exercises', cognitive: 'Learning music guitar piano 💎 + watching self-development', academic: 'Islamic/History/Geo / Islamic studies/history/geography' },
+      5: { sport: 'Rest, recovery, and 1-hour run 🏃', ppl: 'Push (Chest inner/pelvis/lower) / Push exercises', cognitive: 'Dual N-Back + book review', academic: 'Science Review' },
+      6: { sport: 'Basketball 🏀 / Football ⚽ / 1-Hour Run 🏃', ppl: 'Abs (Six-pack) & Triceps / Abs and triceps exercises', cognitive: 'Dual N-Back + weekly assessment "Yassine Tia" + fl studio', academic: 'Physics Review' }
+    },
+    special: { 
+      4: {
+        title: 'Achievement Thursday (Fasting and Diligence)',
+        blocks: [
+          { time: '02:45-05:00', title: 'Night Prayer and Suhoor', desc: 'Dhuhr prayer + protein-rich lunch + remembrance of Allah + quick mental review' },
+          { time: '05:00-06:30', title: 'Quran Session', desc: 'Recitation and memorization of the Holy Quran (one and a half hours)' },
+          { time: '06:30-09:30', title: 'Religious Studies', desc: 'Aqidah + Riyadh as-Salihin + Al-Bidayah wa\'n-Nihayah + The Forty Nawawi (3 hours)' },
+          { time: '09:30-11:30', title: 'Study Marathon', desc: 'History, geography, and French using mind maps' },
+          { time: '11:30-13:30', title: 'Language Skills', desc: 'Reviewing English terminology and understanding grammar as part of software logic' },
+          { time: '13:30-15:00', title: 'Website Development', desc: 'Developing web sites and monetizing them' },
+          { time: '15:00-16:30', title: 'Targeted Muscle Building', desc: 'Leg muscles (thighs/calves) side quest + abdominal muscles and muscle heads' },
+          { time: '16:30-18:30', title: 'Specific Outdoor Sport', desc: '(Swimming 🏊 or Football ⚽ or 🥊 Muay Thai) and (🏀 Basketball or 🥋 BJJ or 🏃 1-Hour Run)' },
+          { time: '18:30-19:30', title: 'Content Creation', desc: 'YouTube, Instagram, TikTok, and Facebook / Creating and producing content for YouTube, Instagram, TikTok, and Facebook' },
+          { time: '19:30-20:30', title: 'Study Marathon', desc: 'History, geography, and French using mind maps' },
+          { time: '20:30-22:00', title: 'Crafts', desc: 'Learning music guitar piano only 💎' }
+        ]
+      },
+      5: {
+        title: 'Creativity Friday',
+        blocks: [
+          { time: '05:00-08:00', title: 'Spiritual Meditation', desc: 'Surah Al-Kahf + morning Adhkar + natural sciences review' },
+          { time: '08:00-10:00', title: 'Mind Reset', desc: 'Preparing for video montage' },
+          { time: '10:00-14:00', title: 'Ethical Hacking and Terminology', desc: 'Learning ethical hacking + study marathon for Arabic/English and Islamic studies using mind maps' },
+          { time: '14:00-15:00', title: 'Audio Meditation', desc: 'Listening to the Quran and meditation (includes voice tone improvement)' },
+          { time: '15:00-16:00', title: 'Physical Preparation', desc: 'Push-up exercises (for chest and shoulders)' },
+          { time: '16:00-17:00', title: 'Website Management', desc: 'Following up on completed web site development projects' },
+          { time: '17:00-18:30', title: 'Energy Generation', desc: 'Running for one hour (do not do it if you have swimming afterwards 🏊)' },
+          { time: '18:30-19:30', title: 'Energy Generation', desc: '(Swimming 🏊 or Football ⚽ or 🥊 Muay Thai) and (🏀 Basketball or 🥋 BJJ or 🏃 1-Hour Run)' },
+          { time: '19:30-20:30', title: 'System Review, Tactical Planning', desc: 'Self-development and weekly evaluation + updating the "hard tasks" list for the next week' }
+        ]
+      },
+      6: {
+        title: 'Mastery Saturday',
+        blocks: [
+          { time: '05:00-10:00', title: 'Academic Focus', desc: 'Physics review + memorization of a new Quran text (5 hours)' },
+          { time: '10:00-14:00', title: 'Technical Immersion / fl studio', desc: 'Ethical hacking + fl studio (first session) + mastering the English language (4 hours) + philosophy course' },
+          { time: '14:00-15:00', title: 'Crafts / fl studio ', desc: 'Learning fl studio (second session)' },
+          { time: '15:00-16:30', title: 'Fitness & Physical Therapy', desc: 'Physical Exercises: Abdominal Exercises (Six-pack) and Triceps / Physical exercises: abdominal exercises (six-pack) and triceps' },
+          { time: '16:30-17:00', title: 'Therapy and Nutrition', desc: 'Micronutrient Intake (Calcium / Magnesium / Zinc) / Consuming micronutrients (calcium / magnesium / zinc)' },
+          { time: '17:00-18:30', title: 'Competitive Sports', desc: '(Swimming 🏊 or Football ⚽ or 🥊 Muay Thai) and (🏀 Basketball or 🥋 BJJ or 🏃 1-Hour Run)' },
+          { time: '18:30-19:30', title: 'Digital Architecture', desc: 'System programming and monitoring & updates of web projects' },
+          { time: '19:30-20:30', title: 'Calibration', desc: 'Sudoku + system calibration & comprehensive review... weekly evaluation "Yassine Tia"' },
+          { time: '20:30-22:00', title: 'Maximum Stimulation', desc: 'Stretching & lengthening workouts + preparing for sleep and deep rest, and watching dribbles and skills in basketball and football (summary to benefit from watching)' }
+        ]
+      }
+    }
+},
+week4: {
+    id: 'week4',
+    title: 'System Update 11.0 — Infinity',
+    version: '1000',
+    range: 'LVL 800 → 1000',
+        desc: 'Stage of spiritual and technical mastery: focus on Aqidah and Tawhid, applied technical lab, and complete mastery of languages and skills.',
+
+    schedule: [
+      { start: 5.0,  end: 6.0,  title: 'Spiritual Session',        desc: 'Quran recitation (individual: meditative / pairs: new) + Fajr prayer, Adhkar, and stretching exercises' },
+      { start: 6.0,  end: 8.5,  title: 'Advanced Programming',         desc: 'The Book of Tawhid and Aqidah' },
+      { start: 8.5,  end: 10.5, title: 'AI Academy .. Applied Technical Lab', desc: 'Applied technical lab' },
+      { start: 10.5, end: 12.0, title: 'English Mastery',        desc: 'In-depth technical explanation + building training vocabulary and practical application (if you master English, move to another useful language)' },
+      { start: 12.0, end: 13.0, title: 'Rest & Useful Learning',              desc: 'Orange Blender program courses for graphics deep learning' },
+      { start: 13.0, end: 15.0, title: ' Grand Rest + Rest & Useful Learning', desc: 'Orange Blender program courses for graphics deep learning + Dhuhr prayer + protein-rich lunch + nap' },
+      { start: 15.0, end: 16.5, title: 'PPL & Calisthenics', desc: 'Push, pull, and leg exercises + gymnastics and calisthenics athletic exercises' },
+      { start: 16.5, end: 17.5, title: 'Rest & Dinner / Sheikh Al-Raslan',       desc: 'Rest from fatigue / Sheikh Al-Raslan or religious sermons by different Sheikhs' },
+      { start: 17.5, end: 19.5, title: 'Academic Focus',          desc: 'Academic curricula: Mathematics (Sunday/Wednesday), Science (Monday/Friday), Physics (Tuesday/Saturday)' },
+      { start: 19.5, end: 20.5, title: 'Mental & Physical Dev',  desc: 'Reading + documentaries + mental games + physical rest' },
+      { start: 20.5, end: 22.0, title: 'System Prep + Opening the pelvis',              desc: 'Creating your schedule + evening Adhkar + muscle and mind relaxation + Opening the pelvis' }
+    ],
+    days: {
+      0: { sport: 'Swimming 🏊 / Muay Thai 🥊 / Jiu-Jitsu 🥋', ppl: 'Pull (Back & Biceps)  ', cognitive: 'Creating a digital book (Session 1) / fl studio for the Holy Quran ', academic: 'Mathematics' },
+      1: { sport: 'Swimming 🏊 / Muay Thai 🥊 / Jiu-Jitsu 🥋', ppl: 'Push (Chest upper/side/normal) / Push exercises', cognitive: 'Documentary / fl studio for the Holy Quran ', academic: 'Natural Sciences' },
+      2: { sport: 'Swimming 🏊 / Muay Thai 🥊 / Jiu-Jitsu 🥋', ppl: 'Pull (Back & Triceps) / Pull exercises', cognitive: 'Reading books + watching self-development', academic: 'Physics' },
+      3: { sport: 'Basketball 🏀 / Football ⚽ / 1-Hour Run 🏃', ppl: 'Legs (Front & Calves) / Leg exercises', cognitive: 'Documentary', academic: 'Math Review' },
+      4: { sport: 'Basketball 🏀 / Football ⚽ / 1-Hour Run 🏃', ppl: 'Abs & Biceps / Abs and biceps exercises', cognitive: 'Watching self-development + fl studio for the Holy Quran ', academic: 'Islamic/History/Geo / Islamic studies/history/geography' },
+      5: { sport: 'Rest, recovery, and 1-hour run 🏃', ppl: 'Push (Chest inner/pelvis/lower) / Push exercises', cognitive: 'Dual N-Back + book review', academic: 'Science Review' },
+      6: { sport: 'Basketball 🏀 / Football ⚽ / 1-Hour Run 🏃', ppl: 'Abs (Six-pack) & Triceps / Abs and triceps exercises', cognitive: 'Dual N-Back + weekly assessment "Yassine Tia" + fl studio for the Holy Quran', academic: 'Physics Review' }
+    },
+    special: { 
+      4: {
+        title: 'Achievement Thursday (Fasting and Diligence)',
+        blocks: [
+          { time: '02:45-05:00', title: 'Night Prayer and Suhoor', desc: 'Dhuhr prayer + protein-rich lunch + remembrance of Allah + quick mental review' },
+          { time: '05:00-06:30', title: 'Quran Session', desc: 'Recitation and memorization of the Holy Quran (one and a half hours)' },
+          { time: '06:30-09:30', title: 'Religious Studies', desc: 'Riyadh as-Salihin + Al-Bidayah wa\'n-Nihayah + The Forty Nawawi (3 hours)' },
+          { time: '09:30-11:30', title: 'Study Marathon', desc: 'History, geography, and French using mind maps (First Session)' },
+          { time: '11:30-13:30', title: 'Language Skills', desc: 'Reviewing English terminology and understanding grammar as part of software logic' },
+          { time: '13:30-15:00', title: 'Website Development', desc: 'Developing web sites and monetizing them' },
+          { time: '15:00-16:30', title: 'Targeted Muscle Building', desc: 'Leg muscles (thighs/calves) side quest + abdominal muscles and muscle heads' },
+          { time: '16:30-18:30', title: 'Specific Outdoor Sport', desc: '(Swimming 🏊 or Football ⚽ or 🥊 Muay Thai) and (🏀 Basketball or 🥋 BJJ or 🏃 1-Hour Run)' },
+          { time: '18:30-19:30', title: 'Content Creation', desc: 'YouTube, Instagram, TikTok, and Facebook / Creating and producing content for YouTube, Instagram, TikTok, and Facebook' },
+          { time: '19:30-20:30', title: 'Study Marathon', desc: 'History, geography, and French using mind maps (Second Session)' },
+          { time: '20:30-22:00', title: 'Crafts / fl studio for the Holy Quran + Opening the pelvis ', desc: 'fl studio for the Holy Quran + Opening the pelvis' }
+        ]
+      },
+      5: {
+        title: 'Creativity Friday',
+        blocks: [
+          { time: '05:00-08:00', title: 'Spiritual Meditation', desc: 'Surah Al-Kahf + morning Adhkar + natural sciences review' },
+          { time: '08:00-10:00', title: 'Mind Reset', desc: 'Preparing for video montage' },
+          { time: '10:00-14:00', title: 'Ethical Hacking and Terminology', desc: 'Learning ethical hacking + study marathon for Arabic/English and Islamic studies using mind maps' },
+          { time: '14:00-15:00', title: 'Audio Meditation', desc: 'Listening to the Quran and meditation (includes voice tone improvement)' },
+          { time: '15:00-16:00', title: 'Physical Preparation', desc: 'Push-up exercises (for chest and shoulders)' },
+          { time: '16:00-17:00', title: 'Website Management', desc: 'Following up on completed web site development projects' },
+          { time: '17:00-18:30', title: 'Important scientific subject exercises', desc: '' },
+          { time: '18:30-19:30', title: 'Energy Generation', desc: '(Swimming 🏊 or Football ⚽ or 🥊 Muay Thai) and (🏀 Basketball or 🥋 BJJ or 🏃 1-Hour Run)' },
+          { time: '19:30-20:30', title: '؟؟؟ + Opening the pelvis', desc: 'Choice of previous programs (you have the freedom to choose, young Monarch) + Opening the pelvis' }
+        ]
+      },
+      6: {
+        title: 'Mastery Saturday',
+        blocks: [
+          { time: '05:00-10:00', title: 'Academic Focus', desc: 'Physics review + memorization of a new Quran text (5 hours)' },
+          { time: '10:00-14:00', title: 'Technical Immersion / fl studio', desc: 'Ethical hacking + important scientific subject exercises + mastering English language (4 hours) + philosophy course' },
+          { time: '14:00-15:00', title: 'Crafts / fl studio for the Holy Quran', desc: 'Important scientific subject exercises (Second Session)' },
+          { time: '15:00-16:30', title: 'Fitness & Physical Therapy', desc: 'Physical Exercises: Abdominal Exercises (Six-pack) and Triceps / Physical exercises: abdominal exercises (six-pack) and triceps' },
+          { time: '16:30-17:00', title: 'Therapy and Nutrition', desc: 'Micronutrient Intake (Calcium / Magnesium / Zinc) / Consuming micronutrients (calcium / magnesium / zinc)' },
+          { time: '17:00-18:30', title: 'Competitive Sports', desc: '(Swimming 🏊 or Football ⚽ or 🥊 Muay Thai) and (🏀 Basketball or 🥋 BJJ or 🏃 1-Hour Run) choice of previous programs (you have freedom to choose, young Monarch)' },
+          { time: '18:30-19:30', title: 'Digital Architecture', desc: 'System programming and monitoring & updates of web projects' },
+          { time: '19:30-20:30', title: '؟؟؟', desc: 'Choice of previous programs (you have freedom to choose, young Monarch)' },
+          { time: '20:30-22:00', title: 'Maximum Stimulation + Opening the pelvis', desc: 'Stretching & lengthening workouts + preparing for sleep and deep rest, and watching dribbles and skills in basketball and football (summary to benefit from watching) + Opening the pelvis' }
+        ]
+      }
+    }
+},
+week5: {
+    id: 'week5',
+    title: 'System Update 1000.0 — Infinity',
+    version: '∞',
+    range: 'LVL 1000 → ∞',
+        desc: 'Stage of absolute sovereignty and complete freedom: you now control the system, choose your programs yourself, and manage your affairs with total independence.',
+
+    schedule: [
+      { start: 5.0,  end: 6.0,  title: 'Spiritual Session',        desc: 'Quran recitation (individual: meditative / pairs: new) + Fajr prayer, Adhkar, and stretching exercises' },
+      { start: 6.0,  end: 8.5,  title: '???',                                        desc: 'Choice of previous programs (you have freedom to choose, young Monarch)' },
+      { start: 8.5,  end: 10.5, title: '???',                                        desc: 'Choice of previous programs (you have freedom to choose, young Monarch)' },
+      { start: 10.5, end: 12.0, title: 'English Mastery',        desc: 'In-depth technical explanation + building training vocabulary and practical application (if you master English, move to another useful language)' },
+      { start: 12.0, end: 13.0, title: ' ??? ',              desc: 'Choice of previous programs (you have freedom to choose, young Monarch)' },
+      { start: 13.0, end: 15.0, title: '??? + Grand Rest ',                                        desc: 'Choice of previous programs (you have freedom to choose, young Monarch)' },
+      { start: 15.0, end: 16.5, title: 'PPL & Calisthenics', desc: 'Push, pull, and leg exercises + gymnastics and calisthenics athletic exercises' },
+      { start: 16.5, end: 17.5, title: 'Rest & Dinner / Sheikh Al-Raslan',       desc: 'Rest from fatigue / Sheikh Al-Raslan or religious sermons by different Sheikhs' },
+      { start: 17.5, end: 19.5, title: 'Academic Focus',          desc: 'Academic curricula: Mathematics (Sunday/Wednesday), Science (Monday/Friday), Physics (Tuesday/Saturday)' },
+      { start: 19.5, end: 20.5, title: '???',                                        desc: 'Choice of previous programs (you have freedom to choose, young Monarch)' },
+      { start: 20.5, end: 22.0, title: 'System Prep + Opening the pelvis',              desc: 'Creating your schedule + evening Adhkar + muscle and mind relaxation + Opening the pelvis' }
+    ],
+    days: {
+      0: { sport: 'Swimming 🏊 / Muay Thai 🥊 / Jiu-Jitsu 🥋', ppl: 'Pull (Back & Biceps) / Pull exercises', cognitive: 'Creating a digital book (Session 1) / choice of previous programs (you have freedom to choose, young Monarch)', academic: 'Mathematics' },
+      1: { sport: 'Swimming 🏊 / Muay Thai 🥊 / Jiu-Jitsu 🥋', ppl: 'Push (Chest upper/side/normal) / Push exercises', cognitive: 'Choice of previous programs (you have freedom to choose, young Monarch)', academic: 'Natural Sciences' },
+      2: { sport: 'Swimming 🏊 / Muay Thai 🥊 / Jiu-Jitsu 🥋', ppl: 'Pull (Back & Triceps) / Pull exercises', cognitive: 'Choice of previous programs (you have freedom to choose, young Monarch)', academic: 'Physics' },
+      3: { sport: 'Basketball 🏀 / Football ⚽ / 1-Cycling ​🚴​', ppl: 'Legs (Front & Calves) / Leg exercises', cognitive: 'Choice of previous programs (you have freedom to choose, young Monarch)', academic: 'Math Review' },
+      4: { sport: 'Basketball 🏀 / Football ⚽ / 1-Duel or horseback riding ​🤺 ​🏇​', ppl: 'Abs & Biceps / Abs and biceps exercises', cognitive: 'Choice of previous programs (you have freedom to choose, young Monarch)', academic: 'Islamic/History/Geo / Islamic studies/history/geography' },
+      5: { sport: 'Rest, recovery, and 1-hour run 🏃', ppl: 'Push (Chest inner/pelvis/lower) / Push exercises', cognitive: 'Choice of previous programs (you have freedom to choose, young Monarch)', academic: 'Science Review' },
+      6: { sport: 'Basketball 🏀 / Football ⚽ / 1- Karate 🐉​👘​​', ppl: 'Abs (Six-pack) & Triceps / Abs and triceps exercises', cognitive: 'Choice of previous programs (you have freedom to choose, young Monarch)', academic: 'Physics Review' }
+    },
+    special: { 
+      4: {
+        title: 'Achievement Thursday (Fasting and Diligence)',
+        blocks: [
+          { time: '02:45-05:00', title: 'Night Prayer and Suhoor', desc: 'Dhuhr prayer + protein-rich lunch + remembrance of Allah + quick mental review' },
+          { time: '05:00-06:30', title: 'Quran Session', desc: 'Recitation and memorization of the Holy Quran (one and a half hours)' },
+          { time: '06:30-09:30', title: '???', desc: 'Choice of previous programs (you have freedom to choose, young Monarch)' },
+          { time: '09:30-11:30', title: 'Study Marathon', desc: 'History, geography, and French using mind maps (First Session)' },
+          { time: '11:30-13:30', title: 'Language Skills', desc: 'Reviewing English terminology and understanding grammar as part of software logic' },
+          { time: '13:30-15:00', title: 'Website Development', desc: 'Developing web sites and monetizing them' },
+          { time: '15:00-16:30', title: 'Targeted Muscle Building', desc: 'Leg muscles (thighs/calves) side quest + abdominal muscles and muscle heads' },
+          { time: '16:30-18:30', title: 'Specific Outdoor Sport', desc: '(Swimming 🏊 or Football ⚽ or 🥊 Muay Thai) and (🏀 Basketball or 🥋 BJJ or 🏃 1-Hour Run) choice of previous programs (you have freedom to choose, young Monarch)' },
+          { time: '18:30-19:30', title: 'Content Creation', desc: 'YouTube, Instagram, TikTok, and Facebook / Creating and producing content for YouTube, Instagram, TikTok, and Facebook' },
+          { time: '19:30-20:30', title: 'Study Marathon', desc: 'History, geography, and French using mind maps (Second Session)' },
+          { time: '20:30-22:00', title: '??? + Opening the pelvis', desc: 'Choice of previous programs (you have freedom to choose, young Monarch) reviewing a scientific subject is preferred + Opening the pelvis' }
+        ]
+      },
+      5: {
+        title: 'Creativity Friday',
+        blocks: [
+          { time: '05:00-08:00', title: 'Spiritual Meditation', desc: 'Surah Al-Kahf + morning Adhkar + natural sciences review' },
+          { time: '08:00-10:00', title: 'Mind Reset', desc: 'Preparing for video montage' },
+          { time: '10:00-14:00', title: 'Ethical Hacking and Terminology', desc: 'Learning ethical hacking + study marathon for Arabic/English and Islamic studies using mind maps' },
+          { time: '14:00-15:00', title: 'Audio Meditation', desc: 'Listening to the Quran and meditation (includes voice tone improvement)' },
+          { time: '15:00-16:00', title: 'Physical Preparation', desc: 'Push-up exercises (for chest and shoulders)' },
+          { time: '16:00-17:00', title: 'Website Management', desc: 'Following up on completed web site development projects' },
+          { time: '17:00-18:30', title: 'Important scientific subject exercises', desc: '' },
+          { time: '18:30-19:30', title: 'Energy Generation', desc: '(Swimming 🏊 or Football ⚽ or 🥊 Muay Thai) and (🏀 Basketball or 🥋 BJJ or 🏃 1-Hour Run) choice of previous programs (you have freedom to choose, young Monarch)' },
+          { time: '19:30-20:30', title: '؟؟؟ + Opening the pelvis', desc: 'Choice of previous programs (you have freedom to choose, young Monarch) + Opening the pelvis' }
+        ]
+      },
+      6: {
+        title: 'Mastery Saturday',
+        blocks: [
+          { time: '05:00-10:00', title: 'Academic Focus', desc: 'Physics review + memorization of a new Quran text (5 hours)' },
+          { time: '10:00-14:00', title: 'Technical Immersion / fl studio', desc: 'Ethical hacking + important scientific subject exercises + mastering English language (4 hours) + philosophy course' },
+          { time: '14:00-15:00', title: 'Crafts / fl studio for the Holy Quran', desc: 'Important scientific subject exercises (Second Session)' },
+          { time: '15:00-16:30', title: 'Fitness & Physical Therapy', desc: 'Physical Exercises: Abdominal Exercises (Six-pack) and Triceps / Physical exercises: abdominal exercises (six-pack) and triceps' },
+          { time: '16:30-17:00', title: 'Therapy and Nutrition', desc: 'Micronutrient Intake (Calcium / Magnesium / Zinc) / Consuming micronutrients (calcium / magnesium / zinc)' },
+          { time: '17:00-18:30', title: 'Competitive Sports', desc: '(Swimming 🏊 or Football ⚽ or 🥊 Muay Thai) and (🏀 Basketball or 🥋 BJJ or 🏃 1-Hour Run) choice of previous programs (you have freedom to choose, young Monarch)' },
+          { time: '18:30-19:30', title: 'Digital Architecture', desc: 'System programming and monitoring & updates of web projects' },
+          { time: '19:30-20:30', title: '؟؟?', desc: 'Choice of previous programs (you have freedom to choose, young Monarch)' },
+          { time: '20:30-22:00', title: 'Maximum Stimulation + Opening the pelvis', desc: 'Stretching & lengthening workouts + preparing for sleep and deep rest, and watching dribbles and skills in basketball and football (summary to benefit from watching) + Opening the pelvis' }
+        ]
+      }
+    }
+}
+};
+const Utils = {
+    // ... existing methods ...
+    
+    // Added:
+    verifyDayConsistency() {
+        const now = new Date();
+        const jsDay = now.getDay();
+        const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+        console.log(`[DAY VERIFICATION] JS getDay()=${jsDay} => ${dayNames[jsDay]} (${this.getDayName(jsDay)})`);
+        return { jsDay, arabicName: this.getDayName(jsDay), englishName: dayNames[jsDay] };
+    }
+};
+
+        // ==========================================
+        // BRAIN STATS ENGINE
+        // ==========================================
+        const BrainStatsEngine = {
+            init() {
+                this.updateUI();
+                this.analyzeDominance();
+            },
+
+            updateUI() {
+                const s = PlayerSync.data.stats;
+                
+                // Set visualization base maximum
+                const maxStat = Math.max(s.int, s.sen, s.str, s.vit, s.agi, 100); 
+                const baseMultiplier = maxStat > 100 ? (100 / maxStat) : 1;
+
+                const setStat = (key, val) => {
+                    const elVal = document.getElementById(`stat-${key}-val`);
+                    const elBar = document.getElementById(`stat-${key}-bar`);
+                    if(elVal) elVal.textContent = val;
+                    if(elBar) {
+                        let pct = Math.min((val / maxStat) * 100, 100);
+                        pct = Math.max(pct, 5); // Minimum visibility limit
+                        elBar.style.width = `${pct}%`;
+                    }
+                };
+
+                setTimeout(() => {
+                    setStat('int', s.int || 10);
+                    setStat('sen', s.sen || 10);
+                    setStat('str', s.str || 10);
+                    setStat('vit', s.vit || 10);
+                    setStat('agi', s.agi || 10);
+                }, 100);
+            },
+
+            analyzeDominance() {
+                const s = PlayerSync.data.stats;
+                let highest = 'none';
+                let maxVal = 0;
+
+                const check = (key, val) => {
+                    if(val > maxVal) { maxVal = val; highest = key; }
+                };
+
+                check('int', s.int || 10);
+                check('sen', s.sen || 10);
+                check('str', s.str || 10);
+                check('vit', s.vit || 10);
+                check('agi', s.agi || 10);
+
+                const icon = document.getElementById('dominant-icon');
+                const title = document.getElementById('dominant-title');
+                const desc = document.getElementById('dominant-desc');
+
+                if (!icon || !title || !desc) return;
+
+                if (maxVal === 10 && s.int === 10 && s.str === 10) {
+                    icon.textContent = "⚖️";
+                    title.textContent = "Absolute Sovereign Balance";
+                    desc.textContent = "Your attributes are perfectly balanced. Start executing daily tasks on the dashboard to guide your development path.";
+                    return;
+                }
+
+                const profiles = {
+                    int: { 
+                        i: "🧠", 
+                        t: "Advanced Architect Mind", 
+                        d: "Intelligence (INT) and deep programming dominate your activity. You build your empire through code and artificial intelligence algorithms." 
+                    },
+                    sen: { 
+                        i: "👁️", 
+                        t: "Perception of the Silent Predator", 
+                        d: "Your perception level (SEN) is razor sharp. Your ability to immerse yourself away from distractions and deeply focus is currently your strongest weapon." 
+                    },
+                    str: { 
+                        i: "⚔️", 
+                        t: "Brute Physical Strength", 
+                        d: "Your body is the temple. Your physical activity (STR) in the PPL system and martial arts characterizes your current path of development." 
+                    },
+                    vit: { 
+                        i: "🛡️", 
+                        t: "Resilience of the Iron Wall", 
+                        d: "Immense capacity for endurance (VIT). Fasting, continuous hard work, and activating Wolff's Law do not break your resolve, they forge it." 
+                    },
+                    agi: { 
+                        i: "⚡", 
+                        t: "Speed of Light Flash", 
+                        d: "Flexibility and permanent movement (AGI). Your speed in completing tasks and continuous explosive running puts you at the front of the battlefield." 
+                    }
+                };
+
+                if (profiles[highest]) {
+                    icon.textContent = profiles[highest].i;
+                    title.textContent = profiles[highest].t;
+                    desc.innerHTML = profiles[highest].d;
+                    title.className = `font-black text-lg sys-font tracking-wider drop-shadow-[0_0_10px_rgba(255,255,255,0.2)] ${
+                        highest === 'str' ? 'text-rose-500' : 
+                        highest === 'vit' ? 'text-emerald-500' : 
+                        highest === 'agi' ? 'text-sky-400' : 
+                        highest === 'sen' ? 'text-[var(--sys-purple)]' : 
+                        'text-[var(--sys-cyan)]'
+                    }`;
+                }
+            }
+        };
+
+        // Initialization moved to unified DOMContentLoaded block below
+        // Function to update cleared dungeon counters inside stats page
+function renderDungeonClearedStats() {
+    const localData = localStorage.getItem('monarch_system_data');
+    if (!localData) return;
+    
+    const data = JSON.parse(localData);
+    const clears = data.clearedDungeons || {};
+
+    // Inject win values inside user interface, if empty set to 0
+    if(document.getElementById('stat-count-chess'))   document.getElementById('stat-count-chess').innerText = clears.Chess || 0;
+    if(document.getElementById('stat-count-math'))    document.getElementById('stat-count-math').innerText = clears.Math || 0;
+    if(document.getElementById('stat-count-sudoku'))  document.getElementById('stat-count-sudoku').innerText = clears.Sudoku || 0;
+    if(document.getElementById('stat-count-hanoi'))   document.getElementById('stat-count-hanoi').innerText = clears.Hanoi || 0;
+    if(document.getElementById('stat-count-memory'))  document.getElementById('stat-count-memory').innerText = clears.Memory || 0;
+}
+
+const UI = {
+    toggleTimerSettings() {
+        if (typeof SoundEffects !== 'undefined') SoundEffects.playSystemClick();
+        document.getElementById('timerModal').classList.toggle('hidden');
+    }
+};
+
+const Toast = {
+    show(message, type = 'info') {
+        const container = document.getElementById('toastContainer');
+        if (!container) return;
+        const toast = document.createElement('div');
+        const colors = {
+            success: 'border-emerald-500 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.3)]',
+            error: 'border-rose-500 text-rose-400 shadow-[0_0_15px_rgba(225,29,72,0.3)]',
+            info: 'border-[var(--sys-cyan)] text-[var(--sys-cyan)] shadow-[0_0_15px_rgba(0,240,255,0.3)]'
+        };
+        toast.className = `pointer-events-auto px-5 py-3 bg-[#02040a]/95 border backdrop-blur-md text-sm font-bold sys-font tracking-wide animate-system-pop ${colors[type] || colors.info}`;
+        toast.textContent = message;
+        container.appendChild(toast);
+        setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 4000);
+    }
+};
+    // ==========================================
+// SYSTEM RESET ENGINE (HARD RESET)
+// ==========================================
+const SystemReset = {
+    confirmAndReset() {
+        if(window.SoundEffects) SoundEffects.playSystemClick();
+        
+        // First security message
+        const firstConfirm = confirm("⚠️ Sovereign Security Warning: Are you sure you want to erase all data?\n(Level resets to 1, you lose all gold, experience, quests, and logs, and you will not be able to recover them).");
+        if (!firstConfirm) return;
+
+        // Final confirm message
+        const secondConfirm = confirm("‼️ Final Confirmation: This operation will restore the system to zero point. Do you want to execute 'Memory Wipe'?");
+        if (!secondConfirm) return;
+
+        // Keys list stored in system to delete
+        const keysToReset = [
+            'monarch_system_data', 
+            'sovereign_active_quest', 
+            'directive_start_time', 
+            'sovereign_active_program', 
+            'SL_QUESTS', 
+            'sovereign_system_logs',
+            'sovereign_titles_index'
+        ];
+
+        // Execute deletion
+        keysToReset.forEach(key => localStorage.removeItem(key));
+
+        // Delete any cache storage for titles and exchange
+        Object.keys(localStorage).forEach(key => {
+            if (key.startsWith('title_cache_')) {
+                localStorage.removeItem(key);
+            }
+        });
+
+        alert("🔄 Memory wiped and system fully reset. The interface will restart.");
+        
+        // Reload page to apply zero state
+        window.location.reload();
+    }
+};
+
+// ==========================================
+// SOUND EFFECTS
+// ==========================================
+const SoundEffects = {
+    track1: new Audio('SHADOWBORN.mp3'),
+    track2: new Audio('Kingdom_of_Iron.mp3'),
+    currentTrackNumber: null,
+    isMusicPlaying: false,
+
+    init() {
+        this.track1.loop = true;
+        this.track2.loop = true;
+    },
+
+    toggleMusic(trackNumber) {
+        const icon1 = document.getElementById('musicIcon1');
+        const icon2 = document.getElementById('musicIcon2');
+
+        if (this.isMusicPlaying && this.currentTrackNumber === trackNumber) {
+            this.stopAllAudio();
+            return;
+        }
+        if (this.isMusicPlaying) this.stopAllAudio();
+
+        this.isMusicPlaying = true;
+        this.currentTrackNumber = trackNumber;
+
+        if (trackNumber === 1) {
+            this.track1.play().catch(err => console.log("Auto-play blocked:", err));
+            if (icon1) icon1.textContent = '⏸️';
+            if (icon2) icon2.textContent = '🎼';
+        } else if (trackNumber === 2) {
+            this.track2.play().catch(err => console.log("Auto-play blocked:", err));
+            if (icon1) icon1.textContent = '🎵';
+            if (icon2) icon2.textContent = '⏸️';
+        }
+    },
+
+    stopAllAudio() {
+        this.track1.pause(); this.track1.currentTime = 0;
+        this.track2.pause(); this.track2.currentTime = 0;
+        const icon1 = document.getElementById('musicIcon1');
+        const icon2 = document.getElementById('musicIcon2');
+        if (icon1) icon1.textContent = '🎵';
+        if (icon2) icon2.textContent = '🎼';
+        this.isMusicPlaying = false;
+        this.currentTrackNumber = null;
+    },
+
+    playSystemClick() {
+        try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(880, ctx.currentTime);
+            gain.gain.setValueAtTime(0.05, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+            osc.connect(gain); gain.connect(ctx.destination);
+            osc.start(); osc.stop(ctx.currentTime + 0.1);
+        } catch(e) {}
+    },
+
+    playSuccess() {
+        try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const notes = [523.25, 659.25, 783.99, 1046.50];
+            notes.forEach((freq, i) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.1);
+                gain.gain.setValueAtTime(0.1, ctx.currentTime + i * 0.1);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.1 + 0.3);
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.start(ctx.currentTime + i * 0.1);
+                osc.stop(ctx.currentTime + i * 0.1 + 0.3);
+            });
+        } catch(e) {}
+    },
+
+    playLevelUp() {
+        try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const notes = [440, 554, 659, 880, 1108];
+            notes.forEach((freq, i) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.15);
+                gain.gain.setValueAtTime(0.08, ctx.currentTime + i * 0.15);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.15 + 0.4);
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.start(ctx.currentTime + i * 0.15);
+                osc.stop(ctx.currentTime + i * 0.15 + 0.4);
+            });
+        } catch(e) {}
+    }
+};
+SoundEffects.init();
+
+// ==========================================
+// DIRECTIVE TIMER ENGINE
+// ==========================================
+const DirectiveTimer = {
+    startTime: null,
+    timerInterval: null,
+    isRunning: false,
+
+    start(savedStartTime) {
+        if (this.isRunning) return;
+        this.startTime = savedStartTime || Date.now();
+        this.isRunning = true;
+        localStorage.setItem('directive_start_time', this.startTime.toString());
+        this.update();
+        this.timerInterval = setInterval(() => this.update(), 1000);
+    },
+
+    stop() {
+        clearInterval(this.timerInterval);
+        this.isRunning = false;
+        this.startTime = null;
+        localStorage.removeItem('directive_start_time');
+    },
+
+    update() {
+        if (!this.startTime) return;
+        const elapsed = Date.now() - this.startTime;
+        const timerEl = document.getElementById('directiveTimer');
+        const progressEl = document.getElementById('directiveProgressBar');
+        if (timerEl) timerEl.textContent = this.formatTime(elapsed);
+        if (progressEl) {
+            const progress = Math.min((elapsed / (25 * 60 * 1000)) * 100, 100);
+            progressEl.style.width = `${progress}%`;
+        }
+    },
+
+    formatTime(ms) {
+        const totalSeconds = Math.floor(ms / 1000);
+        const hours = Math.floor(totalSeconds / 3600).toString().padStart(2, '0');
+        const minutes = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, '0');
+        const seconds = (totalSeconds % 60).toString().padStart(2, '0');
+        return `${hours}:${minutes}:${seconds}`;
+    },
+
+    reset() {
+        this.stop();
+        const timerEl = document.getElementById('directiveTimer');
+        const progressEl = document.getElementById('directiveProgressBar');
+        if (timerEl) timerEl.textContent = '00:00:00';
+        if (progressEl) progressEl.style.width = '0%';
+    }
+};
+
+// ==========================================
+// ANIME POPUP ENGINE
+// ==========================================
+const AnimePopup = {
+    currentQuest: null,
+    questStartTime: null,
+    playerLevel: 1,
+    playerXP: 0,
+    playerGold: 0,
+
+    show(title, description, timeLimit, rewardXP) {
+        if(window.SoundEffects) SoundEffects.playSystemClick();
+        this.syncPlayerState();
+
+        this.currentQuest = { 
+            title: title, 
+            rewardXP: rewardXP || 10, 
+            timeLimit: timeLimit || "25:00",
+            type: this.inferQuestType(title),
+            details: description,
+            acceptedAt: null,
+            active: false
+        };
+
+        document.getElementById('animePopupTitle').textContent = title;
+        document.getElementById('animePopupDesc').innerHTML = description;
+        document.getElementById('animePopupTime').textContent = `TIME: ${this.currentQuest.timeLimit}`;
+        document.getElementById('animePopupReward').textContent = `REWARD: +${this.currentQuest. rewardXP || 10}`;
+        
+        document.getElementById('directiveTargetTime').textContent = this.currentQuest.timeLimit;
+
+        const modal = document.getElementById('animeSystemPopup');
+        modal.classList.remove('hidden');
+    },
+
+    inferQuestType(title) {
+        const t = title.toLowerCase();
+        if (t.match(/برمج|code|هندس|ai|تطوير|برمجية/)) return 'coding_ai';
+        if (t.match(/رياض|بدني|ppl|جري|تدريب|قتال/)) return 'sports';
+        if (t.match(/لغة|إنجليز|english|كتاب|قرآن|روح|شرع/)) return 'languages_books';
+        if (t.match(/زنزان|dungeon|ذهن|شطرنج|سودوكو|ذاكرة/)) return 'dungeons';
+        return 'coding_ai';
+    },
+
+    syncPlayerState() {
+        try {
+            const coreData = JSON.parse(localStorage.getItem('monarch_system_data')) || {};
+            this.playerLevel = coreData.level || 1;
+            this.playerXP = coreData.xp || 0;
+            this.playerGold = coreData.gold || 0;
+        } catch(e) {}
+    },
+
+    acceptQuest() {
+        if(window.SoundEffects) SoundEffects.playSystemClick();
+        document.getElementById('animeSystemPopup').classList.add('hidden');
+        if(this.currentQuest) {
+            this.currentQuest.acceptedAt = Date.now();
+            this.currentQuest.active = true;
+            localStorage.setItem('sovereign_active_quest', JSON.stringify(this.currentQuest));
+
+            document.getElementById('activeDirectiveText').textContent = this.currentQuest.title;
+            document.getElementById('activeDirectiveBar').classList.remove('hidden');
+            DirectiveTimer.start(this.currentQuest.acceptedAt);
+
+            if(window.SovereignEngine) SovereignEngine.state.activeQuest = this.currentQuest;
+            if(window.Toast) Toast.show('تم تفعيل المهمة: ' + this.currentQuest.title, 'success');
+        }
+    },
+
+  completeQuest() {
+        let quest = this.currentQuest || (window.SovereignEngine ? SovereignEngine.state.activeQuest : null);
+        if (!quest) {
+            try { quest = JSON.parse(localStorage.getItem('sovereign_active_quest')); } catch(e){}
+        }
+        if (!quest) {
+            document.getElementById('activeDirectiveBar').classList.add('hidden');
+            if (window.DirectiveTimer) DirectiveTimer.stop();
+            return;
+        }
+
+        const questType = quest.type || 'coding_ai';
+        const baseReward = (window.SovereignEngine ? SovereignEngine.config.weights[questType] : null) || 10;
+        const acceptedAt = quest.acceptedAt || Date.now();
+        const elapsedMinutes = Math.floor((Date.now() - acceptedAt) / 60000);
+
+        let timeBonus = 0;
+        if (elapsedMinutes >= 25) timeBonus = 10;
+        if (elapsedMinutes >= 60) timeBonus = 25;
+
+        const totalXP = baseReward + timeBonus;
+        const goldReward = totalXP * 2;
+
+        if(window.PlayerState) {
+            PlayerState.addXP(totalXP);
+            PlayerState.addGold(goldReward);
+        }
+
+        if(window.SovereignEngine) {
+            SovereignEngine.logToSystem('quest', `تصفية مهمة: [${quest.title}] | +${totalXP} XP`);
+        }
+
+    
+        document.getElementById('activeDirectiveBar').classList.add('hidden');
+        if (window.DirectiveTimer) DirectiveTimer.stop();
+        localStorage.removeItem('sovereign_active_quest');
+        localStorage.removeItem('directive_start_time');
+        if(window.SovereignEngine) SovereignEngine.state.activeQuest = null;
+        this.currentQuest = null;
+
+  
+        if (typeof confetti === 'function') {
+            
+            confetti({
+                particleCount: 140,
+                spread: 80,
+                origin: { y: 0.5 },
+                colors: ['#00f0ff', '#7000ff', '#120024'], 
+                scalar: 0.5,     
+                gravity: 0.8,     
+                startVelocity: 45, 
+                ticks: 80
+            });
+
+            // النبضة الثانية: هالة ذهبية ناعمة تطفو بعد ربع ثانية (ترمز للمكافأة العاهلية)
+            setTimeout(() => {
+                confetti({
+                    particleCount: 40,
+                    spread: 360,
+                    origin: { y: 0.45 },
+                    colors: ['#ffb700', '#ffffff'], // ذهبي ملكي وأبيض ناصع
+                    scalar: 0.4,
+                    gravity: 0.2,       // جاذبية خفيفة جداً تجعل الذهب يطفو كالغبار السحري
+                    startVelocity: 15,  // حركة هادئة
+                    ticks: 120
+                });
+            }, 250);
+        }
+
+        // إشعار النظام الصارم (System Notification)
+        if(window.Toast) {
+            const systemMessage = `✅ مهمة مُنجزة: [${quest.title}] | +${totalXP} XP +${goldReward} 🪙`;
+            Toast.show(systemMessage, 'success');
+        }
+    },
+
+    cancelQuest() {
+        if(window.SoundEffects) SoundEffects.playSystemClick();
+        let questToCancel = this.currentQuest || (window.SovereignEngine ? SovereignEngine.state.activeQuest : null);
+        if (!questToCancel) {
+            try { questToCancel = JSON.parse(localStorage.getItem('sovereign_active_quest')); } catch(e){}
+        }
+
+        DirectiveTimer.stop();
+        document.getElementById('activeDirectiveBar').classList.add('hidden');
+
+        if(questToCancel && window.PlayerState) {
+            PlayerState.addXP(-10);
+            if(window.SovereignEngine) SovereignEngine.logToSystem('penalty', `إلغاء مهمة: [${questToCancel.title}] | -10 XP`);
+            if(window.Toast) Toast.show('تم إلغاء المهمة! عقوبة: -10 XP', 'error');
+        }
+
+        localStorage.removeItem('sovereign_active_quest');
+        localStorage.removeItem('directive_start_time');
+        if(window.SovereignEngine) SovereignEngine.state.activeQuest = null;
+        this.currentQuest = null;
+    }
+};
+
+// ==========================================
+// PLAYER STATE (RPG MECHANICS - DATA OVERWRITE SHIELD APPLIED)
+// ==========================================
+const PlayerState = {
+    data: {
+        level: 1,
+        xp: 20,
+        gold: 0,
+        ap: 0,
+        stats: { str: 10, vit: 10, agi: 10, int: 10, sen: 10 },
+        authority: 0,
+        lethality: 0
+    },
+
+    init() {
+        const saved = localStorage.getItem('monarch_system_data');
+        if (saved) {
+            try { 
+                const parsedData = JSON.parse(saved);
+                // دمج الخصائص الرئيسية مع الحفاظ على البيانات العميقة المتشعبة (stats وغيرها)
+                this.data = { 
+                    ...this.data, 
+                    ...parsedData,
+                    stats: { ...this.data.stats, ...(parsedData.stats || {}) }
+                }; 
+            } catch(e) {}
+        }
+        this.updateDynamicStats();
+        this.updateUI();
+        this.startScheduleSync();
+    },
+
+    updateDynamicStats() {
+        const now = new Date();
+        const minutesPassed = (now.getHours() * 60) + now.getMinutes();
+        const fatiguePercentage = Math.floor((minutesPassed / 1440) * 100);
+
+        const baseHP = 1000;
+        const maxHP = baseHP + (this.data.level * 100) + (this.data.stats.vit * 50);
+        const baseMP = 500;
+        const maxMP = baseMP + (this.data.level * 50) + (this.data.stats.int * 40);
+
+        if(document.getElementById('fatigueText')) document.getElementById('fatigueText').textContent = fatiguePercentage;
+        if(document.getElementById('fatigueBar')) document.getElementById('fatigueBar').style.width = `${fatiguePercentage}%`;
+        if(document.getElementById('hpText')) document.getElementById('hpText').textContent = `${maxHP}/${maxHP}`;
+        if(document.getElementById('hpBar')) document.getElementById('hpBar').style.width = '85%';
+        if(document.getElementById('mpText')) document.getElementById('mpText').textContent = `${maxMP}/${maxMP}`;
+        if(document.getElementById('mpBar')) document.getElementById('mpBar').style.width = '72%';
+    },
+
+    analyzeQuestAndReward(questTitle) {
+        let title = questTitle.toLowerCase();
+        let statGained = '';
+        if (title.match(/عضلات|قوة|مواي تاي|جوجيتسو|ضغط|أوزان/)) { this.data.stats.str += 1; statGained = 'STR'; }
+        else if (title.match(/برمجة|ذكاء|دراسة|تطوير|كود|ai|اصطناعي/)) { this.data.stats.int += 1; statGained = 'INT'; }
+        else if (title.match(/جري|سرعة|ركض/)) { this.data.stats.agi += 1; statGained = 'AGI'; }
+        else if (title.match(/تأمل|تركيز|ملاحظة/)) { this.data.stats.sen += 1; statGained = 'PER'; }
+        else if (title.match(/تحمل|صيام|عمل/)) { this.data.stats.vit += 1; statGained = 'VIT'; }
+        else { this.data.ap += 1; statGained = 'AP (Free Point)'; }
+        this.save();
+        return statGained;
+    },
+
+    spendAP(statName) {
+        if (this.data.ap > 0 && this.data.stats[statName] !== undefined) {
+            this.data.ap -= 1;
+            this.data.stats[statName] += 1;
+            if (typeof SoundEffects !== 'undefined') SoundEffects.playSystemClick();
+            if (typeof Toast !== 'undefined') Toast.show(`Stat ${statName.toUpperCase()} structurally upgraded!`, 'success');
+            this.save();
+        }
+    },
+
+    addXP(amount) {
+        this.data.xp += amount;
+        if (this.data.xp < 0) {
+            if (this.data.level > 1) {
+                this.data.level -= 1;
+                this.data.xp += (this.data.level * 100);
+            } else {
+                this.data.xp = 0;
+            }
+        }
+        const xpNeeded = this.data.level * 100;
+        if (this.data.xp >= xpNeeded) {
+            this.data.xp -= xpNeeded;
+            this.levelUp();
+        }
+        this.save();
+    },
+
+    addGold(amount) { 
+        this.data.gold += amount; 
+        this.save();
+    },
+
+    addStat(statName, amount) {
+        if (this.data.stats[statName] !== undefined) { 
+            this.data.stats[statName] += amount;
+            this.save(); 
+        }
+    },
+
+    levelUp() {
+        this.data.level += 1;
+        this.data.ap += 3;
+        Object.keys(this.data.stats).forEach(k => this.data.stats[k] += 1);
+        this.save();
+
+        if (typeof SoundEffects !== 'undefined') SoundEffects.playLevelUp();
+        if (typeof confetti !== 'undefined') confetti({ particleCount: 300, spread: 120, origin: { y: 0.6 }, colors: ['#00f0ff', '#9d4edd', '#ffffff'] });
+
+        const modal = document.getElementById('milestoneModal');
+        if(modal) {
+            document.getElementById('milestoneOldLevel').textContent = this.data.level - 1;
+            document.getElementById('milestoneLevelText').textContent = this.data.level;
+            document.getElementById('milestoneMessage').innerHTML = `State recovered.<br>All stats increased by +1<br>Acquired 3 Free AP.`;
+            modal.classList.remove('hidden');
+        }
+    },
+
+    startScheduleSync() {
+        const updateSystemBroadcast = () => {
+            const now = new Date();
+            const currentTimeDec = now.getHours() + now.getMinutes() / 60;
+            let msg = "[SYSTEM STATUS]: Searching current operational sector...";
+            if (currentTimeDec >= 5 && currentTimeDec < 6) msg = "⚡ ACTIVE BLOCK: [SPIRITUAL CORE] -> Quran recitation & Fajr Adhkar.";
+            else if (currentTimeDec >= 6 && currentTimeDec < 8.5) msg = "💻 ACTIVE BLOCK: [DEEP ARCHITECTURE DEV] -> Programming AiMoha Project.";
+            else if (currentTimeDec >= 8.5 && currentTimeDec < 10.5) msg = "🤖 ACTIVE BLOCK: [AI ACADEMY] -> Machine Learning training.";
+            else if (currentTimeDec >= 15 && currentTimeDec < 16.5) msg = "🏋️ ACTIVE BLOCK: [EVOLUTIONARY PPL ENGINE] -> Physical conditioning.";
+            else if (currentTimeDec >= 20.5 && currentTimeDec < 21.5) msg = "🧠 ACTIVE BLOCK: [COGNITIVE DOMINATION] -> Brain Dungeons active.";
+            else msg = "⚔️ ACTIVE BLOCK: [FLEXIBLE ENGAGEMENT] -> Check operational charter.";
+            if(document.getElementById('motivationalQuote')) document.getElementById('motivationalQuote').textContent = msg;
+        };
+        updateSystemBroadcast();
+        setInterval(updateSystemBroadcast, 60000);
+    },
+
+    save() {
+        // 🛡️ Safe Merge Protocol — يُفوَّض الحفظ لمحرك SovereignCore ليضمن الدمج الآمن
+        // بدل الكتابة الفوقية المباشرة التي كانت تمحو بيانات الألسنة الأخرى
+        try {
+            const savedData = JSON.parse(localStorage.getItem('monarch_system_data') || '{}');
+            this.data = {
+                ...savedData,
+                ...this.data,
+                stats: { ...(savedData.stats || {}), ...this.data.stats }
+            };
+        } catch(e) { console.error("System save error", e); }
+
+        if (window.SovereignCore) {
+            SovereignCore.save(this.data);
+        } else {
+            localStorage.setItem('monarch_system_data', JSON.stringify(this.data));
+        }
+        this.updateDynamicStats();
+        this.updateUI();
+    },
+
+    updateUI() {
+        ['str', 'vit', 'agi', 'int', 'sen'].forEach(stat => {
+            if(document.getElementById(`stat-${stat}`)) document.getElementById(`stat-${stat}`).textContent = this.data.stats[stat];
+        });
+        if(document.getElementById('playerGold')) document.getElementById('playerGold').textContent = this.data.gold;
+        if(document.getElementById('availablePoints')) document.getElementById('availablePoints').textContent = this.data.ap;
+        if(document.getElementById('currentLevel')) document.getElementById('currentLevel').textContent = this.data.level;
+
+        const nextLevelXP = this.data.level * 100;
+        if(document.getElementById('xpText')) document.getElementById('xpText').textContent = `${this.data.xp} / ${nextLevelXP}`;
+
+        const xpPercent = Math.min((this.data.xp / nextLevelXP) * 100, 100);
+        if(document.getElementById('xpBar')) document.getElementById('xpBar').style.width = `${xpPercent}%`;
+
+        document.querySelectorAll('.ap-btn').forEach(btn => {
+            btn.classList.toggle('hidden', this.data.ap <= 0);
+        });
+    }
+};
+
+// ==========================================
+// QUEST SYSTEM
+// ==========================================
+const QuestSystem = {
+    tasks: [],
+    filter: 'all', // 'all' | 'active'
+    init() {
+        const saved = localStorage.getItem('SL_QUESTS');
+        this.tasks = saved ? JSON.parse(saved) : [];
+        this.render();
+    },
+    setFilter(mode) {
+        this.filter = mode;
+        this.render();
+    },
+    addTask() {
+        if(window.SoundEffects) SoundEffects.playSystemClick();
+        const inp = document.getElementById('taskInput');
+        const prio = document.getElementById('prioritySelect').value;
+        const statSelect = document.getElementById('statSelect').value;
+        if(!inp || !inp.value.trim()) return;
+        const task = { id: Date.now(), text: inp.value.trim(), priority: prio, completed: false, stat: statSelect, createdAt: new Date().toISOString() };
+        this.tasks.unshift(task);
+        inp.value = '';
+        this.save();
+        this.render();
+        Toast.show('Quest deployed to system window', 'success');
+    },
+    toggleTask(id) {
+        const taskIndex = this.tasks.findIndex(t => t.id === id);
+        if (taskIndex === -1) return;
+        const task = this.tasks[taskIndex];
+        let xpReward = task.priority === 'high' ? 100 : task.priority === 'medium' ? 50 : 20;
+        let goldReward = task.priority === 'high' ? 30 : task.priority === 'medium' ? 15 : 5;
+        let authorityReward = task.priority === 'high' ? 10 : task.priority === 'medium' ? 5 : 2;
+
+        if (!task.completed) {
+            task.completed = true;
+            if(window.PlayerState) {
+                PlayerState.data.authority = (PlayerState.data.authority || 0) + authorityReward;
+                PlayerState.addXP(xpReward);
+                PlayerState.addGold(goldReward);
+                PlayerState.addStat(task.stat || 'int', 1);
+            }
+            Toast.show(`Quest Cleared! +${xpReward} EXP`, 'success');
+            if(window.SoundEffects) SoundEffects.playSuccess();
+            if(typeof confetti === 'function') confetti({particleCount: 80, spread: 60, origin: {y: 0.7}, colors: ['#00f0ff','#9d4edd']});
+        } else {
+            task.completed = false;
+            if(window.PlayerState) {
+                PlayerState.data.authority = Math.max(0, (PlayerState.data.authority || 0) - authorityReward);
+                PlayerState.addXP(-xpReward);
+                PlayerState.addGold(-goldReward);
+                if (PlayerState.data.gold < 0) PlayerState.data.gold = 0;
+                PlayerState.addStat(task.stat || 'int', -1);
+            }
+            Toast.show(`Quest Reversed! Rewards Deducted.`, 'error');
+            if(window.SoundEffects) SoundEffects.playSystemClick();
+        }
+        this.save();
+        this.render();
+    },
+    deleteTask(id) {
+        if(window.SoundEffects) SoundEffects.playSystemClick();
+        this.tasks = this.tasks.filter(t => t.id !== id);
+        this.save();
+        this.render();
+    },
+    render() {
+        const container = document.getElementById('taskContainer');
+        const titleEl = document.getElementById('taskListTitle');
+        const backBtn = document.getElementById('backToAllBtn');
+        if(!container) return;
+        container.innerHTML = '';
+
+        // Update title and back button based on filter
+        if (titleEl) {
+            titleEl.textContent = this.filter === 'active' ? '⚔️ ACTIVE ENGAGEMENTS (Incomplete)' : '⚔️ Active Directives Log';
+            titleEl.className = this.filter === 'active' 
+                ? 'font-black text-sm text-amber-400 tracking-wide uppercase sys-font' 
+                : 'font-black text-sm text-[var(--sys-cyan)] tracking-wide uppercase sys-font';
+        }
+        if (backBtn) {
+            backBtn.classList.toggle('hidden', this.filter !== 'active');
+        }
+
+        let activeCount = 0; let completedCount = 0;
+
+        // Filter tasks
+        const displayTasks = this.filter === 'active' 
+            ? this.tasks.filter(t => !t.completed) 
+            : this.tasks;
+
+        if (displayTasks.length === 0) {
+            const emptyMsg = this.filter === 'active' 
+                ? '<p>[NO INCOMPLETE ENGAGEMENTS DETECTED]</p><p class="text-[10px] mt-2">All directives have been cleared.</p>'
+                : '<p>[NO ACTIVE QUESTS DETECTED]</p>';
+            container.innerHTML = `<div class="text-center py-10 opacity-30 sys-font">${emptyMsg}</div>`;
+            this.updateStatsUI(0, 0, 0);
+            return;
+        }
+        const statColors = { 'int': 'text-[var(--sys-cyan)]', 'str': 'text-rose-500', 'vit': 'text-emerald-500', 'agi': 'text-sky-400', 'sen': 'text-[var(--sys-purple)]' };
+        displayTasks.forEach(task => {
+            task.completed ? completedCount++ : activeCount++;
+            const escapedText = task.text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            const div = document.createElement('div');
+            div.className = `task-card flex items-center justify-between p-4 bg-slate-900/80 backdrop-blur-sm border-y border-y-slate-800 transition-all ${task.completed ? 'completed opacity-50' : ''}`;
+            div.innerHTML = `
+                <div class="flex items-center gap-4">
+                    <button onclick="QuestSystem.toggleTask(${task.id})" class="w-6 h-6 rounded border-2 border-[var(--sys-cyan)] flex items-center justify-center hover:bg-[var(--sys-cyan)] hover:bg-opacity-20 transition-colors ${task.completed ? 'bg-[var(--sys-cyan)]' : ''}">
+                        ${task.completed ? '<span class="text-black text-xs font-black">✓</span>' : ''}
+                    </button>
+                    <div>
+                        <div class="font-bold text-white text-sm ${task.completed ? 'line-through text-slate-500' : ''}">${escapedText}</div>
+                        <div class="flex gap-2 mt-1">
+                            <span class="sys-font text-[10px] px-2 py-0.5 border border-slate-700 bg-black/50 ${statColors[task.stat || 'int']} uppercase tracking-widest">+1 ${(task.stat || 'int').toUpperCase()}</span>
+                            <span class="sys-font text-[10px] px-2 py-0.5 border border-slate-700 bg-black/50 text-amber-400 uppercase tracking-widest">RANK: ${(task.priority || 'medium').toUpperCase()}</span>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="QuestSystem.deleteTask(${task.id})" class="text-slate-600 hover:text-rose-500 transition-colors p-2">🗑️</button>
+            `;
+            container.appendChild(div);
+        });
+        const lethalityRate = Math.round((completedCount / this.tasks.length) * 100);
+        if(window.PlayerState) {
+            PlayerState.data.lethality = lethalityRate;
+            PlayerState.save();
+        }
+        this.updateStatsUI(activeCount, this.tasks.length, lethalityRate);
+    },
+    updateStatsUI(active, all, lethality) {
+        if(document.getElementById('cnt-active-val')) document.getElementById('cnt-active-val').textContent = active;
+        if(document.getElementById('stat-lethality')) document.getElementById('stat-lethality').textContent = `${lethality}%`;
+    },
+    save() { localStorage.setItem('SL_QUESTS', JSON.stringify(this.tasks)); }
+};
+
+// ==========================================
+// POMODORO TIMER
+// ==========================================
+const Pomodoro = {
+    defaultTime: parseInt(localStorage.getItem('SL_SYS_TIMER')) || (5 * 3600),
+    timeLeft: 0, timer: null, isRunning: false,
+    init() { this.timeLeft = this.defaultTime; this.updateUI(); },
+    saveSettings() {
+        const h = parseInt(document.getElementById('inputHours').value) || 0;
+        const m = parseInt(document.getElementById('inputMinutes').value) || 0;
+        const tot = (h * 3600) + (m * 60);
+        if (tot > 0) {
+            this.defaultTime = tot;
+            localStorage.setItem('SL_SYS_TIMER', this.defaultTime.toString());
+            document.getElementById('timerModal').classList.add('hidden');
+            clearInterval(this.timer); this.timeLeft = this.defaultTime; this.isRunning = false;
+            this.toggle();
+        }
+    },
+    toggle() {
+        if(typeof SoundEffects !== 'undefined') SoundEffects.playSystemClick();
+        const btn = document.getElementById('timerBtn');
+        const st = document.getElementById('timerStatus');
+        if (this.isRunning) {
+            clearInterval(this.timer);
+            btn.textContent = 'START'; btn.classList.remove('bg-rose-600/30');
+            st.textContent = 'PAUSED'; st.className = 'sys-font text-[9px] px-2 py-0.5 bg-amber-900 border border-amber-600 text-amber-300 uppercase';
+        } else {
+            if (this.timeLeft <= 0) this.timeLeft = this.defaultTime;
+            this.timer = setInterval(() => { if (this.timeLeft > 0) { this.timeLeft--; this.updateUI(); } else { this.finish(); } }, 1000);
+            btn.textContent = '⏸️'; btn.classList.add('bg-rose-600/30');
+            st.textContent = 'IN COMBAT'; st.className = 'sys-font text-[9px] px-2 py-0.5 bg-rose-900 border border-rose-600 text-rose-300 uppercase animate-pulse';
+        }
+        this.isRunning = !this.isRunning;
+    },
+    reset() {
+        if(typeof SoundEffects !== 'undefined') SoundEffects.playSystemClick();
+        clearInterval(this.timer);
+        this.timeLeft = this.defaultTime; this.isRunning = false;
+        const btn = document.getElementById('timerBtn'); btn.textContent = 'START'; btn.classList.remove('bg-rose-600/30');
+        const st = document.getElementById('timerStatus');
+        st.textContent = 'IDLE'; st.className = 'sys-font text-[9px] px-2 py-0.5 bg-slate-800 border border-slate-600 text-slate-300 uppercase';
+        this.updateUI();
+    },
+    finish() {
+        clearInterval(this.timer);
+        if(typeof SoundEffects !== 'undefined') SoundEffects.playSuccess();
+        if (typeof confetti !== 'undefined') confetti({ particleCount: 100, colors: ['#00f0ff'] });
+        this.reset();
+    },
+    updateUI() {
+        const h = Math.floor(this.timeLeft / 3600).toString().padStart(2, '0');
+        const m = Math.floor((this.timeLeft % 3600) / 60).toString().padStart(2, '0');
+        const s = (this.timeLeft % 60).toString().padStart(2, '0');
+        if(document.getElementById('timerDisplay')) document.getElementById('timerDisplay').textContent = `${h}:${m}:${s}`;
+    }
+};
+
+const Milestone = {
+    hide() {
+        document.getElementById('milestoneModal').classList.add('hidden');
+        if(typeof SoundEffects !== 'undefined') SoundEffects.playSystemClick();
+    }
+};
+
+// ==========================================
+// CRITICAL FIX: PlayerSync alias — كان غير معرّف بالكامل في هذه الصفحة
+// مما تسبب في انهيار الصفحة فور التحميل. الآن يُشير مباشرة إلى PlayerState.
+// ==========================================
+const PlayerSync = PlayerState;
+
+// ==========================================
+// CRITICAL FIX: Charter / ProgramManager — كلاهما غير معرّف.
+// الأزرار تستدعي Charter.switch() والـ init يستدعي ProgramManager.init().
+// هذا الكائن الموحّد يُصلح كليهما مع تطبيق بوابة القفل الظلي.
+// ==========================================
+const Charter = {
+    activeProgramId: 'week1',
+    init() {
+        const saved = localStorage.getItem('sovereign_active_program');
+        const unlockedId = window.SovereignCore ? SovereignCore.getCurrentProgramId() : 'week1';
+        this.activeProgramId = (saved === unlockedId) ? saved : unlockedId;
+        if (this.activeProgramId !== saved) localStorage.setItem('sovereign_active_program', this.activeProgramId);
+        const badge = document.getElementById('active-program-badge');
+        if (badge) badge.textContent = this.activeProgramId.replace('week', 'WEEK ').toUpperCase();
+        this.renderButtons();
+        this.renderTodaySchedule();
+    },
+    switch(id) {
+        if (this.activeProgramId === id) return;
+        if (window.SovereignCore) {
+            const status = SovereignCore.getProgramStatus(id);
+            if (status.locked) {
+                const msg = status.reason === 'surpassed'
+                    ? '🔒 تم تجاوز هذه البوابة بالفعل — برنامج أحدث بانتظارك'
+                    : `🔒 بوابة مقفلة — يتطلب الوصول إلى المستوى ${status.requiredLevel}`;
+                if (window.Toast) Toast.show(msg, 'error'); else alert(msg);
+                return;
+            }
+        }
+        this.activeProgramId = id;
+        localStorage.setItem('sovereign_active_program', id);
+        const badge = document.getElementById('active-program-badge');
+        if (badge) badge.textContent = id.replace('week', 'WEEK ').toUpperCase();
+        this.renderButtons();
+        if (window.Toast) Toast.show('Protocol switched: ' + id.toUpperCase(), 'info');
+    },
+    renderButtons() {
+        ['week1','week2','week3','week4','week5'].forEach(id => {
+            const btn = document.getElementById('btn-' + id);
+            if (!btn) return;
+            btn.classList.toggle('active', this.activeProgramId === id);
+            const status = window.SovereignCore ? SovereignCore.getProgramStatus(id) : { locked: false };
+            let chip = btn.querySelector('.shadow-lock-chip');
+            if (status.locked) {
+                btn.dataset.locked = 'true';
+                btn.style.cursor = 'not-allowed';
+                btn.style.filter = 'grayscale(0.7) brightness(0.55)';
+                btn.style.position = btn.style.position || 'relative';
+                if (!chip) {
+                    chip = document.createElement('div');
+                    chip.className = 'shadow-lock-chip';
+                    chip.style.cssText = 'position:absolute;inset:0;z-index:4;display:flex;align-items:center;justify-content:center;background:rgba(2,4,10,0.78);border-radius:inherit;font-family:Rajdhani,sans-serif;font-size:11px;font-weight:800;color:var(--sys-purple);text-shadow:0 0 8px rgba(157,78,221,.7);';
+                    btn.appendChild(chip);
+                }
+                chip.innerHTML = status.reason === 'surpassed' ? '✓ بوابة مُجتازة' : `🔒 يتطلب المستوى ${status.requiredLevel}`;
+            } else {
+                btn.removeAttribute('data-locked');
+                btn.style.cursor = '';
+                btn.style.filter = '';
+                if (chip) chip.remove();
+            }
+        });
+    },
+    renderTodaySchedule() {
+        const container = document.getElementById('today-schedule-preview');
+        if (!container || typeof PROGRAM_DATA === 'undefined') return;
+        const prog = PROGRAM_DATA[this.activeProgramId];
+        if (!prog) return;
+        const now = new Date();
+        const day = now.getDay();
+        const d = prog.days[day];
+        if (!d) return;
+        container.innerHTML = `
+            <div class="grid grid-cols-2 gap-2 text-[11px]">
+                <div class="bg-slate-950/40 p-2 rounded border border-slate-800">
+                    <span class="text-slate-500 block">رياضة:</span>
+                    <span class="text-white font-bold">${d.sport}</span>
+                </div>
+                <div class="bg-slate-950/40 p-2 rounded border border-slate-800">
+                    <span class="text-slate-500 block">PPL:</span>
+                    <span class="text-[var(--sys-cyan)] font-bold">${d.ppl}</span>
+                </div>
+                <div class="bg-slate-950/40 p-2 rounded border border-slate-800">
+                    <span class="text-slate-500 block">ذهني:</span>
+                    <span class="text-[var(--sys-purple)] font-bold">${d.cognitive}</span>
+                </div>
+                <div class="bg-slate-950/40 p-2 rounded border border-slate-800">
+                    <span class="text-slate-500 block">أكاديمي:</span>
+                    <span class="text-emerald-400 font-bold">${d.academic}</span>
+                </div>
+            </div>`;
+    }
+};
+const ProgramManager = Charter; // alias for legacy init() calls
+
+// ==========================================
+// UNIFIED INITIALIZATION — مدخل تشغيل موحّد واحد
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+    PlayerState.init();
+    Charter.init();
+    BrainStatsEngine.init();
+    QuestSystem.init();
+    Pomodoro.init();
+    renderDungeonClearedStats();
+
+    // مزامنة حية عبر SovereignCore عند تغيّر البيانات في أي لسان آخر
+    if (window.SovereignCore) {
+        SovereignCore.onChange(() => {
+            PlayerState.init();
+            BrainStatsEngine.init();
+            Charter.renderButtons();
+            renderDungeonClearedStats();
+        });
+    }
+});
+
+// تعريض الكائنات عالمياً للـ onclick handlers في HTML
+window.PlayerState = PlayerState;
+window.PlayerSync  = PlayerSync;
+window.Charter     = Charter;
+window.QuestSystem = QuestSystem;
+window.Toast       = Toast;
+window.AnimePopup  = AnimePopup;
+window.SystemReset = SystemReset;
+window.SoundEffects = SoundEffects;
+window.DirectiveTimer = DirectiveTimer;
+window.Pomodoro    = Pomodoro;
+window.Milestone   = Milestone;
+    </script>
+
+</body>
+</html>

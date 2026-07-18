@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sovereign System | Chess Tactical Dungeon</title>
+    
+    <!-- ── Tailwind CSS ── -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- ── Typography & Icons ── -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* ══════════════════════════════════════════════════════════════
+           DESIGN TOKENS — SINGLE SOURCE OF TRUTH (Dark RPG Style)
+        ══════════════════════════════════════════════════════════════ */
+        :root {
+            --sys-cyan:         #00f0ff;
+            --sys-cyan-glow:    rgba(0, 240, 255, 0.40);
+            --sys-purple:       #9d4edd;
+            --sys-purple-glow:  rgba(157, 78, 221, 0.30);
+            --sys-gold:         #fbbf24;
+            --sys-gold-glow:    rgba(251, 191, 36, 0.35);
+            --sys-red:          #ef4444;
+            --sys-red-glow:     rgba(239, 68, 68, 0.40);
+            --sys-green:        #10b981;
+            --sys-bg-dark:      #02040a;
+            --sys-panel:        rgba(5, 10, 25, 0.92);
+            --sys-border:       rgba(0, 240, 255, 0.22);
+            --transition:       all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--sys-bg-dark);
+            color: #e2e8f0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(157, 78, 221, 0.15) 0%, transparent 45%),
+                radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.12) 0%, transparent 45%);
+            background-attachment: fixed;
+        }
+
+        .sys-font { font-family: 'Rajdhani', sans-serif; letter-spacing: 0.05em; }
+
+        /* Sovereign Panel Styling */
+        .sovereign-panel {
+            background: var(--sys-panel);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 240, 255, 0.14);
+            box-shadow: 0 8px 32px rgba(0,0,0,.6), inset 0 0 15px rgba(0,240,255,.04);
+        }
+
+        .sl-panel {
+            background: var(--sys-panel);
+            backdrop-filter: blur(16px);
+            border: 2px solid var(--sys-border);
+            box-shadow: 0 0 25px rgba(0,240,255,.12), inset 0 0 15px rgba(0,240,255,.06);
+            position: relative;
+        }
+
+        .sl-panel::before,
+        .sl-panel::after {
+            content: '';
+            position: absolute;
+            width: 16px; height: 16px;
+            pointer-events: none;
+        }
+        .sl-panel::before { top:-2px; left:-2px; border-top:3px solid var(--sys-cyan); border-left:3px solid var(--sys-cyan); }
+        .sl-panel::after  { bottom:-2px; right:-2px; border-bottom:3px solid var(--sys-cyan); border-right:3px solid var(--sys-cyan); }
+
+        /* Neon Glow Effects */
+        .sl-glow-text { color: var(--sys-cyan); text-shadow: 0 0 8px var(--sys-cyan-glow); }
+        .sl-glow-text-purple { color: var(--sys-purple); text-shadow: 0 0 8px var(--sys-purple-glow); }
+
+        /* Interactive Simulator Frame */
+        .game-frame-container {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            background: #000;
+            border: 2px solid var(--sys-border);
+            box-shadow: 0 0 35px rgba(0, 240, 255, 0.1);
+        }
+
+        .scanline {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, transparent 50%, rgba(255, 255, 255, 0.015) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0.4;
+        }
+
+        /* Nav Item Highlight */
+        .nav-item-active {
+            background: rgba(0,240,255,.10) !important;
+            border-color: var(--sys-cyan)   !important;
+            color: var(--sys-cyan)          !important;
+            box-shadow: 0 0 12px rgba(0,240,255,.20);
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { border-color: rgba(0, 240, 255, 0.22); box-shadow: 0 0 15px rgba(0, 240, 255, 0.05); }
+            50% { border-color: var(--sys-cyan); box-shadow: 0 0 25px rgba(0, 240, 255, 0.25); }
+        }
+        .live-chamber-border { animation: pulseGlow 4s infinite ease-in-out; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: var(--sys-cyan); border-radius: 2px; }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'sys-dark':   '#02040a',
+                        'sys-cyan':   '#00f0ff',
+                        'sys-purple': '#9d4edd',
+                        'sys-gold':   '#fbbf24',
+                        'sys-red':    '#ef4444',
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+<body class="p-3 md:p-6 min-h-screen relative">
+    <div class="sov-secondary-bg" aria-hidden="true"></div>
+
+    <!-- TOAST SYSTEM -->
+    <div id="toastContainer" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[200] flex flex-col-reverse gap-2 pointer-events-none"></div>
+
+    <!-- MAIN PAGE WRAPPER -->
+    <div class="max-w-[1440px] mx-auto space-y-6 relative z-10">
+
+        <!-- ────────────────────────────────────────────────────────
+             HEADER — RPG Metrics & State Sync
+        ──────────────────────────────────────────────────────────── -->
+        <header id="main-header" class="sovereign-panel rounded-xl p-5 flex flex-col lg:flex-row justify-between items-center gap-4 border-b-2 border-sys-cyan mt-6 animate-system-pop">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-lg bg-sys-cyan/10 border border-sys-cyan flex items-center justify-center text-2xl shadow-[0_0_15px_rgba(0,240,255,0.2)]">
+                    ♟️
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-black tracking-wide text-white flex items-center gap-2">
+                        Sovereign Chess Dungeon
+                        <span class="text-xs bg-sys-purple/10 border border-sys-purple text-sys-purple px-2.5 py-0.5 rounded font-mono font-bold animate-pulse">
+                            RANK: S — TACTICAL FIELD
+                        </span>
+                    </h1>
+                    <p class="text-xs text-sys-cyan sys-font tracking-widest uppercase">
+                        Sovereign Chess Tactical Grid Simulator
+                    </p>
+                </div>
+            </div>
+
+            <!-- Sync indicators linked dynamically to PlayerState -->
+            <div class="flex flex-wrap items-center gap-6 bg-slate-950/60 px-6 py-3 rounded-lg border border-slate-800">
+                <div class="text-center">
+                    <span class="block text-[10px] text-slate-500 sys-font">SYSTEM LEVEL</span>
+                    <span id="player-level" class="text-xl font-bold text-white sys-font">1</span>
+                </div>
+                <div class="h-8 w-px bg-slate-800"></div>
+                <div class="min-w-[140px]">
+                    <div class="flex justify-between text-[10px] text-slate-500 sys-font mb-1">
+                        <span>INT PROGRESS</span>
+                        <span id="int-score" class="text-sys-purple font-bold">10 INT</span>
+                    </div>
+                    <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                        <div id="player-xp-bar" class="bg-sys-purple h-full transition-all duration-500" style="width: 50%"></div>
+                    </div>
+                </div>
+                <div class="h-8 w-px bg-slate-800"></div>
+                <div class="text-center">
+                    <span class="block text-[10px] text-slate-500 sys-font">GOLD BALANCE</span>
+                    <div class="flex items-center gap-1 justify-center">
+                        <span class="text-sys-gold text-sm">🪙</span>
+                        <span id="player-gold" class="text-lg font-bold text-sys-gold sys-font">0</span>
+                    </div>
+                </div>
+                <div class="h-8 w-px bg-slate-800"></div>
+                <div class="text-center">
+                    <span class="block text-[10px] text-slate-500 sys-font">CHAMBER STATUS</span>
+                    <span id="chamber-badge" class="text-xs font-black text-sys-cyan tracking-wide uppercase">ACTIVE STIMULUS</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- ────────────────────────────────────────────────────────
+             MAIN WORKSPACE
+        ──────────────────────────────────────────────────────────── -->
+        <main class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <!-- GAME & SIMULATOR ZONE (Col Span 8) -->
+            <div class="lg:col-span-8 space-y-6">
+
+                <!-- MAIN SIMULATION BOX -->
+                <div class="sl-panel p-5 space-y-4 live-chamber-border rounded-xl">
+                    <div class="flex flex-wrap justify-between items-center border-b border-slate-800 pb-3 gap-2">
+                        <div>
+                            <span class="sys-font text-[10px] text-sys-cyan tracking-[0.2em] font-black uppercase block">[ LINKED SIMULATION CHAMBER ]</span>
+                            <h2 class="text-base font-black text-white mt-1">Chess Tactics Processing Arena</h2>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="chessDungeon.refreshIframe()" class="px-3.5 py-1.5 bg-slate-900 border border-slate-700 text-slate-400 hover:border-sys-cyan hover:text-white transition rounded-md text-xs font-bold sys-font flex items-center gap-1">
+                                <i class="fa-solid fa-arrows-rotate"></i> Refresh Connection
+                            </button>
+                            <a href="https://lichess.org/" target="_blank" class="px-3.5 py-1.5 bg-sys-cyan/15 border border-sys-cyan text-sys-cyan hover:bg-sys-cyan hover:text-black transition rounded-md text-xs font-black tracking-wider uppercase flex items-center gap-1.5">
+                                <i class="fa-solid fa-up-right-from-square"></i> Full Screen Portal
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Frame Container -->
+                    <div class="game-frame-container rounded-lg overflow-hidden relative">
+                        <div class="scanline"></div>
+                        <iframe 
+                            id="chess-iframe"
+                            src="https://lichess.org/tv/frame?theme=dark&bg=dark" 
+                            class="w-full h-full border-0 absolute inset-0"
+                            allow="autoplay; fullscreen"
+                            loading="lazy">
+                        </iframe>
+                    </div>
+
+                    <!-- Alternate action alert -->
+                    <div class="p-3 bg-slate-950/60 rounded border border-slate-900 flex flex-col sm:flex-row justify-between items-center gap-3">
+                        <div class="text-right">
+                            <h4 class="text-xs font-black text-sys-gold">⚠️ Need to log in or facing an issue?</h4>
+                            <p class="text-[10px] text-slate-500 mt-1 leading-relaxed">Due to your browser restrictions or frame blocking, you can click the button next to this to go to Lichess to experience the full match and save your progress.</p>
+                        </div>
+                        <a href="https://lichess.org/?any#ai" target="_blank" class="px-5 py-2.5 bg-sys-gold text-black font-black text-xs uppercase tracking-widest rounded shadow-[0_0_15px_var(--sys-gold-glow)] hover:scale-[1.02] transition-all whitespace-nowrap">
+                            Open Live Lichess Portal 🚀
+                        </a>
+                    </div>
+                </div>
+
+                <!-- STRATEGIC MANIFESTO -->
+                <div class="sovereign-panel rounded-xl p-5 space-y-4">
+                    <h3 class="text-sm font-black text-white border-b border-slate-800 pb-2">
+                        📜 Chessboard Protocols & Elite Strategies
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="p-4 bg-slate-950/40 rounded border border-slate-900 space-y-2">
+                            <h4 class="font-black text-xs text-sys-cyan">1. Control the Center of the Board</h4>
+                            <p class="text-[11px] text-slate-400 leading-relaxed">
+                                Control the central squares (e4, d4, e5, d5) early in the opening. Whoever controls the center commands more space to maneuver and deliver decisive blows, while preventing the opponent from freely developing their pieces.
+                            </p>
+                        </div>
+                        <div class="p-4 bg-slate-950/40 rounded border border-slate-900 space-y-2">
+                            <h4 class="font-black text-xs text-sys-purple">2. Rapid Development and Castling</h4>
+                            <p class="text-[11px] text-slate-400 leading-relaxed">
+                                Do not leave your king in the center to be vulnerable to attacks. Develop minor pieces (knights and bishops) quickly, and castle to protect the king and connect the rooks for a counter-attack.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SYSTEM CONTROLS & REWARDS DISPATCH (Col Span 4) -->
+            <aside class="lg:col-span-4 space-y-6">
+
+                <!-- QUEST DISPATCH PANEL -->
+                <div class="sovereign-panel rounded-xl p-5 space-y-5 border-r-4 border-r-sys-cyan">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                        <h3 class="text-xs font-black text-sys-cyan tracking-widest uppercase sys-font">
+                            ⚔️ DISPATCH CONSOLE — REWARDS PANEL
+                        </h3>
+                        <span class="text-[9px] bg-cyan-950 text-sys-cyan px-2 py-0.5 rounded border border-sys-cyan/30 sys-font font-bold">REWARD</span>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="bg-slate-950/80 p-3.5 border border-slate-900 rounded-lg space-y-3">
+                            <h4 class="text-xs font-bold text-white">Elite Challenge: Clear the Chess Dungeon</h4>
+                            <p class="text-[11px] text-slate-500 leading-relaxed">
+                                Play a full tactical chess match against AI or real opponents online. Secure at least one victory or deliver an outstanding strategic performance, then press the button below to extract rewards and log the clear into your sovereign record.
+                            </p>
+
+                            <!-- Reward Matrix -->
+                            <div class="grid grid-cols-3 gap-2 bg-black/50 p-2.5 rounded border border-slate-950 text-center">
+                                <div class="space-y-0.5">
+                                    <span class="text-[8px] text-slate-500 block">XP</span>
+                                    <span class="text-xs font-black text-white sys-font">+200</span>
+                                </div>
+                                <div class="space-y-0.5">
+                                    <span class="text-[8px] text-slate-500 block">INT</span>
+                                    <span class="text-xs font-black text-sys-purple sys-font">+5</span>
+                                </div>
+                                <div class="space-y-0.5">
+                                    <span class="text-[8px] text-slate-500 block">GOLD</span>
+                                    <span class="text-xs font-black text-sys-gold sys-font">+50🪙</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Clear Action Trigger -->
+                        <button onclick="chessDungeon.confirmClear()" class="w-full py-3.5 bg-sys-cyan text-black font-black text-xs uppercase tracking-widest rounded-lg shadow-[0_0_20px_rgba(0,240,255,0.3)] hover:scale-[1.01] transition-all">
+                            Confirm Chess Dungeon Clear ⚡
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TOTAL STATISTICS RECORD -->
+                <div class="sovereign-panel rounded-xl p-5 space-y-4">
+                    <h3 class="text-xs font-black text-sys-purple border-b border-slate-800 pb-2 sys-font tracking-widest uppercase">
+                        📊 DUNGEON CLEAR STATS — HISTORICAL RECORD
+                    </h3>
+                    
+                    <div class="flex justify-between items-center bg-slate-950/60 p-3 rounded border border-slate-900">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xl">♟️</span>
+                            <div>
+                                <span class="text-xs font-bold block text-white">Historically Cleared Times</span>
+                                <span class="text-[10px] text-slate-500 font-mono">Dungeon Clear Count</span>
+                            </div>
+                        </div>
+                        <span id="cleared-count-chess" class="text-lg font-black text-sys-cyan sys-font">0</span>
+                    </div>
+
+                    <!-- Verification Warning -->
+                    <div class="p-3 bg-rose-950/10 border border-rose-500/20 rounded-md">
+                        <p class="text-[10px] text-rose-400 leading-relaxed font-semibold">
+                            ⚠️ Strict Compliance System: Activating the clearing process without actual gameplay is a violation of the system's code of honor and sovereignty, and delays your actual intellectual growth. Be true to yourself, young monarch.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- MUSIC TOGGLES FROM DASHBOARD -->
+                <div class="fixed top-6 left-6 z-50 flex gap-4 items-center flex-wrap hidden md:flex">
+                    <!-- This block is mirrored but can also be manually called on sidebar -->
+                </div>
+
+            </aside>
+        </main>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SCRIPTS — ONE <script> BLOCK FOR STATE & GAMEPLAY VERIFICATION
+    ══════════════════════════════════════════════════════════════ -->
+    <script>
+    'use strict';
+
+    /* ========================================================================
+       SOUND EFFECTS CONTROLLER
+       ======================================================================== */
+    const SoundEffects = {
+        track1: new Audio('SHADOWBORN.mp3'),
+        track2: new Audio('Kingdom_of_Iron.mp3'),
+        currentTrackNumber: null,
+        isMusicPlaying:     false,
+
+        init() {
+            this.track1.loop = true;
+            this.track2.loop = true;
+        },
+
+        toggleMusic(trackNumber) {
+            const icon1 = document.getElementById('musicIcon1');
+            const icon2 = document.getElementById('musicIcon2');
+
+            if (this.isMusicPlaying && this.currentTrackNumber === trackNumber) {
+                this.stopAllAudio();
+                return;
+            }
+            if (this.isMusicPlaying) this.stopAllAudio();
+
+            this.isMusicPlaying     = true;
+            this.currentTrackNumber = trackNumber;
+
+            if (trackNumber === 1) {
+                this.track1.play().catch(() => {});
+                if (icon1) icon1.textContent = '⏸️';
+                if (icon2) icon2.textContent = '🎼';
+            } else {
+                this.track2.play().catch(() => {});
+                if (icon1) icon1.textContent = '🎵';
+                if (icon2) icon2.textContent = '⏸️';
+            }
+        },
+
+        stopAllAudio() {
+            this.track1.pause(); this.track1.currentTime = 0;
+            this.track2.pause(); this.track2.currentTime = 0;
+            const icon1 = document.getElementById('musicIcon1');
+            const icon2 = document.getElementById('musicIcon2');
+            if (icon1) icon1.textContent = '🎵';
+            if (icon2) icon2.textContent = '🎼';
+            this.isMusicPlaying     = false;
+            this.currentTrackNumber = null;
+        },
+
+        playSuccess() {
+            try {
+                const ctx   = new (window.AudioContext || window.webkitAudioContext)();
+                const notes = [523.25, 659.25, 783.99, 1046.50];
+                notes.forEach((freq, i) => {
+                    const osc  = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.1);
+                    gain.gain.setValueAtTime(0.08, ctx.currentTime + i * 0.1);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.1 + 0.3);
+                    osc.connect(gain); gain.connect(ctx.destination);
+                    osc.start(ctx.currentTime + i * 0.1);
+                    osc.stop(ctx.currentTime + i * 0.1 + 0.3);
+                });
+            } catch(e) {}
+        }
+    };
+    SoundEffects.init();
+
+    /* ========================================================================
+       UNIFIED SYSTEM TOASTS
+       ======================================================================== */
+    const Toast = {
+        show(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+
+            const toast  = document.createElement('div');
+            const colors = {
+                success: 'border-emerald-500 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,.3)]',
+                error:   'border-rose-500   text-rose-400   shadow-[0_0_15px_rgba(225,29,72,.3)]',
+                info:    'border-[var(--sys-cyan)] text-[var(--sys-cyan)] shadow-[0_0_15px_rgba(0,240,255,.3)]'
+            };
+
+            toast.className = `pointer-events-auto px-5 py-3 bg-[#02040a]/95 border
+                               backdrop-blur-md text-sm font-bold sys-font tracking-wide
+                               animate-system-pop ${colors[type] || colors.info}`;
+            toast.textContent = message;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity   = '0';
+                toast.style.transform = 'translateY(8px)';
+                toast.style.transition = 'all .3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 4200);
+        }
+    };
+
+    /* ========================================================================
+       PLAYER STATE HUB & PERSISTENCE
+       ======================================================================== */
+    const PlayerState = {
+        data: {
+            level: 1,
+            xp: 0,
+            gold: 0,
+            stats: { int: 10, sen: 10, str: 10, vit: 10, agi: 10 },
+            clearedDungeons: { Memory: 0, Hanoi: 0, Sudoku: 0, Math: 0, Chess: 0, NBack: 0, Domino: 0 }
+        },
+
+        init() {
+            let saved = null;
+            try { saved = localStorage.getItem('monarch_system_data'); } catch(e) {}
+
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    this.data = {
+                        ...this.data,
+                        ...parsed,
+                        stats: { ...this.data.stats, ...(parsed.stats || {}) },
+                        clearedDungeons: { ...this.data.clearedDungeons, ...(parsed.clearedDungeons || {}) }
+                    };
+                    // Ensure Chess key always exists in matrix
+                    if (this.data.clearedDungeons.Chess === undefined) {
+                        this.data.clearedDungeons.Chess = 0;
+                    }
+                } catch(e) {
+                    console.error('[Chess PlayerState] Load error:', e);
+                }
+            } else {
+                this.save();
+            }
+
+            this.updateUI();
+        },
+
+        save() {
+            try {
+                if (window.SovereignCore) {
+                    SovereignCore.save(this.data);
+                } else {
+                    localStorage.setItem('monarch_system_data', JSON.stringify(this.data));
+                }
+
+                // Bridge summary for legacy structures
+                localStorage.setItem('sovereignStats', JSON.stringify({
+                    level: this.data.level,
+                    xp: this.data.xp,
+                    gold: this.data.gold,
+                    _canonical: 'monarch_system_data'
+                }));
+
+                // Broadcast immediate synchronization across browser tabs
+                if (typeof BroadcastChannel !== 'undefined') {
+                    const bc = new BroadcastChannel('sovereign_sync');
+                    bc.postMessage({ type: 'SYSTEM_DATA_UPDATED' });
+                }
+            } catch(e) {
+                console.error('[Chess PlayerState] Save failed:', e);
+            }
+            this.updateUI();
+        },
+
+        addXP(amount) {
+            this.data.xp = Math.max(0, this.data.xp + amount);
+            let xpNeeded = this.data.level * 100;
+            while (this.data.xp >= xpNeeded) {
+                this.data.xp -= xpNeeded;
+                this.data.level++;
+                xpNeeded = this.data.level * 100;
+                Toast.show(`🚀 Level Up! Your Sovereign Level has risen to Level ${this.data.level}`, 'success');
+            }
+            this.save();
+        },
+
+        addGold(amount) {
+            this.data.gold = Math.max(0, this.data.gold + amount);
+            this.save();
+        },
+
+        addStat(statName, amount) {
+            if (this.data.stats[statName] !== undefined) {
+                this.data.stats[statName] += amount;
+                this.save();
+            }
+        },
+
+        incrementDungeonClears(dungeonKey) {
+            if (this.data.clearedDungeons === undefined) {
+                this.data.clearedDungeons = {};
+            }
+            this.data.clearedDungeons[dungeonKey] = (this.data.clearedDungeons[dungeonKey] || 0) + 1;
+            this.save();
+        },
+
+        updateUI() {
+            const lvl = this.data.level || 1;
+            const xp = this.data.xp || 0;
+            const xpNeeded = lvl * 100;
+            const intStat = this.data.stats.int || 10;
+            const gold = this.data.gold || 0;
+            const chessClears = (this.data.clearedDungeons && this.data.clearedDungeons.Chess) || 0;
+
+            const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+            
+            setEl('player-level', lvl);
+            setEl('int-score', `${intStat} INT`);
+            setEl('player-gold', gold.toLocaleString());
+            setEl('cleared-count-chess', chessClears);
+
+            const xpPercentage = Math.min((xp / xpNeeded) * 100, 100);
+            const bar = document.getElementById('player-xp-bar');
+            if (bar) bar.style.width = `${xpPercentage}%`;
+        }
+    };
+
+    /* ========================================================================
+       CHESS DUNGEON MODULE
+       ======================================================================== */
+    const chessDungeon = {
+        refreshIframe() {
+            const iframe = document.getElementById('chess-iframe');
+            if (iframe) {
+                iframe.src = "https://lichess.org/tv/frame?theme=dark&bg=dark";
+                Toast.show('⚡ The connection channel with the simulator has been reset', 'info');
+            }
+        },
+
+        confirmClear() {
+            // Dispense Sovereign rewards
+            PlayerState.addXP(200);
+            PlayerState.addGold(50);
+            PlayerState.addStat('int', 5);
+            PlayerState.incrementDungeonClears('Chess');
+
+            // Play cues
+            SoundEffects.playSuccess();
+            Toast.show('🏆 Chess Dungeon cleared successfully! You earned: +200 XP, +5 INT, +50 Gold 🪙', 'success');
+
+            // Confetti
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 150,
+                    spread: 80,
+                    origin: { y: 0.6 },
+                    colors: ['#00f0ff', '#9d4edd', '#fbbf24']
+                });
+            }
+        }
+    };
+
+    /* ========================================================================
+       INITIALIZATION DISPATCHER
+       ======================================================================== */
+    window.addEventListener('DOMContentLoaded', () => {
+        PlayerState.init();
+
+        // Cross-tab live synchronization via SovereignCore Unified Channel
+        if (window.SovereignCore) {
+            SovereignCore.onChange(() => {
+                PlayerState.init();
+            });
+        }
+    });
+
+    window.chessDungeon = chessDungeon;
+    window.PlayerState = PlayerState;
+    window.Toast = Toast;
+    window.SoundEffects = SoundEffects;
+    </script>
+</body>
+</html>

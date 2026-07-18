@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sovereign System | MMA Ultimate Fighter Arena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --sys-cyan: #00f0ff;
+            --sys-purple: #9d4edd;
+            --neon-green: #00b3ff;
+            --spark-white: #ffffff;
+            --sys-bg-dark: #02040a;
+            --sys-panel: rgba(5, 10, 25, 0.9);
+            --sys-border: rgba(255, 140, 0, 0.2);
+            --text-gray: #8a99ad;
+            --shadow-glow: rgba(0, 145, 255, 0.35);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', 'Orbitron', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--sys-bg-dark);
+            color: #fff;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% 50%, #091324 0%, var(--sys-bg-dark) 90%);
+            min-height: 100vh;
+        }
+
+        .sparkle-grid {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 153, 0, 0.04) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 40%);
+        }
+
+        .system-layout {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        .sidebar-panel {
+            width: 300px;
+            background: var(--sys-panel);
+            border-left: 2px solid var(--sys-border);
+            display: flex;
+            flex-direction: column;
+            padding: 25px;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.7);
+            backdrop-filter: blur(15px);
+        }
+
+        .system-branding {
+            font-size: 22px;
+            font-weight: 900;
+            text-align: center;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            color: #fff;
+            border-bottom: 2px dashed rgba(255, 162, 0, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-shadow: 0 0 10px var(--shadow-glow);
+        }
+
+        .system-branding i {
+            color: var(--neon-green);
+            animation: pulseGlow 2.5s infinite;
+        }
+
+        .navigation-links {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .nav-link-btn {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 16px 20px;
+            color: var(--text-gray);
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: right;
+            font-size: 15px;
+            font-weight: 700;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .nav-link-btn:hover {
+            color: #fff;
+            background: rgba(255, 162, 0, 0.07);
+            border-color: rgba(0, 174, 255, 0.5);
+            padding-right: 28px;
+            box-shadow: 0 0 15px rgba(255, 174, 0, 0.1);
+        }
+
+        .nav-link-btn.active-tab {
+            color: #fff;
+            background: linear-gradient(90deg, rgba(255, 196, 0, 0.2) 0%, transparent 100%);
+            border-right: 5px solid var(--neon-green);
+            border-color: rgba(0, 200, 255, 0.4);
+            box-shadow: inset 5px 0 20px rgba(255, 162, 0, 0.1);
+        }
+
+        .bridge-back-container {
+            margin-top: auto;
+            padding-top: 20px;
+        }
+
+        .btn-bridge-index11 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            background: linear-gradient(90deg, var(--sys-purple), #5b21b6);
+            color: #fff;
+            border: 1px solid rgba(157, 78, 221, 0.4);
+            padding: 14px;
+            border-radius: 6px;
+            font-weight: 900;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(157, 78, 221, 0.3);
+        }
+
+        .btn-bridge-index11:hover {
+            filter: brightness(1.2);
+            box-shadow: 0 0 25px var(--sys-purple);
+            transform: translateY(-2px);
+        }
+
+        .workspace-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 35px;
+            overflow-y: auto;
+            max-height: 100vh;
+        }
+
+        .status-sync-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 20, 40, 0.75);
+            backdrop-filter: blur(12px);
+            padding: 22px 35px;
+            border-radius: 14px;
+            border: 1px solid var(--sys-border);
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
+        .profile-matrix-zone {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .sovereign-level-container {
+            width: 75px;
+            height: 75px;
+            background: radial-gradient(circle, #0a1428 30%, #112547 100%);
+            border: 3px solid var(--neon-green);
+            box-shadow: 0 0 20px var(--shadow-glow);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+        }
+
+        .sovereign-level-container span {
+            font-size: 11px;
+            color: var(--text-gray);
+            line-height: 1;
+        }
+
+        .sovereign-level-container num {
+            font-size: 26px;
+            color: var(--neon-green);
+            line-height: 1.2;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .bars-and-currencies {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .xp-hologram-track {
+            width: 280px;
+            height: 14px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+        }
+
+        .xp-hologram-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--sys-purple), var(--neon-green));
+            box-shadow: 0 0 12px var(--neon-green);
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .currencies-vault {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .vault-slot {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .vault-slot.gold-mesh i { color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.5); }
+        .vault-slot.xp-mesh i { color: var(--neon-green); text-shadow: 0 0 10px var(--shadow-glow); }
+
+        .geographic-clock-panel {
+            text-align: left;
+        }
+
+        .geographic-clock-panel .live-time {
+            font-size: 26px;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 1.5px;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 12px rgba(255,255,255,0.25);
+        }
+
+        .geographic-clock-panel .live-date {
+            font-size: 12px;
+            color: var(--text-gray);
+        }
+
+        .system-ticker-belt {
+            background: rgba(0, 255, 102, 0.02);
+            border: 1px solid rgba(255, 149, 0, 0.12);
+            border-radius: 8px;
+            padding: 12px 20px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        .ticker-sentinel-tag {
+            background: var(--neon-green);
+            color: var(--sys-bg-dark);
+            font-weight: 900;
+            padding: 3px 12px;
+            font-size: 11px;
+            border-radius: 4px;
+            box-shadow: 0 0 12px var(--shadow-glow);
+            margin-left: 20px;
+            letter-spacing: 1px;
+        }
+
+        .ticker-scrolling-data {
+            display: inline-block;
+            white-space: nowrap;
+            animation: textScroll 28s linear infinite;
+            color: #fff;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .tab-window-content {
+            display: none;
+            animation: tabFadeIn 0.5s ease-out forwards;
+        }
+
+        .tab-window-content.active-window {
+            display: block;
+        }
+
+        .quests-matrix-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .panel-quest-card {
+            background: rgba(13, 22, 41, 0.65);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-right: 5px solid var(--text-gray);
+            border-radius: 10px;
+            padding: 24px;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .panel-quest-card.completed-state {
+            border-right-color: var(--neon-green) !important;
+            opacity: 0.65;
+            background: rgba(0, 255, 102, 0.02);
+        }
+
+        .panel-quest-card.completed-state .action-trigger-check {
+            background: var(--neon-green);
+            color: var(--sys-bg-dark);
+            box-shadow: 0 0 10px var(--shadow-glow);
+        }
+
+        .panel-quest-card.elite-tier { border-right-color: var(--sys-purple); }
+        .panel-quest-card.elite-tier .quest-tier-tag { background: rgba(157, 78, 221, 0.2); color: #d8b4fe; border: 1px solid rgba(157, 78, 221, 0.3); }
+
+        .quest-top-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .quest-tier-tag {
+            font-size: 11px;
+            background: rgba(255,255,255,0.06);
+            padding: 3px 10px;
+            border-radius: 4px;
+            color: var(--text-gray);
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .quest-day-tag {
+            font-size: 11px;
+            background: rgba(157, 78, 221, 0.15);
+            padding: 3px 10px;
+            border-radius: 4px;
+            color: #d8b4fe;
+            font-weight: 900;
+            border: 1px solid rgba(157, 78, 221, 0.3);
+            margin-right: 5px;
+        }
+
+        .action-trigger-check {
+            width: 36px;
+            height: 36px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .action-trigger-check:hover {
+            border-color: var(--neon-green);
+            background: rgba(255, 174, 0, 0.08);
+        }
+
+        .rewards-payout-ribbon {
+            display: flex;
+            gap: 20px;
+            margin-top: 18px;
+            font-size: 13px;
+            border-top: 1px dashed rgba(255,255,255,0.06);
+            padding-top: 12px;
+        }
+
+        .skills-mega-tree-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+        }
+
+        .skills-branch-group {
+            background: rgba(10, 18, 32, 0.4);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .branch-header-title {
+            font-size: 19px;
+            font-weight: 900;
+            border-right: 4px solid var(--neon-green);
+            padding-right: 12px;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #fff;
+        }
+
+        .branch-grid-nodes {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .skill-node-card {
+            background: #0b111e;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 22px;
+            position: relative;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 180px;
+        }
+
+        .skill-node-card.locked-node {
+            filter: grayscale(100%) brightness(35%);
+            cursor: not-allowed;
+        }
+
+        .skill-node-card.locked-node::after {
+            content: "\f023";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 34px;
+            color: rgba(255,255,255,0.15);
+            z-index: 5;
+        }
+
+        .node-level-lock-badge {
+            position: absolute;
+            top: 12px; left: 12px;
+            font-size: 11px;
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .skill-node-card.unlocked-node {
+            border-color: rgba(255, 149, 0, 0.15);
+            box-shadow: inset 0 0 15px rgba(0, 255, 102, 0.02);
+        }
+
+        .skill-learning-anchor {
+            margin-top: 15px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            background: rgba(0, 221, 255, 0.06);
+            border: 1px solid rgba(255, 153, 0, 0.2);
+            color: var(--neon-green);
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 13px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .skill-learning-anchor:hover {
+            background: var(--neon-green);
+            color: var(--sys-bg-dark);
+            box-shadow: 0 0 15px var(--shadow-glow);
+            transform: translateY(-1px);
+        }
+
+        .skill-node-card.locked-node .skill-learning-anchor {
+            pointer-events: none;
+            background: rgba(255,255,255,0.02);
+            border-color: transparent;
+            color: var(--text-gray);
+        }
+
+        .analytics-matrix-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+
+        .radar-surrogate-box {
+            background: #0a111f;
+            border: 1px solid var(--sys-border);
+            padding: 25px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .attribute-mesh-list {
+            width: 100%;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .mesh-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.02);
+            padding: 12px 16px;
+            border-radius: 6px;
+            border-left: 3px solid var(--neon-green);
+        }
+
+        .hologram-chart-simulation {
+            height: 220px;
+            display: flex;
+            align-items: flex-end;
+            gap: 20px;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+            padding-bottom: 12px;
+            margin-top: 25px;
+        }
+
+        .chart-bar-pillar {
+            flex: 1;
+            background: rgba(157, 78, 221, 0.4);
+            border-radius: 6px 6px 0 0;
+            position: relative;
+            text-align: center;
+            transition: height 0.5s ease;
+        }
+
+        .chart-bar-pillar.current-active-pillar {
+            background: linear-gradient(to top, var(--sys-purple), var(--neon-green));
+            box-shadow: 0 0 20px var(--shadow-glow);
+        }
+
+        .instruction-scrolls-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .scroll-item-card {
+            background: linear-gradient(145deg, #0a1120 0%, #040810 100%);
+            padding: 25px;
+            border-radius: 10px;
+            border-right: 5px solid var(--neon-green);
+            border-left: 1px solid rgba(255,255,255,0.02);
+        }
+
+        .system-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(1, 3, 7, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .system-modal-overlay.modal-triggered {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .monarch-quest-popup {
+            background: #04070f;
+            width: 550px;
+            border: 2px solid var(--neon-green);
+            box-shadow: 0 0 50px rgba(255, 162, 0, 0.45), inset 0 0 25px rgba(0,255,102,0.1);
+            padding: 35px;
+            position: relative;
+            transform: scale(0.75);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+        }
+
+        .system-modal-overlay.modal-triggered .monarch-quest-popup {
+            transform: scale(1);
+        }
+
+        .modal-alert-headline {
+            color: var(--neon-green);
+            font-size: 14px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            margin-bottom: 12px;
+            text-shadow: 0 0 10px var(--shadow-glow);
+        }
+
+        .modal-quest-title {
+            font-size: 26px;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 22px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 18px;
+        }
+
+        .modal-quest-brief {
+            color: var(--text-gray);
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 28px;
+            background: rgba(255,255,255,0.01);
+            padding: 18px;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .modal-payout-box {
+            display: flex;
+            justify-content: center;
+            gap: 35px;
+            margin-bottom: 35px;
+            background: rgba(0, 255, 102, 0.04);
+            padding: 14px;
+            border: 1px dashed var(--neon-green);
+        }
+
+        .modal-actions-wrapper {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            padding: 14px 40px;
+            font-weight: 900;
+            font-size: 15px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .modal-btn.action-accept {
+            background: var(--neon-green);
+            color: var(--sys-bg-dark);
+            box-shadow: 0 0 15px var(--shadow-glow);
+        }
+
+        .modal-btn.action-accept:hover {
+            background: #fff;
+            box-shadow: 0 0 25px #fff;
+        }
+
+        .modal-btn.action-refuse {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+        }
+
+        @keyframes textScroll {
+            0% { transform: translate3d(100%, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+
+        @keyframes tabFadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1); opacity: 0.8; text-shadow: 0 0 5px var(--shadow-glow); }
+            50% { transform: scale(1.08); opacity: 1; text-shadow: 0 0 20px var(--shadow-glow); }
+            100% { transform: scale(1); opacity: 0.8; text-shadow: 0 0 5px var(--shadow-glow); }
+        }
+
+        .live-news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 15px;
+        }
+
+        .real-news-card {
+            background: linear-gradient(145deg, #09101d 0%, #04070f 100%);
+            border: 1px solid rgba(255, 170, 0, 0.15);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .real-news-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(255, 149, 0, 0.2);
+            border-color: var(--neon-green);
+        }
+
+        .news-thumbnail {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 2px solid var(--sys-purple);
+            transition: filter 0.3s;
+        }
+
+        .real-news-card:hover .news-thumbnail {
+            filter: brightness(1.2) contrast(1.1);
+        }
+
+        .news-card-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .news-source-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(157, 78, 221, 0.9);
+            backdrop-filter: blur(5px);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 900;
+            padding: 4px 12px;
+            border-radius: 4px;
+            box-shadow: 0 0 15px rgba(157, 78, 221, 0.5);
+        }
+
+        .news-title {
+            font-size: 15px;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .news-date {
+            font-size: 12px;
+            color: var(--text-gray);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .news-external-link {
+            margin-top: auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: rgba(0, 200, 255, 0.05);
+            border: 1px solid rgba(0, 200, 255, 0.3);
+            color: var(--neon-green);
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 13px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .news-external-link:hover {
+            background: var(--neon-green);
+            color: var(--sys-bg-dark);
+            box-shadow: 0 0 15px var(--shadow-glow);
+        }
+
+        .system-loader {
+            text-align: center;
+            padding: 40px;
+            color: var(--neon-green);
+            font-weight: 900;
+            letter-spacing: 2px;
+            animation: pulseGlow 1.5s infinite;
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+
+    <div class="sparkle-grid"></div>
+
+    <div class="system-layout">
+        
+        <div class="sidebar-panel">
+            <div class="system-branding">
+                <i class="fa-solid fa-hand-fist"></i>
+                <span>Sovereign Combat System | MMA</span>
+            </div>
+            
+            <div class="navigation-links">
+                <button class="nav-link-btn active-tab" onclick="toggleActiveWindow('main-quests-window')">
+                    <i class="fa-solid fa-square-poll-horizontal"></i> Daily Cage Quests
+                </button>
+                <button class="nav-link-btn" onclick="toggleActiveWindow('analytics-matrix-window')">
+                    <i class="fa-solid fa-chart-line"></i> Fighter Analysis Matrix
+                </button>
+                <button class="nav-link-btn" onclick="toggleActiveWindow('skills-mega-tree')">
+                    <i class="fa-solid fa-dumbbell"></i> Moves & Submission Academy
+                </button>
+                <button class="nav-link-btn" onclick="toggleActiveWindow('intel-news-window')">
+                    <i class="fa-solid fa-satellite-dish"></i> Global Ring Intelligence
+                </button>
+                <button class="nav-link-btn" onclick="toggleActiveWindow('operational-guidance-window')">
+                    <i class="fa-solid fa-scroll"></i> Strict Warrior Scrolls
+                </button>
+            </div>
+
+            <div class="bridge-back-container">
+                <a href="index11.html" class="btn-bridge-index11" onclick="alert('جاري الانتقال للوحة التحكم الرئيسية للأبطال...')">
+                    <i class="fa-solid fa-reply-all"></i> Return to Main Sovereign Dashboard
+                </a>
+            </div>
+        </div>
+
+        <div class="workspace-area">
+            
+            <div class="status-sync-header">
+                <div class="profile-matrix-zone">
+                    <div class="sovereign-level-container">
+                        <span>LVL</span>
+                        <num id="global-level-slot">1</num>
+                    </div>
+                    <div class="bars-and-currencies">
+                        <div class="xp-hologram-track">
+                            <div class="xp-hologram-fill" id="global-xp-bar"></div>
+                        </div>
+                        <div class="currencies-vault">
+                            <div class="vault-slot gold-mesh">
+                                <i class="fa-solid fa-trophy"></i> Championship Gold: <span id="global-gold-slot">0</span>G
+                            </div>
+                            <div class="vault-slot xp-mesh">
+                                <i class="fa-solid fa-fire-flame-curved"></i> Fight XP: <span id="global-xp-slot">0</span> / <span id="global-target-xp">100</span>XP
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="geographic-clock-panel">
+                    <div class="live-time" id="geo-live-time">00:00:00</div>
+                    <div class="live-date" id="geo-live-date">Synchronizing Temporal Coordinates...</div>
+                </div>
+            </div>
+
+            <!-- Ticker showing deep fighting martial arts philosophy -->
+            <div class="system-ticker-belt">
+                <span class="ticker-sentinel-tag">Ring Sentinel</span>
+                <div class="ticker-scrolling-data" id="sentinel-phrases-box">
+                    Loading supreme combat tracking algorithms... The calm mind before the storm is your strongest weapon to cut distances and inflict total damage.
+                </div>
+            </div>
+
+            <!-- Tab 1: Daily Cage Quests (MMA Dynamic System) -->
+            <div id="main-quests-window" class="tab-window-content active-window">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                    <h2 style="font-weight: 900;"><i class="fa-solid fa-cubes-stacked" style="color:var(--sys-crimson);"></i> Daily Cage Combat Quest Arena</h2>
+                    <span style="font-size: 13px; color: var(--text-gray); border: 1px solid rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 20px;">
+                        <i class="fa-solid fa-arrows-rotate fa-spin" style="margin-left: 5px; color: var(--neon-gold);"></i> Challenges refresh daily at midnight
+                    </span>
+                </div>
+                
+                <div class="quests-matrix-layout" id="daily-quests-injector">
+                </div>
+            </div>
+
+            <div id="analytics-matrix-window" class="tab-window-content">
+                <h2 style="margin-bottom: 25px; font-weight: 900;"><i class="fa-solid fa-skull"></i> Fighter Attribute Measurement & Performance Integration Matrix</h2>
+                <div class="analytics-matrix-grid">
+                    <div class="radar-surrogate-box">
+                        <i class="fa-solid fa-burst" style="font-size: 55px; color: var(--sys-crimson); margin-bottom: 20px;"></i>
+                        <h3>Combat Efficiency Distribution (MMA Stats)</h3>
+                        <div class="attribute-mesh-list">
+                            <div class="mesh-row"><span>Pulmonary & Cardiac Endurance (Cardio)</span><span id="attr-stamina">--</span></div>
+                            <div class="mesh-row"><span>Strike Power & Explosion (Striking Power)</span><span id="attr-pace">--</span></div>
+                            <div class="mesh-row"><span>Wrestling Precision & Control (Grappling Accuracy)</span><span id="attr-control">--</span></div>
+                            <div class="mesh-row"><span>Tactical Intelligence & Opponent Reading (Fight IQ)</span><span id="attr-vision">--</span></div>
+                        </div>
+                    </div>
+                    <div style="background: #09101d; padding: 30px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.04);">
+                        <h3>Technical Curve of Fighter Skill Development</h3>
+                        <p style="color: var(--text-gray); font-size: 13px; margin-top: 5px;">An interactive chart reflecting your muscular and tactical synergy inside the cage based on your current warrior development level.</p>
+                        <div class="hologram-chart-simulation">
+                            <div class="chart-bar-pillar" style="height: 35%;"><span style="position:absolute; top:-25px; left:0; width:100%; font-size:11px;">Strikes</span></div>
+                            <div class="chart-bar-pillar" style="height: 55%;"><span style="position:absolute; top:-25px; left:0; width:100%; font-size:11px;">Grappling</span></div>
+                            <div class="chart-bar-pillar current-active-pillar" id="live-hologram-pillar" style="height: 10%;"><span style="position:absolute; top:-25px; left:0; width:100%; font-size:11px; color: var(--sys-crimson);">Combat Status</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="skills-mega-tree" class="tab-window-content">
+                <h2 style="margin-bottom: 10px; font-weight: 900;"><i class="fa-solid fa-graduation-cap"></i> Grand Tactical Academy Skill Tree Unlock (Every +2 Combat Levels)</h2>
+                <p style="color: var(--text-gray); font-size: 14px; margin-bottom: 30px;">The system enforces a strict combat leveling algorithm; standing striking arts, takedown & wrestling tactics, and Brazilian Jiu-Jitsu secrets unlock automatically **every time you increase by two additional levels** with real training educational gateways provided.</p>
+                
+                <div class="skills-mega-tree-wrapper" id="skills-injection-tree">
+                </div>
+            </div>
+
+            <div id="intel-news-window" class="tab-window-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                    <h2 style="font-weight: 900;"><i class="fa-solid fa-satellite" style="color: var(--sys-crimson);"></i> Cage Intelligence: Live Broadcast Feed for MMA / UFC Championships</h2>
+                    <button onclick="fetchGlobalSportsNews()" style="background: transparent; border: 1px solid var(--sys-crimson); color: #fff; padding: 8px 18px; border-radius: 6px; cursor: pointer; font-family: 'Orbitron', sans-serif;">
+                        <i class="fa-solid fa-rotate"></i> SYNC FIGHT FEED
+                    </button>
+                </div>
+                
+                <p style="color: var(--text-gray); font-size: 14px; margin-bottom: 20px;">The system monitors sports satellites to fetch the latest technical updates and exclusive results for UFC, Bellator, and ONE Championship live.</p>
+                
+                <div id="live-news-container" class="live-news-grid">
+                </div>
+            </div>
+
+            <div id="operational-guidance-window" class="tab-window-content">
+                <h2 style="margin-bottom: 25px; font-weight: 900;"><i class="fa-solid fa-scroll"></i> Steel Discipline Scrolls & Integrated Fighter Protocols</h2>
+                <div class="instruction-scrolls-layout">
+                    <div class="scroll-item-card">
+                        <h4 style="font-weight: 900; font-size: 16px; color:#fff; margin-bottom: 6px;">1. Recovery Law & Hard Joint Conditioning</h4>
+                        <p style="color: var(--text-gray); font-size: 13.5px; line-height: 1.6;">بسبب الطبيعة التصادمية لقتال الأرض وStrikes، تفرض مخطوطات The Warrior العليا التزاماً حاداً بجلسات تكييف عظام الساقين وإطالة العضلات العميقة لضمان مقاومة الركلات المدمرة ومحاولات الخنق والإخضاع في الجولات الأخيرة.</p>
+                    </div>
+                    <div class="scroll-item-card">
+                        <h4 style="font-weight: 900; font-size: 16px; color:#fff; margin-bottom: 6px;">2. Breaking Movement Distance Barriers & Dynamic Defense</h4>
+                        <p style="color: var(--text-gray); font-size: 13.5px; line-height: 1.6;">Fighting inside the cage does not rely on random rushing; controlling the lateral standing angle and maintaining hip balance while defending against opponent takedowns (Sprawling) are the keys to retaining flexibility and responding with a counter-attack that ends the fight with a knockout.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="system-modal-overlay" id="global-emergency-overlay">
+        <div class="monarch-quest-popup">
+            <div class="modal-alert-headline">ALERT: EMERGENCY FIGHT PROTOCOL ACTIVATED</div>
+            <div class="modal-quest-title" id="emerg-quest-headline">Main Cage Quest</div>
+            <div class="modal-quest-brief" id="emerg-quest-brief">Loading violent training scenario details...</div>
+            <div style="font-weight: 900; margin-bottom: 12px; color: #fff; font-size: 14px;">Main Challenge Completion Reward:</div>
+            <div class="modal-payout-box">
+                <div style="color: var(--sys-crimson); font-weight: 900; font-family:'Orbitron';"><i class="fa-solid fa-bolt"></i> <span id="emerg-xp-reward">60</span> XP</div>
+                <div style="color: var(--neon-gold); font-weight: 900; font-family:'Orbitron';"><i class="fa-solid fa-coins"></i> <span id="emerg-gold-reward">50</span> G</div>
+            </div>
+            <div class="modal-actions-wrapper">
+                <button class="modal-btn action-accept" onclick="executeEmergencyResponse(true)">Accept Combat Challenge</button>
+                <button class="modal-btn action-refuse" onclick="executeEmergencyResponse(false)">Refuse (Retreat Penalty)</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let sharedSystemData = {
+            name: "The Warrior", title: "Beginner", level: 1, xp: 0, gold: 0,
+            stats: { str: 10, vit: 10, agi: 10, int: 10, sen: 10 }
+        };
+
+        const sentinelPhrases = [
+            "The fight is not won by the physically strongest alone, but by whoever retains their intelligence and calm at the highest levels of pressure and physical exertion.",
+            "Your defensive kick hardness level reflects your discipline in stretching exercises and repeated heavy bag striking.",
+            "The difficulty of the Sovereign Combat skill tree was designed to build an elite of fighters and filter out the cowards.",
+            "The smart wrestler is the one who pulls the opponent into his preferred space and controls the center of gravity of the fight.",
+            "Swift and surprising strikes are not built from blind force, but from reading the dead vision angles of the opponent."
+        ];
+
+        // ==========================================
+        // MMA SPECIFIC DAILY QUESTS SYSTEM
+        // ==========================================
+        
+        // Scheduled Quests: Saturdays (Striking) & Wednesdays (Grappling)
+        const scheduledQuests = {
+            6: [ // Saturday: Striking Day (Muay Thai / Kickboxing / Boxing)
+                { id: 'mma_sat_1', title: 'Flood of Strikes - Shadow Boxing', desc: 'Perform 20 minutes of focused shadow boxing on head movement, slipping, and consecutive punches with low kicks.', xp: 45, gold: 35, type: 'Striking', isScheduled: true, dayLabel: 'السبت' },
+                { id: 'mma_sat_2', title: 'Steel Limb Kicks (Heavy Bag Kicks)', desc: 'Deliver 100 low and high roundhouse kicks (Low & High Kicks) on a heavy bag to enhance shin bone hardness and hip dynamics.', xp: 40, gold: 30, type: 'Offensive Hardness', isScheduled: true, dayLabel: 'السبت' }
+            ],
+            3: [ // Wednesday: Ground Fighting & Wrestling Day (Grappling / BJJ / Wrestling)
+                { id: 'mma_wed_1', title: 'Ground Predation - Double Leg Drill', desc: 'ممارسة 40 تكراراً لتمارين الإسقاط السريع (Takedown Shoots) والامتداد الدفاعي العكسي (Sprawls) لبناء انفجار تكتيكي بالحركية.', xp: 45, gold: 35, type: 'Wrestling & Takedowns', isScheduled: true, dayLabel: 'الأربعاء' },
+                { id: 'mma_wed_2', title: 'Choke Resistance & Submission Chains', desc: 'Mechanical training to link submission movements (such as transitioning from Armbar to Triangle Choke) for 20 minutes with focus on joint flexibility.', xp: 40, gold: 30, type: 'Ground BJJ', isScheduled: true, dayLabel: 'الأربعاء' }
+            ]
+        };
+
+        // Random dynamic pool of MMA physical conditioning quests
+        const dynamicQuestPool = [
+            { id: 'mma_dyn_1', title: 'Supreme Explosive Endurance (HIIT Cardio)', desc: 'Perform 5 rounds of alternating sprint running (30 seconds max speed, 30 seconds walking) to simulate physical rhythm changes inside fight rounds.', xp: 35, gold: 20, type: 'Cardio Endurance' },
+            { id: 'mma_dyn_2', title: 'Iron Body & Basic Plank (Core Shield)', desc: 'Core muscle strengthening session (performing plank and dynamic ab exercises) for 15 minutes to build a shield against opponent kicks and body strikes.', xp: 30, gold: 20, type: 'Core Power' },
+            { id: 'mma_dyn_3', title: 'Fight Reading & Tactical Deconstruction (Fight Tape Study)', desc: 'Watch and analyze a full round of your weight class championship from elite fighters and extract mistakes and defensive turning points.', xp: 30, gold: 25, type: 'Intelligence & Insight' },
+            { id: 'mma_dyn_4', title: 'Active Kinetic Recovery (Recovery & Stretch)', desc: 'Practice a deep stretching session and fighter yoga to extend the back and joints for 20 minutes to avoid sudden muscle injuries.', xp: 25, gold: 15, type: 'Recovery' },
+            { id: 'mma_dyn_5', title: 'Reaction Speed & Neural Coherence (Reflex Training)', desc: 'Use a fast reaction ball or interactive solo play for 15 minutes to raise eye response to incoming punch movements.', xp: 35, gold: 25, type: 'Neural Response' },
+            { id: 'mma_dyn_6', title: 'Clinch & Close Control (Clinch Dynamics)', desc: 'Train on rotation, proper positioning, and controlling with your elbows to pin a virtual defender on the cage wall for 15 continuous minutes.', xp: 35, gold: 25, type: 'Cage Control' },
+            { id: 'mma_dyn_7', title: 'Grip Power & Hold (Grip Endurance)', desc: 'Dead hang exercises on pull-up bars and alligator crawls to enhance hand joints and tight control during submission.', xp: 30, gold: 20, type: 'Grip Hardness' }
+        ];
+
+        function getTodaysQuests() {
+            const today = new Date();
+            const dayOfWeek = today.getDay(); // 0 Sun, 3 Wed, 6 Sat
+            const dateString = today.toDateString();
+            
+            const storedDailyData = JSON.parse(localStorage.getItem('mma_daily_quests_data') || '{}');
+
+            if (storedDailyData.date === dateString && storedDailyData.quests) {
+                return storedDailyData.quests;
+            }
+
+            let todaysQuests = [];
+
+            if (scheduledQuests[dayOfWeek]) {
+                todaysQuests = todaysQuests.concat(scheduledQuests[dayOfWeek]);
+            }
+
+            const neededRandomQuests = 5 - todaysQuests.length;
+            const shuffledPool = [...dynamicQuestPool].sort(() => 0.5 - Math.random());
+            const selectedRandomQuests = shuffledPool.slice(0, neededRandomQuests);
+            
+            todaysQuests = todaysQuests.concat(selectedRandomQuests);
+
+            localStorage.setItem('mma_daily_quests_data', JSON.stringify({
+                date: dateString,
+                quests: todaysQuests
+            }));
+            localStorage.removeItem('mma_completed_quests_cache');
+
+            return todaysQuests;
+        }
+
+      // ...existing code...
+const expandedSkillsDatabase = [
+    { id: "mma_st_1", name: "Weighted Jab & Cross Punch", cat: "Striking", lvlReq: 1, desc: "The cornerstone of standing arts; delivering straight punches with precision and full ankle and shoulder rotation to protect the jaw.", url: "https://www.youtube.com/results?search_query=how+to+throw+a+perfect+jab+and+cross" },
+    { id: "mma_st_2", name: "The Devastating Low Kick (Leg Kick)", cat: "Striking", lvlReq: 3, desc: "Targeting the opponent's femoral nerve directly with the shin bone to disable his mobility and anchoring ability.", url: "https://www.youtube.com/results?search_query=how+to+throw+heavy+low+kicks+mma" },
+    { id: "mma_wr_1", name: "The Fast Double Leg Takedown", cat: "Wrestling & Clinch", lvlReq: 1, desc: "الغوص السريع تحت لكمات الخصم، وتأمين قبضتيك خلف ركبتيه مع رفع وتغيير اتجاه الدفع لطرحه أرضاً.", url: "https://www.youtube.com/results?search_query=double+leg+takedown+mma+tutorial" },
+    { id: "mma_wr_2", name: "Reverse Sprawl Tactic (Sprawl Defense)", desc: "The immediate response and violent hip extension backward and downward to prevent takedown attempts and secure top position.", cat: "Wrestling & Clinch", lvlReq: 3, url: "https://www.youtube.com/results?search_query=how+to+sprawl+defend+takedown" },
+    { id: "mma_bj_1", name: "The Rear Naked Choke", cat: "Jiu-Jitsu & Submission", lvlReq: 1, desc: "The most finishing move in UFC championships; wrapping your forearm tightly around the opponent's neck from behind with bicep lock.", url: "https://www.youtube.com/results?search_query=rear+naked+choke+bjj+tutorial" },
+    { id: "mma_bj_2", name: "The Flying & Surprise Armbar", cat: "Jiu-Jitsu & Submission", lvlReq: 5, desc: "Isolating the opponent's arm and fixing his elbow between your thighs while pushing your hips upward to cause a fast and sudden submission.", url: "https://www.youtube.com/results?search_query=armbar+from+guard+tutorial" },
+    { id: "mma_bj_3", name: "The Choking Neck Triangle (Triangle Choke)", cat: "Jiu-Jitsu & Submission", lvlReq: 7, desc: "Trapping the opponent's neck and shoulder inside a unilateral lock with your legs from the ground defense position and depriving him of oxygen.", url: "https://www.youtube.com/results?search_query=triangle+choke+tutorial+bjj" },
+    { id: "mma_ft_1", name: "Evasion & Pivot Angles (Angle Pivoting)", cat: "Footwork & Defense", lvlReq: 1, desc: "Changing your movement angle by 45 degrees to evade the rushing attack and keep yourself in a position for a surprise strike.", url: "https://www.youtube.com/results?search_query=boxing+footwork+pivot+angles" },
+    { id: "mma_ft_2", name: "Escape & Movement on the Cage Wall", cat: "Footwork & Defense", lvlReq: 3, desc: "The smart use of your back and hands to push the opponent and create a safe mechanical frame to escape from being trapped against the cage wall.", url: "https://www.youtube.com/results?search_query=cage+escape+footwork+mma" },
+    { id: "mma_co_1", name: "Building the Warrior's Steel Lungs", cat: "Power & Hardness", lvlReq: 1, desc: "Aerobic and sustained aerobic endurance training to ensure continued pressure until the third or fifth round.", url: "https://www.youtube.com/results?search_query=mma+cardio+conditioning+workout" },
+    { id: "mma_co_2", name: "Neck & Spine Joint Hardness", cat: "Power & Hardness", lvlReq: 3, desc: "Neck bridge exercises to strengthen neck and shoulder muscles to endure pulls and fully protect against violent concussions.", url: "https://www.youtube.com/results?search_query=wrestling+neck+bridge+strength" }
+];
+// ...existing code...
+
+        document.addEventListener("DOMContentLoaded", function() {
+            synchronizeWithParentSystem();
+            renderDailyQuests();
+            renderSkillsMegaTree();
+            initializeClockAndTriggers();
+            fetchGlobalSportsNews();
+            setInterval(rotateSentinelPhrases, 9000);
+        });
+
+        function synchronizeWithParentSystem() {
+            const rawData = localStorage.getItem('mma_sovereign_data');
+            if (rawData) {
+                sharedSystemData = JSON.parse(rawData);
+            } else {
+                localStorage.setItem('mma_sovereign_data', JSON.stringify(sharedSystemData));
+            }
+            refreshSystemUI();
+        }
+
+        function refreshSystemUI() {
+            document.getElementById('global-level-slot').innerText = sharedSystemData.level;
+            document.getElementById('global-gold-slot').innerText = sharedSystemData.gold;
+            document.getElementById('global-xp-slot').innerText = sharedSystemData.xp;
+            
+            const targetXp = Math.floor(Math.pow(sharedSystemData.level, 1.8) * 100);
+            document.getElementById('global-target-xp').innerText = targetXp;
+            
+            const percentage = (sharedSystemData.xp / targetXp) * 100;
+            document.getElementById('global-xp-bar').style.width = `${Math.min(percentage, 100)}%`;
+
+            // MMA specific attributes calculation formulas
+            document.getElementById('attr-stamina').innerText = 55 + Math.floor(sharedSystemData.level * 3.5);
+            document.getElementById('attr-pace').innerText = 50 + Math.floor(sharedSystemData.level * 3);
+            document.getElementById('attr-control').innerText = 48 + Math.floor(sharedSystemData.level * 4);
+            document.getElementById('attr-vision').innerText = 45 + Math.floor(sharedSystemData.level * 3);
+            
+            const pillarHeight = Math.min(100, 15 + (sharedSystemData.level * 7));
+            document.getElementById('live-hologram-pillar').style.height = `${pillarHeight}%`;
+        }
+
+        function renderDailyQuests() {
+            const injector = document.getElementById('daily-quests-injector');
+            injector.innerHTML = '';
+            
+            const todaysQuests = getTodaysQuests();
+            const completedList = JSON.parse(localStorage.getItem('mma_completed_quests_cache') || '[]');
+
+            todaysQuests.forEach(quest => {
+                const isFinished = completedList.includes(quest.id);
+                const isElite = quest.xp > 40;
+                const card = document.createElement('div');
+                
+                card.className = `panel-quest-card ${isFinished ? 'completed-state' : ''} ${isElite ? 'elite-tier' : ''}`;
+                card.id = `quest-node-${quest.id}`;
+                
+                const scheduleBadge = quest.isScheduled ? `<span class="quest-day-tag"><i class="fa-solid fa-calendar-check"></i> Quest ${quest.dayLabel} Mandatory</span>` : '';
+
+                card.innerHTML = `
+                    <div class="quest-top-meta">
+                        <div>
+                            ${scheduleBadge}
+                            <span class="quest-tier-tag">${quest.type}</span>
+                            <h4 style="margin-top: 8px; font-weight: 900; line-height: 1.4;">${quest.title}</h4>
+                        </div>
+                        <div class="action-trigger-check" onclick="claimQuestPayout('${quest.id}', ${quest.xp}, ${quest.gold})">
+                            <i class="fa-solid ${isFinished ? 'fa-square-check' : 'fa-plus'}"></i>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-gray); font-size: 13px; line-height: 1.6; margin-bottom: 10px;">${quest.desc}</p>
+                    <div class="rewards-payout-ribbon" style="margin-top: auto;">
+                        <span style="color: var(--sys-crimson); font-weight: 700;"><i class="fa-solid fa-bolt"></i> +${quest.xp} XP</span>
+                        <span style="color: var(--neon-gold); font-weight: 700;"><i class="fa-solid fa-coins"></i> +${quest.gold} G</span>
+                    </div>
+                `;
+                injector.appendChild(card);
+            });
+        }
+
+        function claimQuestPayout(id, xpGained, goldGained) {
+            let completedList = JSON.parse(localStorage.getItem('mma_completed_quests_cache') || '[]');
+            if (completedList.includes(id)) return;
+
+            completedList.push(id);
+            localStorage.setItem('mma_completed_quests_cache', JSON.stringify(completedList));
+            
+            const cardElement = document.getElementById(`quest-node-${id}`);
+            if (cardElement) {
+                cardElement.classList.add('completed-state');
+                const icon = cardElement.querySelector(`.action-trigger-check i`);
+                if (icon) {
+                    icon.classList.remove('fa-plus');
+                    icon.classList.add('fa-square-check');
+                }
+            }
+
+            payoutRewardsToGlobalState(xpGained, goldGained);
+        }
+
+        function payoutRewardsToGlobalState(xp, gold) {
+            sharedSystemData.xp += xp;
+            sharedSystemData.gold += gold;
+
+            let targetXp = Math.floor(Math.pow(sharedSystemData.level, 1.8) * 100);
+            
+            while (sharedSystemData.xp >= targetXp) {
+                sharedSystemData.xp -= targetXp;
+                sharedSystemData.level++;
+                targetXp = Math.floor(Math.pow(sharedSystemData.level, 1.8) * 100);
+                
+                // Prompt user nicely of level-up
+                setTimeout(() => {
+                    const notice = document.createElement('div');
+                    notice.style.position = 'fixed';
+                    notice.style.bottom = '20px';
+                    notice.style.left = '20px';
+                    notice.style.background = 'var(--sys-crimson)';
+                    notice.style.color = '#fff';
+                    notice.style.padding = '20px';
+                    notice.style.borderRadius = '8px';
+                    notice.style.border = '2px solid var(--neon-gold)';
+                    notice.style.boxShadow = '0 0 20px rgba(255, 30, 86, 0.5)';
+                    notice.style.zIndex = '99999';
+                    notice.innerHTML = `<strong>Level-Up Notice:</strong> Your general combat level has risen to Level ${sharedSystemData.level}! Check the Skills Academy now.`;
+                    document.body.appendChild(notice);
+                    setTimeout(() => notice.remove(), 6000);
+                }, 500);
+
+                renderSkillsMegaTree();
+            }
+
+            localStorage.setItem('mma_sovereign_data', JSON.stringify(sharedSystemData));
+            refreshSystemUI();
+        }
+
+        function renderSkillsMegaTree() {
+            const container = document.getElementById('skills-injection-tree');
+            container.innerHTML = '';
+
+            const branches = ['Striking', 'Wrestling & Clinch', 'Jiu-Jitsu & Submission', 'Footwork & Defense', 'Power & Hardness'];
+
+            branches.forEach(branch => {
+                const branchWrapper = document.createElement('div');
+                branchWrapper.className = 'skills-branch-group';
+
+                let branchIcon = "fa-shield-halved";
+                if(branch === 'Striking') branchIcon = "fa-hand-fist";
+                if(branch === 'Wrestling & Clinch') branchIcon = "fa-shuffle";
+                if(branch === 'Jiu-Jitsu & Submission') branchIcon = "fa-user-ninja";
+                if(branch === 'Footwork & Defense') branchIcon = "fa-arrows-left-right-to-line";
+                if(branch === 'Power & Hardness') branchIcon = "fa-dumbbell";
+
+                branchWrapper.innerHTML = `
+                    <div class="branch-header-title">
+                        <i class="fa-solid ${branchIcon}"></i>
+                        <span>Skills & Training Division ${branch}</span>
+                    </div>
+                `;
+
+                const nodesGrid = document.createElement('div');
+                nodesGrid.className = 'branch-grid-nodes';
+
+                const skillsFiltered = expandedSkillsDatabase.filter(s => s.cat === branch);
+                
+                skillsFiltered.forEach(skill => {
+                    const isLocked = sharedSystemData.level < skill.lvlReq;
+                    const nodeCard = document.createElement('div');
+                    nodeCard.className = `skill-node-card ${isLocked ? 'locked-node' : 'unlocked-node'}`;
+
+                    nodeCard.innerHTML = `
+                        ${isLocked ? `<span class="node-level-lock-badge">Required Level ${skill.lvlReq}</span>` : '<span class="node-level-lock-badge" style="background:rgba(255, 30, 86, 0.1); color:var(--sys-crimson); border-color:rgba(255, 30, 86, 0.25);">Ready for Training</span>'}
+                        <div>
+                            <h4 style="margin-bottom: 6px; font-weight: 900; display:flex; align-items:center; gap:8px;">
+                                <i class="fa-regular fa-star" style="color:var(--neon-gold); font-size:12px;"></i>
+                                ${skill.name}
+                            </h4>
+                            <p style="color: var(--text-gray); font-size: 12px; line-height: 1.5;">${skill.desc}</p>
+                        </div>
+                        <a href="${skill.url}" target="_blank" class="skill-learning-anchor">
+                            <i class="fa-brands fa-youtube"></i> Visual Learning Gateway
+                        </a>
+                    `;
+                    nodesGrid.appendChild(nodeCard);
+                });
+
+                branchWrapper.appendChild(nodesGrid);
+                container.appendChild(branchWrapper);
+            });
+        }
+
+        function initializeClockAndTriggers() {
+            setInterval(() => {
+                const clockDate = new Date();
+                document.getElementById('geo-live-time').innerText = clockDate.toTimeString().split(' ')[0];
+                const parsingOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                document.getElementById('geo-live-date').innerText = clockDate.toLocaleDateString('ar-DZ', parsingOptions);
+                
+                auditEmergencyQuestTriggers(clockDate);
+            }, 1000);
+        }
+
+        function auditEmergencyQuestTriggers(currentDate) {
+            const currentDay = currentDate.getDay();
+            const currentHour = currentDate.getHours();
+            const currentMinute = currentDate.getMinutes();
+            const currentSecond = currentDate.getSeconds();
+
+            // Wednesday at 19:30 - MMA Grappling Event
+            if (currentDay === 3 && currentHour === 19 && currentMinute === 30 && currentSecond === 0) {
+                deployEmergencyModal(
+                    "Cage Taming Challenge (Fateful Wednesday)",
+                    "You have been immediately summoned for wall tactics and fence control exercises for 30 continuous minutes without rest to enhance mechanical resistance against flying choke attempts."
+                );
+            }
+
+            // Saturday at 17:00 - MMA Striking Event
+            if (currentDay === 6 && currentHour === 17 && currentMinute === 0 && currentSecond === 0) {
+                deployEmergencyModal(
+                    "Epic of Consecutive Strikes & Breaking Opponent Angles (Decisive Saturday)",
+                    "Combat sports nerve call: Apply 4 rounds of ultra-intense shadow boxing and simulate a confrontation with a tall boxer with continuous low breaking kicks."
+                );
+            }
+        }
+
+        function deployEmergencyModal(headline, textDescription) {
+            document.getElementById('emerg-quest-headline').innerText = headline;
+            document.getElementById('emerg-quest-brief').innerText = textDescription;
+            document.getElementById('global-emergency-overlay').classList.add('modal-triggered');
+        }
+
+        function executeEmergencyResponse(statusApproved) {
+            document.getElementById('global-emergency-overlay').classList.remove('modal-triggered');
+            if (statusApproved) {
+                alert("[Sovereign System]: The emergency combat quest has been approved! The field awaits your sacrifice and determination.");
+                payoutRewardsToGlobalState(60, 50);
+            } else {
+                alert("[Penalty Alert]: You have retreated from the combat call. (25 championship gold) has been immediately deducted as a penalty for discipline level retreat.");
+                sharedSystemData.gold = Math.max(0, sharedSystemData.gold - 25);
+                localStorage.setItem('mma_sovereign_data', JSON.stringify(sharedSystemData));
+                refreshSystemUI();
+            }
+        }
+
+        function toggleActiveWindow(targetWindowId) {
+            document.querySelectorAll('.tab-window-content').forEach(win => {
+                win.classList.remove('active-window');
+            });
+            document.querySelectorAll('.nav-link-btn').forEach(btn => {
+                btn.classList.remove('active-tab');
+            });
+
+            document.getElementById(targetWindowId).classList.add('active-window');
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.add('active-tab');
+            }
+        }
+
+        function rotateSentinelPhrases() {
+            const index = Math.floor(Math.random() * sentinelPhrases.length);
+            document.getElementById('sentinel-phrases-box').innerText = sentinelPhrases[index];
+        }
+
+        async function fetchGlobalSportsNews() {
+            const container = document.getElementById('live-news-container');
+            container.innerHTML = `
+                <div class="system-loader" style="grid-column: 1 / -1;">
+                    <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 30px; margin-bottom: 15px; display: block;"></i>
+                    Capturing broadcast waves for global MMA & UFC news...
+                </div>
+            `;
+            try {
+                // Fetching real news feed from MMA / UFC specialized sources
+                const rssUrl = 'https://www.lowkickmma.com/feed';
+                const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
+                const data = await response.json();
+                container.innerHTML = '';
+                if (data.status === 'ok' && data.items.length > 0) {
+                    const topNews = data.items.slice(0, 6);
+                    topNews.forEach(item => {
+                        let imageUrl = item.thumbnail || item.enclosure.link;
+                        if (!imageUrl) {
+                            imageUrl = "https://images.unsplash.com/photo-1517438476312-10d79c019309?q=80&w=600&auto=format&fit=crop"; 
+                        }
+                        const pubDate = new Date(item.pubDate).toLocaleDateString('ar-DZ', {
+                            year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit'
+                        });
+                        const newsCard = document.createElement('div');
+                        newsCard.className = 'real-news-card';
+                        newsCard.innerHTML = `
+                            <span class="news-source-badge">MMA INTEL</span>
+                            <img src="${imageUrl}" class="news-thumbnail" alt="Combat News Image" onerror="this.src='https://images.unsplash.com/photo-1517438476312-10d79c019309?q=80&w=600&auto=format&fit=crop'">
+                            <div class="news-card-content">
+                                <h3 class="news-title">${item.title}</h3>
+                                <div class="news-date"><i class="fa-regular fa-clock"></i> ${pubDate}</div>
+                                <a href="${item.link}" target="_blank" class="news-external-link">
+                                    <i class="fa-solid fa-crosshairs"></i> Read Full Fight Coverage
+                                </a>
+                            </div>
+                        `;
+                        container.appendChild(newsCard);
+                    });
+                } else {
+                    throw new Error("No items returned");
+                }
+            } catch (error) {
+                console.error("Combat News Sync Error:", error);
+                container.innerHTML = `
+                    <div class="scroll-item-card" style="grid-column: 1 / -1; border-color: #ef4444;">
+                        <h4 style="color: #ef4444;"><i class="fa-solid fa-triangle-exclamation"></i> Sports Network Connection Radar Malfunction</h4>
+                        <p style="color: var(--text-gray); font-size: 13px;">MMA news feed reading was interrupted due to current browsing restrictions. You can always click 'SYNC FIGHT FEED' to resync.</p>
+                    </div>
+                `;
+            }
+        }
+            function renderDailyQuests() {
+            const injector = document.getElementById('daily-quests-injector');
+            injector.innerHTML = '';
+            
+            const todaysQuests = getTodaysQuests();
+            const completedList = JSON.parse(localStorage.getItem('basketball_completed_quests_cache') || '[]');
+
+            todaysQuests.forEach(quest => {
+                const isFinished = completedList.includes(quest.id);
+                const isElite = quest.xp > 40;
+                const card = document.createElement('div');
+                
+                card.className = `panel-quest-card ${isFinished ? 'completed-state' : ''} ${isElite ? 'elite-tier' : ''}`;
+                card.id = `quest-node-${quest.id}`;
+                
+                const scheduleBadge = quest.isScheduled ? `<span class="quest-day-tag"><i class="fa-solid fa-calendar-check"></i> Day ${quest.dayLabel} Mandatory Quest</span>` : '';
+
+                card.innerHTML = `
+                    <div class="quest-top-meta">
+                        <div>
+                            ${scheduleBadge}
+                            <span class="quest-tier-tag">${quest.type}</span>
+                            <h4 style="margin-top: 8px; font-weight: 900; line-height: 1.4;">${quest.title}</h4>
+                        </div>
+                        <!-- تم تغيير الدالة هنا إلى toggleQuestState -->
+                        <div class="action-trigger-check" onclick="toggleQuestState('${quest.id}', ${quest.xp}, ${quest.gold})">
+                            <i class="fa-solid ${isFinished ? 'fa-square-check' : 'fa-plus'}"></i>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-gray); font-size: 13px; line-height: 1.6; margin-bottom: 10px;">${quest.desc}</p>
+                    <div class="rewards-payout-ribbon" style="margin-top: auto;">
+                        <span style="color: var(--neon-green); font-weight: 700;"><i class="fa-solid fa-bolt"></i> +${quest.xp} XP</span>
+                        <span style="color: #ffd700; font-weight: 700;"><i class="fa-solid fa-coins"></i> +${quest.gold} G</span>
+                    </div>
+                `;
+                injector.appendChild(card);
+            });
+        }
+        
+// 1. الدالة المركزية: التبديل بين إنجاز المهمة والتراجع عنها
+        function toggleQuestState(id, xpGained, goldGained) {
+            let completedList = JSON.parse(localStorage.getItem('basketball_completed_quests_cache') || '[]');
+            const index = completedList.indexOf(id);
+            const cardElement = document.getElementById(`quest-node-${id}`);
+            
+            if (index === -1) {
+                // الحالة الأولى: إنجاز المهمة
+                completedList.push(id);
+                localStorage.setItem('basketball_completed_quests_cache', JSON.stringify(completedList));
+                
+                if (cardElement) {
+                    cardElement.classList.add('completed-state');
+                    const icon = cardElement.querySelector(`.action-trigger-check i`);
+                    if (icon) {
+                        icon.classList.remove('fa-plus');
+                        icon.classList.add('fa-square-check');
+                    }
+                }
+                // استدعاء دالة إضافة النقاط (التي كانت مفقودة)
+                payoutRewardsToGlobalState(xpGained, goldGained);
+                
+            } else {
+                // الحالة الثانية: التراجع عن المهمة
+                completedList.splice(index, 1); 
+                localStorage.setItem('basketball_completed_quests_cache', JSON.stringify(completedList));
+                
+                if (cardElement) {
+                    cardElement.classList.remove('completed-state');
+                    const icon = cardElement.querySelector(`.action-trigger-check i`);
+                    if (icon) {
+                        icon.classList.remove('fa-square-check');
+                        icon.classList.add('fa-plus');
+                    }
+                }
+                // استدعاء دالة الخصم
+                deductRewardsFromGlobalState(xpGained, goldGained);
+            }
+        }
+
+        // 2. دالة إضافة النقاط والارتقاء في المستوى (Level Up)
+        function payoutRewardsToGlobalState(xp, gold) {
+            sharedSystemData.xp += xp;
+            sharedSystemData.gold += gold;
+
+            let targetXp = Math.floor(Math.pow(sharedSystemData.level, 1.8) * 100);
+            
+            while (sharedSystemData.xp >= targetXp) {
+                sharedSystemData.xp -= targetXp;
+                sharedSystemData.level++;
+                targetXp = Math.floor(Math.pow(sharedSystemData.level, 1.8) * 100);
+                showSystemNotification(
+                    `ارتقاء تكتيكي جديد!`, 
+                    `أيها السيّد (Sovereign)، لقد ارتفع مستواك التكتيكي بالكامل إلى المستوى ${sharedSystemData.level}! تفقد شجرة التدريب لفتح أقفال جديدة..`, 
+                    `fa-circle-chevron-up`
+                );
+                renderSkillsMegaTree();
+            }
+
+            localStorage.setItem('monarch_system_data', JSON.stringify(sharedSystemData));
+            refreshSystemUI(); 
+        }
+
+        // 3. دالة خصم النقاط والتراجع في المستوى (Level Down)
+        function deductRewardsFromGlobalState(xp, gold) {
+            sharedSystemData.gold = Math.max(0, sharedSystemData.gold - gold);
+            sharedSystemData.xp -= xp;
+
+            while (sharedSystemData.xp < 0 && sharedSystemData.level > 1) {
+                sharedSystemData.level--; 
+                let previousTargetXp = Math.floor(Math.pow(sharedSystemData.level, 1.8) * 100);
+                sharedSystemData.xp += previousTargetXp;
+                
+                showSystemNotification(
+                    `تحذير: تراجع تكتيكي!`, 
+                    `تم إلغاء المهمة وانخفض مستواك إلى المستوى ${sharedSystemData.level}. تم إعادة قفل بعض المهارات المتقدمة..`, 
+                    `fa-arrow-trend-down`
+                );
+                renderSkillsMegaTree();
+            }
+
+            if (sharedSystemData.level === 1 && sharedSystemData.xp < 0) {
+                sharedSystemData.xp = 0;
+            }
+
+            localStorage.setItem('monarch_system_data', JSON.stringify(sharedSystemData));
+            refreshSystemUI(); 
+        }
+    </script>
+</body>
+</html>
