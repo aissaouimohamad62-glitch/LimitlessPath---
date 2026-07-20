@@ -1511,7 +1511,74 @@ const tabSwitcher = {
 
 
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    function syncSovereignData() {
+        // 1. قراءة البيانات من المفتاح المشترك للعبة
+        const rawData = localStorage.getItem('monarch_system_data');
+        if (!rawData) return;
 
+        try {
+            const systemData = JSON.parse(rawData);
+
+            // 2. مزامنة الذهب (الذي نجح معك سابقاً)
+            const globalGold = systemData.gold !== undefined ? systemData.gold : 0;
+            const goldElement = document.getElementById('player-gold');
+            if (goldElement) {
+                goldElement.textContent = globalGold;
+            }
+
+            // 3. تصحيح المستوى الذكي (يبحث عن جميع المسميات المحتملة في كود موقعك)
+            // سيتفقد أولاً إن كان هناك مستوى خاص بالمطبخ، وإلا سيجلب مستواك العام (مثل 80)
+            const currentLevel = systemData.culinaryLevel || systemData.level || systemData.playerLevel || systemData.cookingLevel || 24;
+            
+            const levelElement = document.getElementById('player-level');
+            if (levelElement) {
+                levelElement.textContent = currentLevel;
+            }
+
+            // 4. تصحيح نقاط الـ XP الذكي (يبحث عن xp أو exp أو نقاط الخبرة)
+            const currentXp = systemData.culinaryXp !== undefined ? systemData.culinaryXp : 
+                             (systemData.xp !== undefined ? systemData.xp : 
+                             (systemData.exp !== undefined ? systemData.exp : 0));
+
+            // حساب الـ XP المطلوب للمستوى التالي ديناميكياً بناءً على الحسبة البرمجية لموقعك
+            // يبحث عن قيمة الحد الأقصى المخزنة، وإلا يحسبها تلقائياً (المستوى * 500 أو حسب الـ HTML الحالي 2400)
+            const maxXp = systemData.culinaryNextLevelXp || systemData.nextXp || systemData.nextLevelXp || (currentLevel * 100) || 2400;
+
+            const xpTextElement = document.getElementById('xpText');
+            if (xpTextElement) {
+                xpTextElement.textContent = `${currentXp} / ${maxXp}`;
+            }
+
+            // تحديث شريط الـ XP (الأنيميشن) ليتناسب مع النقاط الحقيقية
+            const xpBarElement = document.getElementById('player-xp-bar');
+            if (xpBarElement && maxXp > 0) {
+                const percentage = Math.min((currentXp / maxXp) * 100, 100);
+                xpBarElement.style.width = `${percentage}%`;
+            }
+
+        } catch (error) {
+            console.error("خطأ أثناء مزامنة بيانات المطبخ:", error);
+        }
+    }
+
+    // تشغيل المزامنة فوراً عند تحميل الصفحة
+    syncSovereignData();
+
+    // الاستماع لقناة المزامنة الفورية (إذا تغير المستوى أو الـ XP في الرئيسية، يتحدث هنا تلقائياً)
+    try {
+        const bc = new BroadcastChannel('sovereign_sync');
+        bc.onmessage = (event) => {
+            if (event.data && event.data.type === 'SYSTEM_DATA_UPDATED') {
+                syncSovereignData();
+            }
+        };
+    } catch(e) {
+        console.log("BroadcastChannel غير مدعوم أو به كتم");
+    }
+});
+</script>
 
 </body>
 </html>
