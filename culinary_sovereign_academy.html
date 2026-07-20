@@ -1454,20 +1454,32 @@ const tabSwitcher = {
 };
 
 /* ========================================================================
-   GLOBAL INIT
+   GLOBAL INIT (UPDATED FOR FULL DUAL-SYNC)
    ======================================================================== */
 window.addEventListener('DOMContentLoaded', () => {
-    // ملاحظة: تأكد من تعريف هذه الكائنات في ملفات منفصلة أو قبل هذا الملف
     if (typeof PlayerState !== 'undefined') PlayerState.init();
     if (typeof recipeMatrix !== 'undefined') recipeMatrix.init();
 
+    // مزامنة التخزين بين النوافذ
     window.addEventListener('storage', (e) => {
         if (e.key === 'monarch_system_data') {
             if (typeof PlayerState !== 'undefined') PlayerState.init();
             if (typeof recipeMatrix !== 'undefined') recipeMatrix.render();
         }
     });
+
+    // مزامنة فورية عبر BroadcastChannel للتزامن اللحظي
+    if (typeof BroadcastChannel !== 'undefined') {
+        const bc = new BroadcastChannel('sovereign_sync');
+        bc.onmessage = (event) => {
+            if (event.data.type === 'SYSTEM_DATA_UPDATED') {
+                if (typeof PlayerState !== 'undefined') PlayerState.init();
+                if (typeof recipeMatrix !== 'undefined') recipeMatrix.render();
+            }
+        };
+    }
 });
+  
 </script>
 
 </body>
