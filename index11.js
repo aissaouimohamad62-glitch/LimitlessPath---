@@ -267,7 +267,7 @@ const DirectiveTimer = {
 const AnimePopup = {
     currentQuest: null,
     questStartTime: null,
-    playerLevel: 24,
+    playerLevel: 1,
     playerXP: 0,
     playerGold: 0,
 
@@ -433,7 +433,7 @@ const PlayerState = {
         xp: 0,
         gold: 0,
         title: "[]",
-        avatar: "", // ← هنا تُخزّن الصورة كـ Base64
+        avatar: "picture", // ← هنا تُخزّن الصورة كـ Base64
         stats: { str: 10, vit: 10, agi: 10, int: 10, sen: 10 },
         inventory: [] 
     },
