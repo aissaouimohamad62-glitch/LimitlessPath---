@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Rajdhani:wght@500;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
+<script src="monarch-core.js"></script>
     <style>
         /* ══════════════════════════════════════════════════════════════
            DESIGN TOKENS — SINGLE SOURCE OF TRUTH (Sovereign Theme)
@@ -888,36 +888,88 @@
             this.updateUI();
         },
 
-        addCulinaryXP(amount) {
-            this.data.culinaryXp += amount;
-            let needed = this.data.culinaryLevel * 500;
-            let leveledUp = false;
+  // -----------------------------------------------------------------
+    // دوال الـ XP والذهب المُصححة (ضعها داخل كائن PlayerState)
+    // -----------------------------------------------------------------
 
-            while (this.data.culinaryXp >= needed) {
-                this.data.culinaryXp -= needed;
-                this.data.culinaryLevel++;
-                needed = this.data.culinaryLevel * 500;
-                leveledUp = true;
-                
-                // Reward player general stats & AP points
-                this.data.level++; // Increase player global Level!
-                this.data.gold += 500; // Gift Gold
-                this.data.authority = (this.data.authority || 0) + 3; // Gift Authority points
-            }
+    addXP(amount) {
+        // 1. التأكد الإجباري من أن القيمة عبارة عن رقم لتجنب مشكلة NaN
+        let parsedAmount = parseInt(amount) || 0;
+        this.data.xp = (parseInt(this.data.xp) || 0) + parsedAmount;
+        
+        if (this.data.xp < 0) this.data.xp = 0;
+        
+        let xpNeeded = this.data.level * 100;
+        
+        // نظام الترقية والمستويات
+        while (this.data.xp >= xpNeeded) {
+            this.data.xp -= xpNeeded;
+            this.data.level = (parseInt(this.data.level) || 1) + 1;
+            xpNeeded = this.data.level * 100;
+            
+            if(window.SoundEffects) SoundEffects.playLevelUp();
+            if(window.Milestone) Milestone.show(this.data.level);
+        }
+        
+        this.save();
+        if(typeof this.updateUI === 'function') this.updateUI();
+    },
 
-            if (leveledUp) {
-                this.triggerLevelUpConfetti();
-                Toast.show(`🔥 Major Sovereign Promotion! Your cooking combat rank has risen to Level [ ${this.data.culinaryLevel} ]`, 'success');
-            } else {
-                Toast.show(`✅ Dish energy extracted: +${amount} Cooking XP!`, 'success');
-            }
-            this.save();
-        },
+    addGold(amount) {
+        // 2. الحل الجذري لمشكلة الذهب 0: تحويل الجلب والإضافة لأرقام صحيحة
+        let parsedAmount = parseInt(amount) || 0;
+        this.data.gold = (parseInt(this.data.gold) || 0) + parsedAmount;
+        
+        if (this.data.gold < 0) this.data.gold = 0;
+        
+        this.save();
+        
+        // 3. فرض تحديث العنصر في الواجهة مباشرة لضمان ظهوره للمستخدم
+        const goldDisplay = document.getElementById('player-gold');
+        if (goldDisplay) {
+            goldDisplay.textContent = this.data.gold;
+        }
+        
+        if(typeof this.updateUI === 'function') this.updateUI();
+    },
 
-        addGold(amount) {
-            this.data.gold += amount;
-            this.save();
-        },
+    addReward(xpAmount, goldAmount) {
+        this.addXP(xpAmount);
+        this.addGold(goldAmount);
+    },
+
+    // 4. تصحيح دالة الـ Culinary XP إذا كنت تستخدمها في صفحة الطبخ
+    addCulinaryXP(amount) {
+        let parsedAmount = parseInt(amount) || 0;
+        this.data.culinaryXp = (parseInt(this.data.culinaryXp) || 0) + parsedAmount;
+        let needed = this.data.culinaryLevel * 500;
+        let leveledUp = false;
+
+        while (this.data.culinaryXp >= needed) {
+            this.data.culinaryXp -= needed;
+            this.data.culinaryLevel = (parseInt(this.data.culinaryLevel) || 1) + 1;
+            needed = this.data.culinaryLevel * 500;
+            leveledUp = true;
+            
+            // ترقية مستوى اللاعب العام
+            this.data.level = (parseInt(this.data.level) || 1) + 1;
+            
+            // استخدام دالة addGold بدلاً من this.data.gold += 500 لضمان الحفظ والتحديث
+            this.addGold(500); 
+            
+            this.data.authority = (parseInt(this.data.authority) || 0) + 3; 
+        }
+
+        if (leveledUp) {
+            if(typeof this.triggerLevelUpConfetti === 'function') this.triggerLevelUpConfetti();
+            if(window.Toast) Toast.show(`🔥 Major Sovereign Promotion! Your cooking combat rank has risen to Level [ ${this.data.culinaryLevel} ]`, 'success');
+        } else {
+            if(window.Toast) Toast.show(`✅ Dish energy extracted: +${parsedAmount} Cooking XP!`, 'success');
+        }
+        
+        this.save();
+        if(typeof this.updateUI === 'function') this.updateUI();
+    },
 
         upgradeSkill(skillKey) {
             if (this.data.skills[skillKey] === undefined) return;
@@ -1454,8 +1506,12 @@ const tabSwitcher = {
 };
 
 
-  
+
+
+
+
 </script>
+
 
 </body>
 </html>
