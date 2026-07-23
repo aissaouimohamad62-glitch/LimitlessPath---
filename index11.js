@@ -851,123 +851,123 @@ week1: {
     title: 'Integrated Operations Charter',
     version: 'v9.0',
     range: 'LVL 1 → 25',
-    desc: 'Comprehensive Foundational Phase: Building the programming, physical, and spiritual base, establishing the full sovereign path.',
-   schedule: [
+    desc: 'Comprehensive Foundational Phase: Building the programming, physical, and spiritual base, establishing the complete sovereign path.',
+    schedule: [
   { 
     start: 5.0,  
     end: 6.5,  
-    title: 'Protocol 01: Spiritual Anchoring & Quranic Recitation', 
-    desc: 'Fajr prayer in congregation at the mosque + reading prayer remembrances and full morning Adhkar + memorizing or repeating the Holy Quran and reciting two full Hizbs with deep contemplation.' 
+    title: 'Protocol 01: Spiritual Anchoring', 
+    desc: 'Fajr prayer in congregation at the mosque + reading full prayer and morning Adhkar + memorizing or reviewing the Holy Quran and reciting two full Hizbs with deep contemplation.' 
   },
   { 
     start: 6.5,  
     end: 8.5,  
     title: 'Protocol 02: Pure Front-End Architecture', 
-    desc: 'Learn programming and Front-End web development focusing entirely on the core trio: HTML5, CSS3, and JavaScript to build advanced system interfaces. Sunday: learn HTML, Monday: learn CSS, Tuesday: learn JS, Wednesday: comprehensive review, Thursday: practical application on an integrated front-end project, Friday: project review, Saturday: rest or follow up as needed.' 
+    desc: 'Learn programming and Front-End web development with absolute focus on the core trio: HTML5, CSS3, and JavaScript to build advanced system interfaces. Sun: Learn (HTML), Mon: Learn (CSS), Tue: Learn (JS), Wed: Comprehensive review of the trio, Thu: Practical application on a full front-end project, Fri: Project review and development, Sat: Rest or continue development as needed.' 
   },
   { 
     start: 8.5,  
     end: 10.0, 
     title: 'Protocol 03: AI Core Foundation (Python)', 
-    desc: 'Studying Python and its programming applications, understanding algorithms and foundational data structures to launch into AI engineering.' 
+    desc: 'Study Python programming and its applications, understanding algorithms and foundational data structures to launch into Artificial Intelligence engineering.' 
   },
   { 
     start: 10.0, 
     end: 11.5, 
     title: 'Protocol 04: Data Analytics (Excel Mastery)', 
-    desc: 'Learn advanced data analysis skills using pivot tables and mathematical formulas in Microsoft Excel and linking them to mechanisms for understanding the language of numbers in AI.' 
+    desc: 'Learn advanced data analysis skills using pivot tables and mathematical equations in Microsoft Excel, linking them to AI numerical comprehension mechanisms.' 
   },
   { 
     start: 11.5, 
     end: 13.0, 
     title: 'Protocol 05: English Linguistic Deepening', 
-    desc: 'Dividing the session equally into three strict pillars: the first third for technical educational videos, the second third for listening immersion, and the third for reading and writing.' 
+    desc: 'Divide the session equally into three strict axes: The first third for watching technical educational videos, the second third for listening immersion, and the final third for reading and writing practice.' 
   },
   { 
     start: 13.0, 
     end: 14.0, 
     title: 'Protocol 06: Matrix Analytics (NumPy Engine)', 
-    desc: 'Deep diving into the NumPy library for AI, studying multidimensional matrix processing and complex mathematical data analysis with high efficiency.' 
+    desc: 'Dive deeply into the NumPy library for AI, studying multi-dimensional matrix processing and analyzing complex mathematical data efficiently.' 
   },
   { 
     start: 14.0, 
     end: 15.5, 
     title: 'Protocol 07: Deep Recovery Break', 
-    desc: 'Taking a long power nap or deep rest to recover brain cells and muscles (includes performing Dhuhr prayer and eating a protein-rich lunch).' 
+    desc: 'Take a long power nap or deep break to recharge brain cells and muscles (includes performing Dhuhr prayer and eating a protein-rich lunch).' 
   },
   { 
     start: 15.5, 
     end: 16.5, 
     title: 'Protocol 08 & 10: Asr Sync & Devotional Enlightenment', 
-    desc: 'Performing Asr prayer on time with prayer remembrances and full evening Adhkar + listening to religious sermons to nourish the spiritual and moral side.' 
+    desc: 'Perform Asr prayer on time while reading prayer and full evening Adhkar + listen to religious sermons by Islamic scholars to nourish the spiritual and moral side.' 
   },
   { 
     start: 16.5, 
     end: 17.5, 
     title: 'Protocol 09: Cognitive Evolution Lab', 
-    desc: 'Raising fluid intelligence and isolating the mind by reading cultural books, playing tactical chess matches, or watching deep intellectual content (like Nasser Al-Aqueel and documentaries).' 
+    desc: 'Elevate fluid intelligence and isolate the mind by reading cultural books, playing tactical chess matches, or watching deep intellectual content (e.g., Nasser Al-Aqeel and documentaries).' 
   },
   { 
     start: 17.5, 
     end: 19.0, 
     title: 'Protocol 11 & 13: Integrated Gym & Sports Alpha', 
-    desc: 'Practicing home gym or fitness center exercises to build physical strength + refining skills and motor technique for favorite sports (football, basketball, etc.).' 
+    desc: 'Practice home gym or fitness center exercises to build physical strength + hone skills and kinetic techniques for favorite sports (Football, Basketball, etc.).' 
   },
   { 
     start: 19.0, 
     end: 21.0, 
     title: 'Protocol 12: Academic Experimental Curriculum', 
-    desc: 'Rigorous academic study of core subjects for the Experimental Sciences certificate (Mathematics, Sciences, Physics) according to the periodic schedule to ensure absolute academic excellence.' 
+    desc: 'Strict academic study of core subjects for the Experimental Sciences certificate (Mathematics, Sciences, Physics) according to the schedule to ensure absolute academic excellence.' 
   },
   { 
     start: 21.0, 
     end: 22.0, 
     title: 'Protocol 14: System Evaluation & Sleep Sequence', 
-    desc: 'Reviewing daily sovereign system performance and updating task records for tomorrow + reading complete sleep Adhkar, and entering deep sleep to rest body and mind at exactly 10:00 PM.' 
+    desc: 'Review the daily sovereign system performance and update task logs for tomorrow + read full sleep Adhkar, and enter deep sleep to rest the body and mind at exactly 10:00 PM.' 
   }
 ],
     days: {
     0: { 
       sport: '🏀 Basketball: Learn stationary shooting + learn ball control and dribbling in a stationary position', 
-      ppl: 'Back & Biceps: Intense Back and Biceps Exercises', 
-      cognitive: 'Digital Book Project: Session 01 for digital book creation and formatting', 
-      academic: 'Core Subject 1: New Lesson' 
+      ppl: 'Back & Biceps: Intense back and biceps exercises', 
+      cognitive: 'Digital Book Project: Session 01 for creating and formatting a digital book', 
+      academic: 'Core Subject 1 (New Lesson)' 
     },
     1: { 
-      sport: '🥋 Brazilian Jiu-Jitsu 🇧🇷 [Grip claws and closed guard control: Collar & Sleeve and pulling the opponent to break their posture for 150 reps] + [Defensive wall and escaping side control hell: Bridging and Hip Escapes for 100 reps]', 
-      ppl: 'Chest & Shoulders: Building upper, lower, and lateral chest muscles, regular mid-muscles, and shoulders', 
+      sport: '🥋 Brazilian Jiu-Jitsu 🇧🇷 [Grip claws and closed guard control: Collar & Sleeve and pulling the opponent to break their posture for 150 reps] + [Defensive block wall and escaping hell Side Control: Bridging and Hip Escapes for 100 reps]', 
+      ppl: 'Chest & Shoulders: Building upper and lower lateral chest muscles, mid-chest muscles, and building shoulders', 
       cognitive: 'Chess & History: Learn tactical chess + watch a documentary (historical, political, scientific, or natural)', 
-      academic: 'Core Subject 2: New Lesson' 
+      academic: 'Core Subject 2 (New Lesson)' 
     },
     2: { 
-      sport: '🏀 Basketball: Learn moving with the ball and controlling it + moving shots and rebounds + learn dynamic dribbling', 
-      ppl: 'Legs & Triceps: Building and blasting thigh muscles + triceps', 
-      cognitive: 'Intellectual Dev: Reading technical and cultural books (half an hour) + watching Nasser Al-Aqueel (half an hour)', 
-      academic: 'Core Subject 3: New Lesson' 
+      sport: '🏀 Basketball: Learn moving with the ball and controlling it + moving shots and rebounds + learn moving dribbling', 
+      ppl: 'Legs & Triceps: Building and exploding thigh muscles + triceps muscles', 
+      cognitive: 'Intellectual Dev: Read technical and cultural books (half hour) + watch Nasser Al-Aqeel (half hour)', 
+      academic: 'Core Subject 3 (New Lesson)' 
     },
     3: { 
-      sport: '⚽ Football Focus: Mastering dribbling skills + superior ball control + ball juggling and trapping', 
+      sport: '⚽ Football Focus: Master dribbling skills + superior ball control + ball juggling and tactical trapping', 
       ppl: 'Calves & Forearms: Targeted calf exercises + forearm exercises to increase grip strength', 
-      cognitive: 'Sudoku & Docs: Playing Sudoku mind game + economic, tech, or investigative documentaries', 
+      cognitive: 'Sudoku & Docs: Play mental Sudoku game + economic and tech documentaries or investigative', 
       academic: 'Core Subject 1 Review: Comprehensive review and solving applications for Core Subject 1' 
     },
     4: { 
-      sport: '🥋 Brazilian Jiu-Jitsu 🇧🇷 [Swift triple submission sequence: Consecutive quick attack Armbar -> Triangle -> Omoplata for 80 reps per side] + [Passing aggressive knee slice guard: Knee Slice Pass for 60 reps with Underhook control]', 
-      ppl: 'Abs & Biceps Core: Isolation and shaping exercises for abs + biceps', 
-      cognitive: 'Tactical Chess: Deepening chess strategies + watching Nasser Al-Aqueel intellectual content', 
-      academic: 'Minor Electives: Studying and reviewing 3 very minor elective subjects to relieve routine pressure' 
+      sport: '🥋 Brazilian Jiu-Jitsu 🇧🇷 [Triple Lightning Submission Sequence: Fast sequential attack Armbar -> Triangle -> Omoplata for 80 reps on both sides] + [Violent Knee Slice Pass to bypass guard for 60 reps with Underhook pin]', 
+      ppl: 'Abs & Biceps Core: Isolating and shaping abdominal muscles + biceps exercises', 
+      cognitive: 'Tactical Chess: Deepen chess strategies + watch Nasser Al-Aqeel intellectual content', 
+      academic: 'Minor Electives: Study and review 3 very minor subjects to relieve routine pressure' 
     },
     5: { 
-      sport: '🏃 Cardio Endurance: Free running for a distance ranging from 5 to 10 kilometers to increase respiratory efficiency', 
-      ppl: 'Strategic Rest: Passive rest period and full muscle recovery for the young monarch to rebuild tissues', 
-      cognitive: 'Digital Book Phase 2: Session 02 for creating, developing, and authoring the digital book', 
-      academic: 'Standard Review: Reviewing Core Subject 2 + studying and reviewing 3 medium/regular subjects (not electives)' 
+      sport: '🏃 Cardio Endurance: Free run for a distance ranging from 5 to 10 kilometers to increase respiratory efficiency', 
+      ppl: 'Strategic Rest: Passive rest period and full muscle recovery for the young monarch to repair tissues', 
+      cognitive: 'Digital Book Project Phase 2: Session 02 for crafting, developing, and authoring the digital book', 
+      academic: 'Standard Review: Review Core Subject 2 + study and review 3 average subjects (not minor)' 
     },
     6: { 
-      sport: '⚽ Football Combat: Deadly shooting skills with both feet + mastering trapping and taming the ball with both feet', 
-      ppl: 'Lower Chest & Abs: Abs exercises + inner chest (the line between the two muscles) and lower chest muscle', 
-      cognitive: 'Cognitive Boost: Watching self-development channels to stimulate awareness + playing complex mental Sudoku', 
-      academic: 'Core Subject 3 Review: Reviewing and solidifying strengths for Core Subject 3' 
+      sport: '⚽ Football Combat: Lethal shooting skills with both feet + master receiving and trapping the ball with both feet', 
+      ppl: 'Lower Chest & Abs: Abdominal muscle exercises + inner chest (the dividing line between the two muscles) and lower chest muscle', 
+      cognitive: 'Cognitive Boost: Watch "Risalat Tawer Nafsak" channel to stimulate awareness + play complex mental Sudoku', 
+      academic: 'Core Subject 3 Review: Review and solidify strengths for Core Subject 3' 
     }
   },
 special: {
@@ -975,437 +975,850 @@ special: {
   0: {
     title: 'Foundation Sunday',
     blocks: [
-      { time: '05:00-06:30', title: 'Protocol 01: Spiritual Anchoring & Quranic Recitation', desc: 'Fajr prayer in congregation + Morning Adhkar + Quran memorization and recitation with deep contemplation.' },
-      { time: '06:30-08:30', title: 'Protocol 02: Pure Front-End Architecture', desc: 'Learn programming and Front-End web development with absolute focus on HTML.' },
-      { time: '08:30-10:00', title: 'Protocol 03: AI Core Foundation (Python)', desc: 'Studying Python and its programming applications, understanding algorithms and foundational data structures.' },
-      { time: '10:00-11:30', title: 'Protocol 04: Data Analytics (Excel Mastery)', desc: 'Learn advanced data analysis skills using pivot tables and mathematical formulas in Microsoft Excel.' },
-      { time: '11:30-13:00', title: 'Protocol 05: English Linguistic Deepening', desc: 'Dividing the session equally into three strict pillars: technical videos, listening, and reading/writing.' },
-      { time: '13:00-14:00', title: 'Protocol 06: Matrix Analytics (NumPy Engine)', desc: 'Deep diving into the NumPy library for AI, studying multidimensional matrix processing.' },
-      { time: '14:00-15:30', title: 'Protocol 07: Deep Recovery Break', desc: 'Power nap or deep rest to recover brain cells and muscles (includes Dhuhr prayer and protein lunch).' },
-      { time: '15:30-16:30', title: 'Protocol 08 & 10: Asr Sync & Devotional Enlightenment', desc: 'Asr prayer on time with Adhkar + listening to religious sermons.' },
-      { time: '16:30-17:30', title: 'Protocol 09: Cognitive Evolution Lab', desc: 'Digital Book Project (Session 01): Start creating and formatting the digital book to raise fluid intelligence.' },
-      { time: '17:30-19:00', title: 'Protocol 11 & 13: Integrated Gym & Sports Alpha', desc: 'Intense back and biceps exercises + Basketball: stationary shooting and dribbling control.' },
-      { time: '19:00-21:00', title: 'Protocol 12: Academic Experimental Curriculum', desc: 'Rigorous academic study for Core Subject 1 (New Lesson): Mathematics according to the curriculum.' },
-      { time: '21:00-22:00', title: 'Protocol 14: System Evaluation & Sleep Sequence', desc: 'Reviewing daily system performance + sleep Adhkar, and entering deep sleep at exactly 10:00 PM.' }
+      { time: '05:00-06:30', title: 'Protocol 01: Spiritual Anchoring', desc: 'Fajr prayer in congregation at the mosque + reading full prayer and morning Adhkar + memorizing or reviewing the Holy Quran and reciting two full Hizbs with deep contemplation.' },
+      { time: '06:30-08:30', title: 'Protocol 02: Pure Front-End Architecture / تطوير الويب', desc: 'Learn programming and Front-End web development with absolute focus on learning (HTML) to build and develop foundational system interfaces.' },
+      { time: '08:30-10:00', title: 'Protocol 03: AI Core Foundation (Python)', desc: 'Study Python programming and its applications, understanding algorithms and foundational data structures to launch into Artificial Intelligence engineering.' },
+      { time: '10:00-11:30', title: 'Protocol 04: Data Analytics (Excel Mastery)', desc: 'Learn advanced data analysis skills using pivot tables and mathematical equations in Microsoft Excel, linking them to AI numerical comprehension mechanisms.' },
+      { time: '11:30-13:00', title: 'Protocol 05: English Linguistic Deepening', desc: 'Divide the session equally into three strict axes: The first third for watching technical educational videos, the second third for listening immersion, and the final third for reading and writing practice.' },
+      { time: '13:00-14:00', title: 'Protocol 06: Matrix Analytics (NumPy Engine)', desc: 'Dive deeply into the NumPy library for AI, studying multi-dimensional matrix processing and analyzing complex mathematical data efficiently.' },
+      { time: '14:00-15:30', title: 'Protocol 07: Deep Recovery Break', desc: 'Take a long power nap or deep break to recharge brain cells and muscles (includes performing Dhuhr prayer and eating a protein-rich lunch).' },
+      { time: '15:30-16:30', title: 'Protocol 08 & 10: Asr Sync & Devotional Enlightenment', desc: 'Perform Asr prayer on time while reading prayer and full evening Adhkar + listen to religious sermons by Islamic scholars to nourish the spiritual and moral side.' },
+      { time: '16:30-17:30', title: 'Protocol 09: Cognitive Evolution Lab', desc: 'Digital Book Project (Session 01): Begin crafting and formatting the digital book to elevate fluid intelligence and isolate the mind.' },
+      { time: '17:30-19:00', title: 'Protocol 11 & 13: Integrated Gym & Sports Alpha', desc: 'Intensive back and biceps exercises to build physical strength + Basketball: Learn stationary shooting and learn ball control and dribbling in a stationary position.' },
+      { time: '19:00-21:00', title: 'Protocol 12: Academic Experimental Curriculum', desc: 'Strict academic study of Core Subject 1 (New Lesson): Mathematics according to the Experimental Sciences curriculum to ensure absolute academic excellence.' },
+      { time: '21:00-22:00', title: 'Protocol 14: System Evaluation & Sleep Sequence', desc: 'Review the daily sovereign system performance and update task logs for tomorrow + read full sleep Adhkar, and enter deep sleep to rest the body and mind at exactly 10:00 PM.' }
     ]
   },
   1: {
     title: 'Fasting Protocol (Monday)',
     blocks: [
-      { time: '02:45-05:00', title: 'Night Prayer and Suhoor', desc: 'Night prayer + protein-rich Suhoor + remembrance of Allah + quick mental review for the fasting day.' },
-      { time: '05:00-06:30', title: 'Protocol 01: Spiritual Anchoring & Quranic Recitation', desc: 'Fajr prayer in congregation + Morning Adhkar + Quran memorization and recitation with deep contemplation.' },
-      { time: '06:30-08:30', title: 'Protocol 02: Pure Front-End Architecture', desc: 'Learn programming and Front-End web development focusing on CSS rules and architecture.' },
-      { time: '08:30-10:00', title: 'Protocol 03: AI Core Foundation (Python)', desc: 'Studying Python and its programming applications, understanding algorithms and foundational data structures.' },
-      { time: '10:00-11:30', title: 'Protocol 04: Data Analytics (Excel Mastery)', desc: 'Learn advanced data analysis skills using pivot tables and mathematical formulas in Microsoft Excel.' },
-      { time: '11:30-13:00', title: 'Protocol 05: English Linguistic Deepening', desc: 'Dividing the session equally into three strict pillars: technical videos, listening, and reading/writing.' },
-      { time: '13:00-14:00', title: 'Protocol 06: Matrix Analytics (NumPy Engine)', desc: 'Deep diving into the NumPy library for AI, studying multidimensional matrix processing.' },
-      { time: '14:00-15:30', title: 'Protocol 07: Deep Recovery Break', desc: 'Dhuhr prayer + rest + light nap dedicated to brain cell recovery for the fasting protocol.' },
-      { time: '15:30-16:30', title: 'Protocol 08 & 10: Asr Sync & Devotional Enlightenment', desc: 'Asr prayer on time with Adhkar + listening to religious sermons.' },
-      { time: '16:30-17:30', title: 'Protocol 09: Cognitive Evolution Lab', desc: 'Learn advanced tactical chess + watch a documentary to raise fluid intelligence.' },
-      { time: '17:30-19:00', title: 'Protocol 11 & 13: Integrated Gym & Sports Alpha', desc: 'Chest and shoulders workout + Brazilian Jiu-Jitsu 🇧🇷 (Collar & Sleeve, Bridging and Hip Escapes).' },
-      { time: '19:00-21:00', title: 'Protocol 12: Academic Experimental Curriculum', desc: 'Rigorous academic study for Core Subject 2 (New Lesson): Natural Sciences according to the curriculum.' },
-      { time: '21:00-22:00', title: 'Protocol 14: System Evaluation & Sleep Sequence', desc: 'Reviewing daily system performance + sleep Adhkar, and entering deep sleep at exactly 10:00 PM.' }
+      { time: '02:45-05:00', title: 'Night Prayer and Suhoor', desc: 'Night prayer + protein-rich Suhoor + remembrance of Allah + quick mental review to fully prepare for the exceptional fasting day to build discipline and sovereign aura.' },
+      { time: '05:00-06:30', title: 'Protocol 01: Spiritual Anchoring', desc: 'Fajr prayer in congregation at the mosque + reading full prayer and morning Adhkar + memorizing or reviewing the Holy Quran and reciting two full Hizbs with deep contemplation.' },
+      { time: '06:30-08:30', title: 'Protocol 02: Pure Front-End Architecture', desc: 'Learn programming and Front-End web development with absolute focus on the rules and engineering of (CSS) to design and format visual patterns for interfaces.' },
+      { time: '08:30-10:00', title: 'Protocol 03: AI Core Foundation (Python)', desc: 'Study Python programming and its applications, understanding algorithms and foundational data structures to launch into Artificial Intelligence engineering.' },
+      { time: '10:00-11:30', title: 'Protocol 04: Data Analytics (Excel Mastery)', desc: 'Learn advanced data analysis skills using pivot tables and mathematical equations in Microsoft Excel, linking them to AI numerical comprehension mechanisms.' },
+      { time: '11:30-13:00', title: 'Protocol 05: English Linguistic Deepening', desc: 'Divide the session equally into three strict axes: The first third for watching technical educational videos, the second third for listening immersion, and the final third for reading and writing practice.' },
+      { time: '13:00-14:00', title: 'Protocol 06: Matrix Analytics (NumPy Engine)', desc: 'Dive deeply into the NumPy library for AI, studying multi-dimensional matrix processing and analyzing complex mathematical data efficiently.' },
+      { time: '14:00-15:30', title: 'Protocol 07: Deep Recovery Break', desc: 'Dhuhr prayer + rest + light nap dedicated to recharging brain cells and muscles, providing adequate energy for the fasting protocol.' },
+      { time: '15:30-16:30', title: 'Protocol 08 & 10: Asr Sync & Devotional Enlightenment', desc: 'Perform Asr prayer on time while reading prayer and full evening Adhkar + listen to religious sermons by Islamic scholars to nourish the spiritual and moral side.' },
+      { time: '16:30-17:30', title: 'Protocol 09: Cognitive Evolution Lab', desc: 'Learn advanced tactical chess + watch a documentary (historical, political, scientific, or natural) to elevate fluid intelligence and isolate the mind.' },
+      { time: '17:30-19:00', title: 'Protocol 11 & 13: Integrated Gym & Sports Alpha', desc: 'Upper and lower lateral chest exercises, mid-chest, and shoulder building + Brazilian Jiu-Jitsu 🇧🇷 [Collar & Sleeve and pulling the opponent to break posture for 150 reps] + [Defensive block wall and escaping hell Side Control: Bridging and Hip Escapes for 100 reps].' },
+      { time: '19:00-21:00', title: 'Protocol 12: Academic Experimental Curriculum', desc: 'Strict academic study of Core Subject 2 (New Lesson): Natural Sciences according to the Experimental Sciences curriculum to ensure absolute academic excellence.' },
+      { time: '21:00-22:00', title: 'Protocol 14: System Evaluation & Sleep Sequence', desc: 'Review the daily sovereign system performance and update task logs for tomorrow + read full sleep Adhkar, and enter deep sleep to rest the body and mind at exactly 10:00 PM.' }
     ]
   },
   2: {
     title: 'Momentum Tuesday',
     blocks: [
-      { time: '05:00-06:30', title: 'Protocol 01: Spiritual Anchoring & Quranic Recitation', desc: 'Fajr prayer in congregation + Morning Adhkar + Quran memorization and recitation with deep contemplation.' },
-      { time: '06:30-08:30', title: 'Protocol 02: Pure Front-End Architecture', desc: 'Learn programming and Front-End web development focusing on dynamic interactivity (JavaScript).' },
-      { time: '08:30-10:00', title: 'Protocol 03: AI Core Foundation (Python)', desc: 'Studying Python and its programming applications, understanding algorithms and foundational data structures.' },
-      { time: '10:00-11:30', title: 'Protocol 04: Data Analytics (Excel Mastery)', desc: 'Learn advanced data analysis skills using pivot tables and mathematical formulas in Microsoft Excel.' },
-      { time: '11:30-13:00', title: 'Protocol 05: English Linguistic Deepening', desc: 'Dividing the session equally into three strict pillars: technical videos, listening, and reading/writing.' },
-      { time: '13:00-14:00', title: 'Protocol 06: Matrix Analytics (NumPy Engine)', desc: 'Deep diving into the NumPy library for AI, studying multidimensional matrix processing.' },
-      { time: '14:00-15:30', title: 'Protocol 07: Deep Recovery Break', desc: 'Power nap or deep rest to recover brain cells and muscles (includes Dhuhr prayer and protein lunch).' },
-      { time: '15:30-16:30', title: 'Protocol 08 & 10: Asr Sync & Devotional Enlightenment', desc: 'Asr prayer on time with Adhkar + listening to religious sermons.' },
-      { time: '16:30-17:30', title: 'Protocol 09: Cognitive Evolution Lab', desc: 'Raising fluid intelligence by reading cultural/tech books (half an hour) + Nasser Al-Aqueel content (half an hour).' },
-      { time: '17:30-19:00', title: 'Protocol 11 & 13: Integrated Gym & Sports Alpha', desc: 'Blasting thigh muscles + triceps exercises + Basketball: moving control, shots, and dynamic dribbling.' },
-      { time: '19:00-21:00', title: 'Protocol 12: Academic Experimental Curriculum', desc: 'Rigorous academic study for Core Subject 3 (New Lesson): Physics according to the curriculum.' },
-      { time: '21:00-22:00', title: 'Protocol 14: System Evaluation & Sleep Sequence', desc: 'Reviewing daily system performance + sleep Adhkar, and entering deep sleep at exactly 10:00 PM.' }
+      { time: '05:00-06:30', title: 'Protocol 01: Spiritual Anchoring', desc: 'Fajr prayer in congregation at the mosque + reading full prayer and morning Adhkar + memorizing or reviewing the Holy Quran and reciting two full Hizbs with deep contemplation.' },
+      { time: '06:30-08:30', title: 'Protocol 02: Pure Front-End Architecture', desc: 'Learn programming and Front-End web development with absolute focus on programming logic and interactive dynamism (JavaScript) to build advanced system interfaces.' },
+      { time: '08:30-10:00', title: 'Protocol 03: AI Core Foundation (Python)', desc: 'Study Python programming and its applications, understanding algorithms and foundational data structures to launch into Artificial Intelligence engineering.' },
+      { time: '10:00-11:30', title: 'Protocol 04: Data Analytics (Excel Mastery)', desc: 'Learn advanced data analysis skills using pivot tables and mathematical equations in Microsoft Excel, linking them to AI numerical comprehension mechanisms.' },
+      { time: '11:30-13:00', title: 'Protocol 05: English Linguistic Deepening', desc: 'Divide the session equally into three strict axes: The first third for watching technical educational videos, the second third for listening immersion, and the final third for reading and writing practice.' },
+      { time: '13:00-14:00', title: 'Protocol 06: Matrix Analytics (NumPy Engine)', desc: 'Dive deeply into the NumPy library for AI, studying multi-dimensional matrix processing and analyzing complex mathematical data efficiently.' },
+      { time: '14:00-15:30', title: 'Protocol 07: Deep Recovery Break', desc: 'Take a long power nap or deep break to recharge brain cells and muscles (includes performing Dhuhr prayer and eating a protein-rich lunch).' },
+      { time: '15:30-16:30', title: 'Protocol 08 & 10: Asr Sync & Devotional Enlightenment', desc: 'Perform Asr prayer on time while reading prayer and full evening Adhkar + listen to religious sermons by Islamic scholars to nourish the spiritual and moral side.' },
+      { time: '16:30-17:30', title: 'Protocol 09: Cognitive Evolution Lab', desc: 'Elevate fluid intelligence and isolate the mind by reading cultural and tech books (half hour) + watch intellectual and analytical content by Nasser Al-Aqeel (half hour).' },
+      { time: '17:30-19:00', title: 'Protocol 11 & 13: Integrated Gym & Sports Alpha', desc: 'Building and exploding thigh muscles + triceps exercises to build symmetrical physical strength + Basketball: Learn moving with the ball, moving shots, rebounds, and moving dribbling.' },
+      { time: '19:00-21:00', title: 'Protocol 12: Academic Experimental Curriculum', desc: 'Strict academic study of Core Subject 3 (New Lesson): Physics according to the Experimental Sciences curriculum to ensure absolute academic excellence.' },
+      { time: '21:00-22:00', title: 'Protocol 14: System Evaluation & Sleep Sequence', desc: 'Review the daily sovereign system performance and update task logs for tomorrow + read full sleep Adhkar, and enter deep sleep to rest the body and mind at exactly 10:00 PM.' }
     ]
   },
   3: {
     title: 'Mid-Week Grind',
     blocks: [
-      { time: '05:00-06:30', title: 'Protocol 01: Spiritual Anchoring & Quranic Recitation', desc: 'Fajr prayer in congregation + Morning Adhkar + Quran memorization and recitation with deep contemplation.' },
-      { time: '06:30-08:30', title: 'Protocol 02: Pure Front-End Architecture', desc: 'Comprehensive and intensive review of the core trio (HTML5, CSS3, JavaScript) to link components and solidify coding.' },
-      { time: '08:30-10:00', title: 'Protocol 03: AI Core Foundation (Python)', desc: 'Studying Python and its programming applications, understanding algorithms and foundational data structures.' },
-      { time: '10:00-11:30', title: 'Protocol 04: Data Analytics (Excel Mastery)', desc: 'Learn advanced data analysis skills using pivot tables and mathematical formulas in Microsoft Excel.' },
-      { time: '11:30-13:00', title: 'Protocol 05: English Linguistic Deepening', desc: 'Dividing the session equally into three strict pillars: technical videos, listening, and reading/writing.' },
-      { time: '13:00-14:00', title: 'Protocol 06: Matrix Analytics (NumPy Engine)', desc: 'Deep diving into the NumPy library for AI, studying multidimensional matrix processing.' },
-      { time: '14:00-15:30', title: 'Protocol 07: Deep Recovery Break', desc: 'Power nap or deep rest to recover brain cells and muscles (includes Dhuhr prayer and protein lunch).' },
-      { time: '15:30-16:30', title: 'Protocol 08 & 10: Asr Sync & Devotional Enlightenment', desc: 'Asr prayer on time with Adhkar + listening to religious sermons.' },
-      { time: '16:30-17:30', title: 'Protocol 09: Cognitive Evolution Lab', desc: 'Playing Sudoku to train the mind + watching specialized documentaries (Economy & Tech or Investigative).' },
-      { time: '17:30-19:00', title: 'Protocol 11 & 13: Integrated Gym & Sports Alpha', desc: 'Targeted calf exercises + forearm grip training + Football: mastering dribbling, ball control, and trapping.' },
-      { time: '19:00-21:00', title: 'Protocol 12: Academic Experimental Curriculum', desc: 'Comprehensive review and intensive applications for Core Subject 1 (Math Review) to ensure complete retention.' },
-      { time: '21:00-22:00', title: 'Protocol 14: System Evaluation & Sleep Sequence', desc: 'Reviewing daily system performance + sleep Adhkar, and entering deep sleep at exactly 10:00 PM.' }
+      { time: '05:00-06:30', title: 'Protocol 01: Spiritual Anchoring', desc: 'Fajr prayer in congregation at the mosque + reading full prayer and morning Adhkar + memorizing or reviewing the Holy Quran and reciting two full Hizbs with deep contemplation.' },
+      { time: '06:30-08:30', title: 'Protocol 02: Pure Front-End Architecture', desc: 'Conduct a comprehensive and intensive review of the entire core trio (HTML5, CSS3, JavaScript) to connect components, solidify code, and confirm complete architectural understanding.' },
+      { time: '08:30-10:00', title: 'Protocol 03: AI Core Foundation (Python)', desc: 'Study Python programming and its applications, understanding algorithms and foundational data structures to launch into Artificial Intelligence engineering.' },
+      { time: '10:00-11:30', title: 'Protocol 04: Data Analytics (Excel Mastery)', desc: 'Learn advanced data analysis skills using pivot tables and mathematical equations in Microsoft Excel, linking them to AI numerical comprehension mechanisms.' },
+      { time: '11:30-13:00', title: 'Protocol 05: English Linguistic Deepening', desc: 'Divide the session equally into three strict axes: The first third for watching technical educational videos, the second third for listening immersion, and the final third for reading and writing practice.' },
+      { time: '13:00-14:00', title: 'Protocol 06: Matrix Analytics (NumPy Engine)', desc: 'Dive deeply into the NumPy library for AI, studying multi-dimensional matrix processing and analyzing complex mathematical data efficiently.' },
+      { time: '14:00-15:30', title: 'Protocol 07: Deep Recovery Break', desc: 'Take a long power nap or deep break to recharge brain cells and muscles (includes performing Dhuhr prayer and eating a protein-rich lunch).' },
+      { time: '15:30-16:30', title: 'Protocol 08 & 10: Asr Sync & Devotional Enlightenment', desc: 'Perform Asr prayer on time while reading prayer and full evening Adhkar + listen to religious sermons by Islamic scholars to nourish the spiritual and moral side.' },
+      { time: '16:30-17:30', title: 'Protocol 09: Cognitive Evolution Lab', desc: 'Play mental Sudoku game to train the mind on logical thinking + watch specialized documentaries in Economics & Tech or investigative documentaries.' },
+      { time: '17:30-19:00', title: 'Protocol 11 & 13: Integrated Gym & Sports Alpha', desc: 'Targeted calf exercises + forearm exercises to increase grip strength and isolate the arms + Football development: Master individual dribbling skills, superior ball control, and tactical ball juggling/trapping.' },
+      { time: '19:00-21:00', title: 'Protocol 12: Academic Experimental Curriculum', desc: 'Comprehensive review, solving applications, and intensive exercises for Core Subject 1 (Math Review) to ensure full retention of completed modules.' },
+      { time: '21:00-22:00', title: 'Protocol 14: System Evaluation & Sleep Sequence', desc: 'Review the daily sovereign system performance and update task logs for tomorrow + read full sleep Adhkar, and enter deep sleep to rest the body and mind at exactly 10:00 PM.' }
     ]
   }
 },
      4: {
   title: 'Achievement Thursday (Fasting and Diligence)',
   blocks: [
-    { time: '02:45-05:00', title: 'Night Prayer and Suhoor', desc: 'Night prayer + protein-rich Suhoor + remembrance of Allah + quick mental review for discipline building.' },
-    { time: '05:00-06:30', title: 'Protocol 01: Spiritual Anchoring & Quranic Recitation', desc: 'Fajr prayer in congregation + Morning Adhkar + new Quran memorization with deep contemplation.' },
-    { time: '06:30-08:30', title: 'Religious Studies', desc: 'Studying Kitab at-Tawhid + mastering Tajweed rules and practical application of Islamic sciences.' },
-    { time: '08:30-10:00', title: 'Study Marathon', desc: 'Strict academic focus on minor elective subjects using mind maps to ensure absolute excellence.' },
-    { time: '10:00-11:30', title: 'Language Skills', desc: 'Comprehensive review of all English terms learned throughout the week, treating grammar as programming logic.' },
-    { time: '11:30-13:30', title: 'Pure Front-End Architecture', desc: 'Intensive practical application on a complete front-end project (HTML5, CSS3, JavaScript).' },
-    { time: '13:30-14:30', title: 'Abs & Biceps Core', desc: 'Isolation and shaping exercises for abs (Core) + blasting and isolating biceps to increase tactical physical strength.' },
-    { time: '14:30-15:30', title: 'Asr Sync & Remembrance', desc: 'Performing Asr prayer on time with Adhkar during a quiet fasting recovery period for brain cells.' },
-    { time: '15:30-17:00', title: 'Content Creation', desc: 'Engineering and creating advanced digital content for platforms (YouTube, Instagram, TikTok) focusing on monetization.' },
-    { time: '17:00-18:00', title: 'Spiritual Balance', desc: 'Listening to humbling Quranic recitations + guided deep meditation, training to improve voice tone and depth.' },
-    { time: '18:00-19:15', title: 'Cognitive Evolution Lab', desc: 'Tactical Chess session to deepen strategies + watching Nasser Al-Aqueel deep analytical content.' },
-    { time: '19:15-20:45', title: '🥋 Brazilian Jiu-Jitsu 🇧🇷', desc: '[Swift triple submission sequence: Armbar -> Triangle -> Omoplata for 80 reps] + [Knee Slice Pass for 60 reps].' },
-    { time: '20:45-21:30', title: 'Sports Analysis', desc: 'Visual tactical learning by watching and analyzing advanced basketball skills, movements, and techniques.' },
-    { time: '21:30-22:00', title: 'System Evaluation & Sleep Sequence', desc: 'Reviewing daily system performance + sleep Adhkar, and entering deep sleep at exactly 10:00 PM.' }
+    { time: '02:45-05:00', title: 'Night Prayer and Suhoor', desc: 'Night prayer + protein-rich Suhoor + remembrance of Allah + quick mental review to fully prepare for the exceptional fasting day to build discipline and sovereignty.' },
+    { time: '05:00-06:30', title: 'Protocol 01: Spiritual Anchoring', desc: 'Fajr prayer in congregation at the mosque + reading full prayer and morning Adhkar + new memorization of the Holy Quran and reciting two full Hizbs with deep contemplation.' },
+    { time: '06:30-08:30', title: 'Religious Studies', desc: 'Study Kitab At-Tawhid + master Tajweed rules and practical application to consolidate Islamic sciences.' },
+    { time: '08:30-10:00', title: 'Study Marathon', desc: 'Strict and intensive academic focus on very minor subjects using mind maps to ensure absolute excellence.' },
+    { time: '10:00-11:30', title: 'Language Skills', desc: 'Comprehensive review of all terminology and everything learned throughout the week in English, treating grammar as integrated system software logic.' },
+    { time: '11:30-13:30', title: 'Pure Front-End Architecture', desc: 'Intensive practical application on a complete front-end interface project (HTML5, CSS3, JavaScript) needed by the system in the future to consolidate professional engineering programming skills.' },
+    { time: '13:30-14:30', title: 'Abs & Biceps Core', desc: 'Isolating and shaping abdominal muscles (Abs & Core) + exploding and isolating biceps (Biceps) to raise tactical physical strength levels.' },
+    { time: '14:30-15:30', title: 'Asr Sync & Remembrance', desc: 'Perform Asr prayer on time while reading prayer and full evening Adhkar, coinciding with a calm fasting recovery period for brain cells.' },
+    { time: '15:30-17:00', title: 'Content Creation', desc: 'Engineering and creating advanced digital content for platforms (YouTube, Instagram, TikTok, and Facebook) focusing on social media monetization mechanisms.' },
+    { time: '17:00-18:00', title: 'Spiritual Balance', desc: 'Listen to reverent Quranic recitations + guided deep meditation exercises, and training to improve the tone, depth, and strength of the sovereign voice.' },
+    { time: '18:00-19:15', title: 'Cognitive Evolution', desc: 'Tactical Chess session to deepen advanced chess strategies and tactics + watch and follow Nasser Al-Aqeel\'s deep intellectual and analytical content.' },
+    { time: '19:15-20:45', title: '🥋 Brazilian Jiu-Jitsu 🇧🇷', desc: '[Triple Lightning Submission Sequence: Fast sequential attack Armbar -> Triangle -> Omoplata for 80 reps on both sides] + [Violent Knee Slice Pass to bypass guard for 60 reps with Underhook pin].' },
+    { time: '20:45-21:30', title: 'Sports Analysis', desc: 'Tactical visual learning by watching and analyzing advanced basketball skills, movements, and techniques to refine athletic kinetic intelligence.' },
+    { time: '21:30-22:00', title: 'System Evaluation & Sleep Sequence', desc: 'Review and evaluate the comprehensive daily system performance and update task logs for tomorrow + read full sleep Adhkar, and enter deep sleep at exactly 10:00 PM.' }
   ]
 },
    5: {
 title: 'Creativity Friday',
 blocks: [
-{ time: '05:00-06:30', title: 'Spiritual Meditation', desc: 'Fajr prayer on time + Morning Adhkar + reciting and reflecting on Surah Al-Kahf to increase spiritual light.' },
-{ time: '06:30-08:30', title: 'Core Discipline II', desc: 'Strict and intensive focus on reviewing and solving exercises for Core Subject 2 to ensure academic solidifying.' },
-{ time: '08:30-10:30', title: 'Cinematic Editing & Reels', desc: 'Learning advanced video editing techniques focusing on Reels using CapCut, Adobe After Effects, or DaVinci Resolve.' },
-{ time: '10:30-12:30', title: 'Cyber Defense & Security', desc: 'Studying and applying Ethical Hacking concepts and cyber security mechanisms to enhance tactical digital defense.' },
-{ time: '12:30-14:30', title: 'Academic Balance', desc: 'Studying and reviewing 3 medium/regular subjects to maintain complete academic balance.' },
-{ time: '14:30-15:15', title: 'Audio Meditation', desc: 'Harmonious listening to the Quran and guided deep meditation, focusing entirely on improving sovereign voice tone.' },
-{ time: '15:15-16:00', title: 'Rest & Recovery', desc: 'Tactical nap and relaxation period to recharge mental and physical meters... rest, young monarch.' },
-{ time: '16:00-16:30', title: 'Asr Sync & Remembrance', desc: 'Asr prayer on time with full evening Adhkar to secure the spiritual and psychological fortress.' },
-{ time: '16:30-17:30', title: 'Pure Front-End Architecture', desc: 'Intensive practical application on a complete front-end project (HTML5, CSS3, JavaScript).' },
-{ time: '17:30-18:30', title: 'Energy Generation', desc: 'Continuous targeted running for a full hour to raise fitness levels, cardio, and pump pure oxygen into the body.' },
-{ time: '18:30-19:30', title: 'Tactical Football Analysis', desc: 'Professional visual learning by watching advanced football skills and analyzing player movements.' },
-{ time: '19:30-20:30', title: 'Digital Book Phase 2', desc: 'Session 02 dedicated to authoring and formatting the digital book to raise creative expression.' },
-{ time: '20:30-21:30', title: 'System Reward', desc: 'Full mental disconnect and system reward: Enjoying an anime episode, series, or movie for complete rest.' },
-{ time: '21:30-22:00', title: 'System Review & Sleep Sequence', desc: 'Sleep Adhkar + running (System Review, Tactical Planning) protocol for weekly evaluation before sleeping at 10:00 PM.' }
+{ time: '05:00-06:30', title: 'Spiritual Meditation', desc: "Perform Fajr prayer on time + read full prayer and morning Adhkar + reflect upon and recite the blessed Surah Al-Kahf to increase the system's overall light and spirituality." },
+{ time: '06:30-08:30', title: 'Core Discipline II', desc: 'Strict and intensive focus on reviewing and solving exercises and problems for the second core subject to ensure absolute academic retention.' },
+{ time: '08:30-10:30', title: 'Cinematic Editing & Reels', desc: 'Learn advanced video editing skills and techniques with a focus on short Reels using preferred system tools: CapCut, Adobe After Effects, or DaVinci Resolve.' },
+{ time: '10:30-12:30', title: 'Cyber Defense & Security', desc: 'Study and apply Ethical Hacking concepts and Cyber Security mechanisms to enhance the digital tactical and defensive mindset.' },
+{ time: '12:30-14:30', title: 'Academic Balance', desc: 'Study and review 3 average and normal subjects (neither minor sub-subjects nor primary cores) to maintain balance and full academic excellence.' },
+{ time: '14:30-15:15', title: 'Audio Meditation', desc: 'Harmonic listening to the Holy Quran and guided deep meditation, with total focus on improving the tone, depth, and strength of the sovereign voice.' },
+{ time: '15:15-16:00', title: 'Rest & Recovery', desc: 'Tactical relaxation and nap period to recharge mental and physical meters.. rest well, young monarch.' },
+{ time: '16:00-16:30', title: 'Asr Sync & Remembrance', desc: 'Perform Asr prayer on time while reading prayer and full evening Adhkar to secure the spiritual and psychological fortress.' },
+{ time: '16:30-17:30', title: 'Pure Front-End Architecture', desc: 'Intensive practical application on a complete front-end interface project (HTML5, CSS3, JavaScript) needed by the system in the future to consolidate professional engineering programming skills.' },
+{ time: '17:30-18:30', title: 'Energy Generation', desc: 'Continuous targeted running for a full hour to raise fitness levels, cardio, and pump pure oxygen to body and brain cells.' },
+{ time: '18:30-19:30', title: 'Tactical Football Analysis', desc: 'Professional visual learning by watching advanced football skills, analyzing techniques, playstyles, and movements of professional players on the pitch.' },
+{ time: '19:30-20:30', title: 'Digital Book Phase 2', desc: 'Session 02 dedicated to authoring, crafting, and formatting the digital book to elevate creative expression levels and consolidate the system\'s intellectual empire concepts.' },
+{ time: '20:30-21:30', title: 'System Reward', desc: 'Complete mental disconnection session and system reward: Enjoy watching an anime episode, a series, or a cinematic movie via pleasurable viewing for absolute rest.' },
+{ time: '21:30-22:00', title: 'System Review & Sleep Sequence', desc: 'Read full sleep Adhkar + trigger protocol (System Review, Tactical Planning) for comprehensive weekly evaluation, updating self-development paths, and future planning before hibernation at 10 PM.' }
 ]
 },
  6: {
   title: 'Mastery Saturday',
   blocks: [
-    { time: '05:00-06:30', title: 'Protocol 01: Spiritual Anchoring & Quranic Recitation', desc: 'Fajr prayer in congregation + Morning Adhkar + repeating memorized Quran with deep contemplation.' },
-    { time: '06:30-08:30', title: 'Core Subject 3 Review', desc: 'Strict and intensive focus on reviewing strengths and solving applied problems for Core Subject 3.' },
-    { time: '08:30-10:30', title: 'Cyber Defense & Security', desc: 'Studying and applying Ethical Hacking concepts and cyber security mechanisms to enhance tactical digital defense.' },
-    { time: '10:30-12:30', title: 'Pure Front-End Architecture', desc: 'Intensive practical application on a complete front-end project (HTML5, CSS3, JavaScript).' },
-    { time: '12:30-14:00', title: 'Cognitive Boost', desc: 'Watching self-development videos to stimulate awareness + playing complex mental Sudoku to increase cognitive flexibility.' },
-    { time: '14:00-15:00', title: 'Auditory Meditation', desc: 'Harmonious listening to the Quran and meditation, with strict focus on voice tone modification exercises.' },
-    { time: '15:00-16:00', title: 'Lower Chest & Abs', desc: 'Isolation exercises for Abs + high focus on inner chest and lower chest muscles to build a symmetrical body.' },
-    { time: '16:00-17:30', title: '⚽ Football Combat', desc: 'Developing football skills: Intensive training on deadly shooting with both feet + precise ball trapping under pressure.' },
-    { time: '17:30-18:00', title: 'Asr Sync & Evening Remembrance', desc: 'Asr prayer on time with full evening Adhkar to protect and fortify the system\'s spiritual energy.' },
-    { time: '18:00-19:30', title: 'Language Skills', desc: 'Comprehensive review of all English terms learned throughout the week, treating grammar as programming logic.' },
-    { time: '19:30-20:30', title: 'Academic Balance', desc: 'Studying and reviewing a medium subject to maintain a balanced academic excellence line.' },
-    { time: '20:30-21:15', title: '🥋 BJJ Tactical Analysis', desc: 'Visual tactical learning by watching Brazilian Jiu-Jitsu (BJJ) matches to understand advanced submission strategies.' },
-    { time: '21:15-21:45', title: 'Maximum Stimulation', desc: 'Full stretching and elongation exercises for muscle flexibility + organized preparation for deep rest.' },
-    { time: '21:45-22:00', title: 'Sleep Sequence & Remembrance', desc: 'Full sleep Adhkar, closing all active processes to enter deep sleep at exactly 10:00 PM.' }
+    { time: '05:00-06:30', title: 'Protocol 01: Spiritual Anchoring', desc: 'Fajr prayer in congregation at the mosque + reading full prayer and morning Adhkar + repeating memorized Holy Quran and reciting two full Hizbs with deep contemplation.' },
+    { time: '06:30-08:30', title: 'Core Subject 3 Review', desc: 'Strict and intensive focus on reviewing, solidifying strengths, and solving applied problems for the third core subject to ensure absolute sovereignty and academic excellence.' },
+    { time: '08:30-10:30', title: 'Cyber Defense & Security', desc: 'Study and apply Ethical Hacking concepts and Cyber Security mechanisms to enhance the system\'s digital tactical and defensive mindset.' },
+    { time: '10:30-12:30', title: 'Pure Front-End Architecture', desc: 'Intensive practical application on a complete front-end interface project (HTML5, CSS3, JavaScript) needed by the system in the future to consolidate professional engineering programming skills.' },
+    { time: '12:30-14:00', title: 'Cognitive Boost', desc: 'Watch videos from "Risalat Tawer Nafsak" channel to stimulate awareness and intellectual elevation + play complex mental Sudoku to activate brain cells and increase cognitive flexibility.' },
+    { time: '14:00-15:00', title: 'Auditory Meditation', desc: 'Harmonic listening to the Holy Quran and meditation, with strict focus on exercises to modify and improve the tone, depth, and strength of the sovereign voice.' },
+    { time: '15:00-16:00', title: 'Lower Chest & Abs', desc: 'Isolating and shaping abdominal muscles (Abs) + high focus on inner chest (the dividing line between the two muscles) and lower chest muscle to build a strong, symmetrical body.' },
+    { time: '16:00-17:30', title: '⚽ Football Combat', desc: 'Develop and enhance football skills: Intensive training on lethal and skillful shooting with both feet + master precision receiving and trapping under pressure with both feet.' },
+    { time: '17:30-18:00', title: 'Asr Sync & Evening Remembrance', desc: 'Perform Asr prayer on time while reading full prayer and evening Adhkar to protect and fortify the system\'s spiritual and psychological energy.' },
+    { time: '18:00-19:30', title: 'Language Skills', desc: 'Comprehensive review of all terminology and everything learned throughout the week in English, treating grammar as integrated system software logic.' },
+    { time: '19:30-20:30', title: 'Academic Balance', desc: 'Study and review an average and normal subject (neither a major core nor a minor sub-subject) to maintain the balanced line of academic excellence.' },
+    { time: '20:30-21:30', title: '🥋 BJJ Tactical Analysis', desc: 'Tactical and analytical visual learning by watching Brazilian Jiu-Jitsu (BJJ) matches to understand advanced submission strategies and guard-passing techniques.' },
+    { time: '21:30-21:45', title: 'Maximum Stimulation', desc: 'Full stretching and lengthening workouts for muscle and joint flexibility to relieve physical exertion + organized preparation for sleep and entering a state of deep rest and physical recovery.' },
+    { time: '21:45-22:00', title: 'Sleep Sequence & Remembrance', desc: 'Read full sleep Adhkar, and shut down all active processes to enter deep sleep at exactly 10:00 PM to fully restore energy.' }
   ]
 }
     }
-    
 },
- week2: {
-    id: 'week2',
-    title: 'System Update 8.0 — Infinity',
-    version: '600',
-    range: 'LVL 450 → 600',
-        desc: 'Phase of Complete Sovereignty: Integrating chess logic into AI Agents, explosive running, and independent tactical operations.',
+week2: {
+  id: 'week2',
+  title: 'System Update 8.0 — Infinity / تحديث النظام 8.0 — اللانهاية',
+  version: '600',
+  range: 'LVL 25 → 35 /  25 → 35  ',
+  desc: 'مرحلة السيادة الكاملة: دمج التفكير التكتيكي في AI Agents، الجري الانفجاري، والعمليات التكتيكية المستقلة.',
+  schedule: [
+    { start: 2.75, end: 5.0,  title: 'Night Prayer & Suhoor', desc: 'Qiyam + High-Protein Suhoor + Adhkar + Strategic Review' },
+    { start: 5.0,  end: 6.0,  title: 'Spiritual Session', desc: 'Fajr + Adhkar + Quran Recitation & Memorization + Mobility Stretching' },
+    { start: 6.0,  end: 8.5,  title: 'Sports Activity', desc: 'Advanced Aquatic Drills / Tactical Football / Heavy Muay Thai Rotations' },
+    { start: 8.5,  end: 10.5, title: 'AI Academy', desc: 'Deep Learning Architectures + Neural Networks + Real-world AI Applications' },
+    { start: 10.5, end: 12.0, title: 'English Mastery', desc: 'Advanced Tech Debates + Lex Fridman Immersion + Rapid Speaking Drills' },
+    { start: 12.0, end: 13.0, title: 'Applied Laboratory', desc: 'Deploying Live Models + Custom API Integration + System Debugging' },
+    { start: 13.0, end: 15.0, title: 'Grand Rest & Lunch', desc: 'Dhuhr Prayer + Optimized Nutrition + Power Nap & Mental Recovery' },
+    { start: 15.0, end: 16.5, title: 'PPL Preparation', desc: 'Advanced Push / Explosive Pull / Plyometric Legs + Handstand Progressions' },
+    { start: 16.5, end: 17.5, title: 'Mental Elevation', desc: 'Cognitive Optimization + Tech Books & Deep Reading' },
+    { start: 17.5, end: 19.5, title: 'Academic Focus', desc: 'Intense Core Subjects Practice + Problem Solving & Synthesis' },
+    { start: 19.5, end: 20.5, title: 'Running Block', desc: 'Night Interval Sprinting / Cardio Conditioning between Maghrib & Isha' },
+    { start: 20.5, end: 21.5, title: 'Deep Programming', desc: 'AiMoha Project (JS/Python) — Advanced Gamification Logic & Local Data Architecture' },
+    { start: 21.5, end: 22.0, title: 'System Prep & Sleep', desc: 'Isha Prayer + Tomorrow Schedule Lock + Night Adhkar + Deep Sleep Protocol' },
+  ],
 
-    schedule: [
-      { start: 2.75, end: 5.0,  title: 'Night Prayer & Suhoor',    desc: 'Qiyam + Protein Suhoor + Adhkar + Mental Review' },
-      { start: 5.0,  end: 6.0,  title: 'Spiritual Session',        desc: 'Fajr + Adhkar + Recitation (Odd: Review / Even: New) + Stretching exercises' },
-      { start: 6.0,  end: 8.5,  title: 'Deep Programming',         desc: 'AiMoha (Python/JS) — Chess Logic into AI Agents / Backend architecture development' },
-      { start: 8.5,  end: 10.5, title: 'AI Academy',               desc: 'Advanced ML + LLMs + Algorithm App / Machine Learning courses' },
-      { start: 10.5, end: 12.0, title: 'English Mastery',         desc: 'Lex Fridman Podcast + Tech Terms + Shadowing / Deep tech explanations and vocabulary' },
-      { start: 12.0, end: 13.0, title: 'Applied Laboratory', desc: 'Grand Rest + Applied Laboratory / Real AI Projects + Systems Integration' },
-      { start: 13.0, end: 15.0, title: 'Grand Rest + Applied Laboratory',       desc: 'Real AI Projects + Deep Learning & Neural Networks courses + Dhuhr + Intense Protein Lunch + Nap' },
-      { start: 15.0, end: 16.5, title: 'PPL Preparation',          desc: 'Push(Handstand)/Pull(Explosive)/Legs(Jump) + Calisthenics' },
-      { start: 16.5, end: 17.5, title: 'Running Block / Relaxation',            desc: '1 Hour Run (Wolfs Law Activation) / Psychological and physical relaxation' },
-      { start: 17.5, end: 19.5, title: 'Academic Focus',           desc: 'Math/Science/Physics curriculum + Light Dinner' },
-      { start: 19.5, end: 20.5, title: 'Team Competitions',        desc: 'Full Matches: Basketball/Football (High Intensity) / Reading + Docs + Mind games' },
-      { start: 20.5, end: 21.5, title: 'Mental Elevation',         desc: 'Chess/Sudoku + Digital Books + Tech Docs' },
-      { start: 21.5, end: 22.0, title: 'System Prep',              desc: 'Tomorrow Planning + Sleep Adhkar + Shutdown' }
-    ],
-    days: {
-      0: { sport: 'Swimming 🏊 or Football ⚽ or Muay Thai 🥊', ppl: 'Pull (Explosive)', cognitive: 'Programming + AI (Chess Logic) / Digital Book Session 1', academic: 'Mathematics' },
-      1: { sport: 'Swimming 🏊 or Football ⚽ or Muay Thai 🥊', ppl: 'Legs (Jumps/Wolf)', cognitive: 'Chess (AI Agent Analysis) / Barbering & Magic Tricks + Docs', academic: 'Natural Sciences' },
-      2: { sport: 'Swimming 🏊 or Football ⚽ or Muay Thai 🥊', ppl: 'Push (Handstand)', cognitive: 'Programming + AI / Self-Development Reading', academic: 'Physics' },
-      3: { sport: 'Swimming 🏊 or Football ⚽ or Muay Thai 🥊', ppl: 'Pull & Abs/Triceps', cognitive: 'Hard Sudoku (Error Tracking) / Dual N-Back + Docs', academic: 'Math Review' },
-      4: { sport: 'Swimming 🏊 or Football ⚽ or Muay Thai 🥊', ppl: 'Intense Legs (Jumps)', cognitive: 'Islamic Studies (Tawhid/Tajweed) / Barbering & Magic Tricks', academic: 'Islamic/History/Geo' },
-      5: { sport: 'Calm Walk (Recovery) / 🏃 1-Hour Run', ppl: 'Push (Handstand)', cognitive: 'Dual N-Back + Digital Book Check', academic: 'Science Review' },
-      6: { sport: 'Swimming 🏊 or Football ⚽ or Muay Thai 🥊', ppl: 'Abs (Six-pack) & Triceps', cognitive: 'Ethical Hacking + Calibration / Weekly Evaluation', academic: 'Physics Review' }
+  days: {
+    0: { 
+      sport: '🏊 Swimming Focus: Advanced flip turns, stamina intervals & underwater speed Drills', 
+      ppl: 'Hypertrophy Back & Biceps: Weighted pull-ups & isolated lat work', 
+      cognitive: 'Digital Book Engine: Session 03 for formatting, design & publishing layout', 
+      academic: 'Core Subject 1 (Advanced Application & Deep Practice)' 
     },
-    special: { 
-      4: {
-        title: 'Achievement Thursday (Fasting and Diligence)',
-        blocks: [
-          { time: '02:45-05:00', title: 'Night Prayer and Suhoor', desc: 'Night Prayer + Protein-Rich Suhoor + Remembrance of Allah + Quick Mental Review' },
-          { time: '05:00-06:30', title: 'Quran Session', desc: 'Recitation and Memorization of the Holy Quran (1.5 Hours)' },
-          { time: '06:30-09:30', title: 'Religious Studies', desc: 'Riyadh as-Salihin + Al-Bidayah wa\'n-Nihayah + 40 Nawawi (3 Hours)' },
-          { time: '09:30-11:30', title: 'Study Marathon', desc: 'History, Geography, and French using Mind Maps' },
-          { time: '11:30-13:30', title: 'Language Skills', desc: 'Reviewing English Terminology and Grammar as Software Logic' },
-          { time: '13:30-15:00', title: 'Website Development', desc: 'Developing and Monetizing Websites' },
-          { time: '15:00-16:30', title: 'Targeted Muscle Building', desc: 'Leg Muscles (Thighs/Calves) + Abdominal & Muscle Heads' },
-          { time: '16:30-18:30', title: 'Specific Outdoor Sport', desc: 'Swimming 🏊 or Football ⚽ or Muay Thai 🥊' },
-          { time: '18:30-19:30', title: 'Content Creation', desc: 'Creating and producing content for YouTube, Instagram, TikTok, and Facebook' },
-          { time: '19:30-20:30', title: 'Spiritual Balance', desc: 'Listening to the Quran + Meditation and Voice Tone' },
-          { time: '20:30-22:00', title: 'Mindset and Crafts', desc: 'Self-Development + Barbering 🪒 & Magic Tricks 🃏♣️' }
-        ]
-      },
-      5: {
-        title: 'Creativity Friday',
-        blocks: [
-          { time: '05:00-08:00', title: 'Spiritual Meditation', desc: 'Surah Al-Kahf + Morning Adhkar + Natural Sciences Review' },
-          { time: '08:00-10:00', title: 'Mind Reset', desc: 'Preparing for Video Editing (Montage)' },
-          { time: '10:00-14:00', title: 'Ethical Hacking and Terminology', desc: 'Learning Ethical Hacking + Study Marathon for Languages and Islamic Studies using Mind Maps' },
-          { time: '14:00-15:00', title: 'Audio Meditation', desc: 'Listening to the Holy Quran and Meditation (includes voice tone improvement)' },
-          { time: '15:00-16:00', title: 'Physical Preparation', desc: 'Push-ups (Chest and Shoulders)' },
-          { time: '16:00-17:00', title: 'Website Management', desc: 'Following Up on Completed Website Projects' },
-          { time: '17:00-18:30', title: 'Energy Generation', desc: 'One-hour run (Unless swimming later)' },
-          { time: '18:30-19:30', title: 'Energy Generation', desc: 'Swimming 🏊 or Football ⚽ or Muay Thai 🥊' },
-          { time: '19:30-20:30', title: 'System Review, Tactical Planning', desc: 'Self-Development + Updating "Hard Tasks" List + Viewing informative content' }
-        ]
-      },
-      6: {
-        title: 'Mastery Saturday',
-        blocks: [
-          { time: '05:00-10:00', title: 'Academic Focus', desc: 'Physics Review + New Quran Memorization (5 Hours)' },
-          { time: '10:00-14:00', title: 'Technical Immersion', desc: 'Advanced Ethical Hacking + English Mastery (4 Hours) + Philosophy' },
-          { time: '14:00-15:00', title: 'Crafts', desc: 'Barbering 🪒 & Magic Tricks 🃏♣️' },
-          { time: '15:00-16:30', title: 'Fitness & Physical Therapy', desc: 'Physical Exercises: Abs (Six-pack) and Triceps' },
-          { time: '16:30-17:00', title: 'Therapy and Nutrition', desc: 'Micronutrient Intake (Calcium / Magnesium / Zinc)' },
-          { time: '17:00-18:30', title: 'Competitive Sports', desc: 'Swimming 🏊 or Football ⚽ or Muay Thai 🥊' },
-          { time: '18:30-19:30', title: 'Digital Arch & Energy Generation', desc: 'Football: Unleashing full physical energy on the pitch' },
-          { time: '19:30-20:30', title: 'System Review, Tactical Planning', desc: 'Self-Development and Weekly Evaluation' }
-        ]
-      }
+    1: { 
+      sport: '🥊 Muay Thai: Complex combos, counter-striking, agility footwork & heavy bag power', 
+      ppl: 'Chest & Heavy Shoulders: Incline presses, lateral raises & shoulder stability', 
+      cognitive: 'Sleight of Hand & Dexterity: Advanced magic card sleights & dexterity drills 🃏♣️', 
+      academic: 'Core Subject 2 (Advanced Application & Deep Practice)' 
+    },
+    2: { 
+      sport: '🏊 Swimming Focus: Sprint sets, endurance laps & breath control underwater', 
+      ppl: 'Legs & Triceps Explosion: Heavy squats, lunges & dip bars calibration', 
+      cognitive: 'System Architecture Reading: Technical books + Self-mastery lectures', 
+      academic: 'Core Subject 3 (Advanced Application & Deep Practice)' 
+    },
+    3: { 
+      sport: '⚽ Football Focus: Precision passing, tight-space control, trick dribbling & free-kicks', 
+      ppl: 'Calves, Forearms & Grip: Heavy calf raises + wrist curls for maximum grip control', 
+      cognitive: 'Dual N-Back Peak: Level 5 N-Back training + Advanced working memory drills', 
+      academic: 'Core Subject 1 Consolidation: Full exam simulation & application solving' 
+    },
+    4: { 
+      sport: '🥊 Muay Thai: Clinch dominance, sweep defenses & sparring simulation', 
+      ppl: 'Core & Biceps Peak: Hanging leg raises, ab wheel rollouts & hammer curls', 
+      cognitive: 'Barbering & Magic: Precision hair fade techniques 🪒 + Card mechanics 🃏♣️', 
+      academic: 'Minor Electives Strategy: Rapid coverage of secondary curriculum topics' 
+    },
+    5: { 
+      sport: '🏃 High-Endurance Running: 10 km paced continuous run for VO2 Max elevation', 
+      ppl: 'Strategic Active Rest: Deep stretching, foam rolling & joint mobilization', 
+      cognitive: 'Dual N-Back & Digital Book Phase 3: Final polishing & asset compilation', 
+      academic: 'Comprehensive System Review: Multi-subject integration & summary maps' 
+    },
+    6: { 
+      sport: '⚽ Football Combat: High-velocity shooting, volley technique & game intelligence', 
+      ppl: 'Lower Chest & Sculpting Core: Cable crossovers, weighted crunch variations', 
+      cognitive: 'Ethical Hacking & Analysis: Penetration testing fundamentals + System Audit', 
+      academic: 'Core Subject 3 Consolidation: Final mastery assessment & problem sets' 
     }
+  },
+
+  special: {
+    0: {
+      title: 'Focus Sunday (Aquatic & Digital Engineering)',
+      blocks: [
+        { time: '05:00-06:00', title: 'Spiritual Foundation', desc: 'Fajr Prayer + Morning Adhkar + Quran Recitation & Memorization' },
+        { time: '06:00-08:30', title: 'Aquatic Endurance', desc: '🏊 Swimming Focus: Mastering strokes, breathing techniques, speed laps & water stamina' },
+        { time: '08:30-10:30', title: 'AI Academy', desc: 'Deep Learning Architectures + Neural Networks + Code Implementation' },
+        { time: '10:30-12:00', title: 'English Fluency', desc: 'Tech Terminology + Lex Fridman Podcast Analysis + Shadowing Drills' },
+        { time: '12:00-13:30', title: 'Applied Engineering', desc: 'Deploying Real AI Projects + API Integration + Backend Systems' },
+        { time: '13:30-15:00', title: 'Rest & High-Protein Meal', desc: 'Dhuhr Prayer + Optimized Nutrition + Power Nap & Recovery' },
+        { time: '15:00-16:30', title: 'Hypertrophy Workout', desc: 'PPL Pull Focus: Back & Biceps — Weighted pull-ups, lat isolation & bicep curls' },
+        { time: '16:30-17:30', title: 'Cognitive Engine', desc: 'Digital Book Project: Formatting, structuring & crafting technical content' },
+        { time: '17:30-19:30', title: 'Academic Core', desc: 'Core Subject 1: Deep lesson study, synthesis & high-yield problem sets' },
+        { time: '19:30-20:30', title: 'Cardio Base', desc: 'Night Light Run / Aerobic Conditioning between Maghrib & Isha' },
+        { time: '20:30-22:00', title: 'Deep Code Architecture', desc: 'AiMoha Project: Python/JS Gamification Logic & Local Storage Systems' }
+      ]
+    },
+    1: {
+      title: 'Tactical Monday (Combat & Martial Precision)',
+      blocks: [
+        { time: '05:00-06:00', title: 'Spiritual Foundation', desc: 'Fajr Prayer + Adhkar + Quran Recitation + Dynamic Mobility' },
+        { time: '06:00-08:30', title: 'Combat Martial Arts', desc: '🥊 Muay Thai: Striking combinations, heavy bag work, knee strikes & defense' },
+        { time: '08:30-10:30', title: 'AI Academy', desc: 'Machine Learning Models + LLM Prompt Pipelines + Algorithmic Practice' },
+        { time: '10:30-12:00', title: 'English Mastery', desc: 'Technical Debates + Vocabulary Expansion + Accent Practice' },
+        { time: '12:00-13:30', title: 'System Integration', desc: 'Hands-on Programming Labs + Web Tools Development' },
+        { time: '13:30-15:00', title: 'Rest & Recharge', desc: 'Dhuhr Prayer + High-Protein Lunch + Power Nap & Muscle Relaxation' },
+        { time: '15:00-16:30', title: 'Upper Body Power', desc: 'PPL Push Focus: Chest & Shoulders — Incline presses, lateral raises & dips' },
+        { time: '16:30-17:30', title: 'Tactical Skills', desc: 'Learn Barbering 🪒 & Magic Card Tricks 🃏♣️' },
+        { time: '17:30-19:30', title: 'Academic Core', desc: 'Core Subject 2: Theoretical understanding & application exercises' },
+        { time: '19:30-20:30', title: 'Active Cardio', desc: 'Evening Aerobic Run / Mobility & Joint Reset' },
+        { time: '20:30-22:00', title: 'Deep Programming', desc: 'AiMoha Architecture: Agent Workflows & Backend Data Optimization' }
+      ]
+    },
+    2: {
+      title: 'Explosive Tuesday (Legs & Intellectual Surge)',
+      blocks: [
+        { time: '05:00-06:00', title: 'Spiritual Foundation', desc: 'Fajr Prayer + Adhkar + Quran Recitation + Stretching' },
+        { time: '06:00-08:30', title: 'Aquatic Speed', desc: '🏊 Swimming Focus: Sprint laps, diving drills & full-body aquatic power' },
+        { time: '08:30-10:30', title: 'AI Academy', desc: 'Advanced Neural Nets + Model Evaluation + Practical AI Pipelines' },
+        { time: '10:30-12:00', title: 'English Mastery', desc: 'Public Speaking Practice + Tech Podcast Immersion + Rapid Shadowing' },
+        { time: '12:00-13:30', title: 'Applied Laboratory', desc: 'Full-Stack Web App Development & Frontend UI Component Testing' },
+        { time: '13:30-15:00', title: 'Rest & High Nutrition', desc: 'Dhuhr Prayer + Protein-Dense Lunch + Mental Power Nap' },
+        { time: '15:00-16:30', title: 'Lower Body Blast', desc: 'PPL Legs & Triceps: Explosive squats, lunges & triceps pushdowns' },
+        { time: '16:30-17:30', title: 'Intellectual Growth', desc: 'Reading Technical & Strategic Books + Self-Development Documentaries' },
+        { time: '17:30-19:30', title: 'Academic Core', desc: 'Core Subject 3: Deep dive into new concepts & solving practice sets' },
+        { time: '19:30-20:30', title: 'Endurance Block', desc: '1 Hour Light Night Run / Aerobic Stamina Building' },
+        { time: '20:30-22:00', title: 'Deep Code Engine', desc: 'AiMoha Project: Custom Features, Interactive Minigames & Logic Debugging' }
+      ]
+    },
+    3: {
+      title: 'Mastery Wednesday (Football & Cognitive Peak)',
+      blocks: [
+        { time: '05:00-06:00', title: 'Spiritual Foundation', desc: 'Fajr Prayer + Adhkar + Quran Recitation & Mental Review' },
+        { time: '06:00-08:30', title: 'Football Combat', desc: '⚽ Football Focus: Dribbling mastery, superior ball control & trapping drills' },
+        { time: '08:30-10:30', title: 'AI Academy', desc: 'Algorithmic Optimization + Agent Logic & Machine Learning Tools' },
+        { time: '10:30-12:00', title: 'English Mastery', desc: 'Technical Vocabulary Review + Shadowing & Fluency Practice' },
+        { time: '12:00-13:30', title: 'Web App Engineering', desc: 'Building & Optimizing Custom Web Tools & UI Interactions' },
+        { time: '13:30-15:00', title: 'Grand Rest & Lunch', desc: 'Dhuhr Prayer + Clean Protein Lunch + Recovery Nap' },
+        { time: '15:00-16:30', title: 'Grip & Isolation Workout', desc: 'PPL Calves & Forearms: Heavy calf raises, wrist strain & core stability' },
+        { time: '16:30-17:30', title: 'Cognitive Brain Training', desc: 'Dual N-Back Training + Tech & Economic Documentaries' },
+        { time: '17:30-19:30', title: 'Academic Consolidation', desc: 'Core Subject 1 Review: Comprehensive review & exam problem solving' },
+        { time: '19:30-20:30', title: 'Active Recovery Run', desc: 'Light Aerobic Running Block between Maghrib & Isha' },
+        { time: '20:30-22:00', title: 'System Development', desc: 'AiMoha Project: Gamification Backend & UI State Management' }
+      ]
+    },
+    4: {
+      title: 'Achievement Thursday (Fasting & Diligence)',
+      blocks: [
+        { time: '02:45-05:00', title: 'Night Prayer & Suhoor', desc: 'Night Prayer + Protein-Rich Suhoor + Remembrance of Allah + Quick Mental Review' },
+        { time: '05:00-06:30', title: 'Quran Session', desc: 'Recitation and Memorization of the Holy Quran (1.5 Hours)' },
+        { time: '06:30-09:30', title: 'Religious Studies', desc: 'Riyadh as-Salihin + Al-Bidayah wa\'n-Nihayah + 40 Nawawi (3 Hours)' },
+        { time: '09:30-11:30', title: 'Study Marathon', desc: 'Academic Core Subjects study using Mind Maps' },
+        { time: '11:30-13:30', title: 'Language Skills', desc: 'Reviewing English Terminology and Grammar as Software Logic' },
+        { time: '13:30-15:00', title: 'Website Development', desc: 'Developing and Monetizing Websites' },
+        { time: '15:00-16:30', title: 'Targeted Muscle Building', desc: 'Leg Muscles (Thighs/Calves) + Abdominal & Core Workout' },
+        { time: '16:30-18:30', title: 'Specific Outdoor Sport', desc: '🥊 Muay Thai: Advanced clinch work, low kicks, elbow strikes & sparring drills' },
+        { time: '18:30-19:30', title: 'Content Creation', desc: 'Creating and producing content for YouTube, Instagram, TikTok, and Facebook' },
+        { time: '19:30-20:30', title: 'Spiritual Balance', desc: 'Listening to the Holy Quran + Meditation and Voice Tone Enhancement' },
+        { time: '20:30-22:00', title: 'Mindset and Crafts', desc: 'Self-Development + Barbering Practice 🪒 & Magic Card Tricks 🃏♣️' }
+      ]
+    },
+    5: {
+      title: 'Creativity Friday',
+      blocks: [
+        { time: '05:00-08:00', title: 'Spiritual Meditation', desc: 'Surah Al-Kahf + Morning Adhkar + Core Subjects Review' },
+        { time: '08:00-10:00', title: 'Mind Reset', desc: 'Preparing for Video Editing (Montage)' },
+        { time: '10:00-14:00', title: 'Ethical Hacking & Terminology', desc: 'Learning Ethical Hacking + Study Marathon for Languages and Islamic Studies using Mind Maps' },
+        { time: '14:00-15:00', title: 'Audio Meditation', desc: 'Listening to the Holy Quran and Meditation (Voice Tone Enhancement)' },
+        { time: '15:00-16:00', title: 'Physical Preparation', desc: 'Push-ups & Chest/Shoulder Exercises' },
+        { time: '16:00-17:00', title: 'Website Management', desc: 'Following Up on Completed Website Projects' },
+        { time: '17:00-18:30', title: 'Energy Generation', desc: '🏃 Intense Running & Endurance: High-intensity free run (5 to 10 km) for lung & cardio endurance' },
+        { time: '18:30-19:30', title: 'Active Recovery', desc: 'Post-run active recovery, stretching, hydration, and mental relaxation' },
+        { time: '19:30-20:30', title: 'System Review & Tactical Planning', desc: 'Self-Development + Weekly Evaluation + Updating "Hard Tasks" List + Watching Scientific & Fact Documentaries' }
+      ]
+    },
+    6: {
+      title: 'Mastery Saturday',
+      blocks: [
+        { time: '05:00-10:00', title: 'Academic Focus', desc: 'Core Subjects Review + New Quran Memorization (5 Hours)' },
+        { time: '10:00-14:00', title: 'Technical Immersion', desc: 'Advanced Ethical Hacking + English Mastery (4 Hours) + Elective Subjects' },
+        { time: '14:00-15:00', title: 'Crafts', desc: 'Barbering Practice 🪒 & Magic Card Tricks 🃏♣️' },
+        { time: '15:00-16:30', title: 'Fitness & Physical Therapy', desc: 'Physical Exercises: Abs (Six-pack) and Triceps' },
+        { time: '16:30-17:00', title: 'Therapy and Nutrition', desc: 'Micronutrient Intake (Calcium / Magnesium / Zinc)' },
+        { time: '17:00-18:30', title: 'Competitive Sports', desc: '⚽ Football Combat: Lethal shooting skills with both feet + master receiving and trapping' },
+        { time: '18:30-19:30', title: 'Digital Arch & Energy Generation', desc: '⚽ Football Match: Unleashing full physical energy on the pitch' },
+        { time: '19:30-20:30', title: 'System Review & Tactical Planning', desc: 'Self-Development and Weekly Evaluation' }
+      ]
+    }
+  }
 },
 week3: {
-    id: 'week3',
-    title: 'System Update 10.0 — Infinity',
-    version: '800',
-    range: 'LVL 600 → 800',
-        desc: 'Advanced Technical Immersion Phase: Building Frontend and Backend architectures, Deep Learning and Neural Networks.',
+  id: 'week3',
+  title: 'System Update 10.0 — Infinity / تحديث النظام 10.0 — اللانهاية',
+  version: '800',
+  range: 'LVL 35 → 45',
+  desc: 'مرحلة التعمق التقني المتقدم: بناء المظهر الخارجي (Frontend) والعقل المدبر (Backend)، التعلم العميق والشبكات العصبية.',
 
-    schedule: [
-      { start: 5.0,  end: 6.0,  title: 'Spiritual Session',        desc: 'Recitation + Fajr + Adhkar + Stretching exercises' },
-      { start: 6.0,  end: 8.5,  title: 'Advanced Programming',         desc: 'Python/JS Projects - Architecture & Development (Frontend + Backend)' },
-      { start: 8.5,  end: 10.5, title: 'AI Academy', desc: 'Deep Learning & Neural Networks / Machine Learning' },
-      { start: 10.5, end: 12.0, title: 'English Mastery',        desc: 'Deep tech explanations + vocabulary for practical building' },
-      { start: 12.0, end: 13.0, title: 'Rest & Useful Learning',              desc: 'Blender 3D Graphics Courses / Deep Learning' },
-      { start: 13.0, end: 15.0, title: 'Grand Rest + Useful Learning', desc: 'Blender 3D Graphics Courses + Dhuhr + Protein Lunch + Nap' },
-      { start: 15.0, end: 16.5, title: 'PPL & Calisthenics', desc: 'Push/Pull/Legs exercises + Calisthenics' },
-      { start: 16.5, end: 17.5, title: 'Rest & Dinner',       desc: 'Recovery from fatigue' },
-      { start: 17.5, end: 19.5, title: 'Academic Focus',          desc: 'Curriculum: Mathematics, Sciences, Physics' },
-      { start: 19.5, end: 20.5, title: 'Mental & Physical Dev',  desc: 'Reading + Documentaries + Mind games + Physical Rest' },
-      { start: 20.5, end: 22.0, title: 'System Prep',              desc: 'Tomorrow Planning + Evening Adhkar + Muscle/Mind Relaxation' }
-    ],
-    days: {
-      0: { sport: 'Swimming 🏊 / Muay Thai 🥊 / Jiu-Jitsu 🥋', ppl: 'Pull (Back & Biceps)', cognitive: 'Digital Book Session 1', academic: 'Mathematics' },
-      1: { sport: 'Swimming 🏊 / Muay Thai 🥊 / Jiu-Jitsu 🥋', ppl: 'Push (Chest upper/side/normal)', cognitive: 'Learn Music (Guitar/Piano) 💎 + Docs', academic: 'Natural Sciences' },
-      2: { sport: 'Swimming 🏊 / Muay Thai 🥊 / Jiu-Jitsu 🥋', ppl: 'Pull (Back & Triceps)', cognitive: 'Reading Books + Self-Development', academic: 'Physics' },
-      3: { sport: 'Basketball 🏀 / Football ⚽ / 1-Hour Run 🏃', ppl: 'Legs (Front & Calves)', cognitive: 'Dual N-Back + Docs', academic: 'Math Review' },
-      4: { sport: 'Basketball 🏀 / Football ⚽ / 1-Hour Run 🏃', ppl: 'Abs & Biceps', cognitive: 'Learn Music (Guitar/Piano) 💎 + Self-Development', academic: 'Islamic/History/Geo' },
-      5: { sport: 'Rest & 1-Hour Run 🏃', ppl: 'Push (Chest inner/pelvis/lower)', cognitive: 'Dual N-Back + Book Review', academic: 'Science Review' },
-      6: { sport: 'Basketball 🏀 / Football ⚽ / 1-Hour Run 🏃', ppl: 'Abs (Six-pack) & Triceps', cognitive: 'Dual N-Back + Weekly Evaluation + FL Studio', academic: 'Physics Review' }
+  schedule: [
+    { start: 5.0,  end: 6.0,  title: 'Spiritual Session', desc: 'Fajr Prayer + Morning Adhkar + Quran Recitation & Memorization + Mobility Stretching' },
+    { start: 6.0,  end: 8.5,  title: 'Advanced Programming', desc: 'Full-Stack Development (JS/Python) — Frontend Architecture + Backend Logic & Database Design' },
+    { start: 8.5,  end: 10.5, title: 'AI Academy', desc: 'Deep Learning & Neural Networks (Weeks 7-10) + Machine Learning Pipelines' },
+    { start: 10.5, end: 12.0, title: 'English Mastery', desc: 'Deep Technical Explanations + Software Logic Terminology + Practical Application' },
+    { start: 12.0, end: 13.0, title: 'Creative Skills & Rest', desc: '3D Graphics Fundamentals (Blender) + Mental Refresh' },
+    { start: 13.0, end: 15.0, title: 'Grand Rest & Recovery', desc: 'Dhuhr Prayer + High-Protein Nutrition + Power Nap + Continued Blender/Graphics Exploration' },
+    { start: 15.0, end: 16.5, title: 'PPL & Calisthenics', desc: 'Push / Pull / Legs Hypertrophy + Calisthenics Skills & Bodyweight Conditioning' },
+    { start: 16.5, end: 17.5, title: 'Rest & Spiritual Reflection', desc: 'Physical Recovery + Islamic Lectures & Spiritual Reflection (Sheikh Al-Raslan & Scholars)' },
+    { start: 17.5, end: 19.5, title: 'Academic Focus', desc: 'Experimental Sciences Curriculum: Mathematics (Sun/Wed), Science (Mon/Fri), Physics (Tue/Sat)' },
+    { start: 19.5, end: 20.5, title: 'Mental & Physical Dev', desc: 'Deep Reading + High-Value Documentaries + Cognitive Training + Light Physical Reset' },
+    { start: 20.5, end: 22.0, title: 'System Prep & Sleep', desc: 'Next Day Schedule Lock + Evening Adhkar + Muscle Relaxation & Sleep Protocol' }
+  ],
+
+  days: {
+    0: { 
+      sport: '🏊 Swimming / 🥊 Muay Thai / 🥋 BJJ Rotation', 
+      ppl: 'Pull Focus: Back & Biceps Isolation', 
+      cognitive: 'Digital Book Engine: Session 01 — Layout & Content Structuring', 
+      academic: 'Mathematics (Advanced Core Practice)' 
     },
-    special: { 
-      4: {
-        title: 'Achievement Thursday (Fasting and Diligence)',
-        blocks: [
-          { time: '02:45-05:00', title: 'Night Prayer and Suhoor', desc: 'Night Prayer + Protein-Rich Suhoor + Remembrance of Allah + Quick Mental Review' },
-          { time: '05:00-06:30', title: 'Quran Session', desc: 'Recitation and Memorization of the Holy Quran (1.5 Hours)' },
-          { time: '06:30-09:30', title: 'Religious Studies', desc: 'Aqidah + Riyadh as-Salihin + Al-Bidayah wa\'n-Nihayah + 40 Nawawi (3 Hours)' },
-          { time: '09:30-11:30', title: 'Study Marathon', desc: 'History, Geography, and French using Mind Maps' },
-          { time: '11:30-13:30', title: 'Language Skills', desc: 'Reviewing English Terminology and Grammar as Software Logic' },
-          { time: '13:30-15:00', title: 'Website Development', desc: 'Developing and Monetizing Websites' },
-          { time: '15:00-16:30', title: 'Targeted Muscle Building', desc: 'Leg Muscles (Thighs/Calves) + Abdominal & Muscle Heads' },
-          { time: '16:30-18:30', title: 'Specific Outdoor Sport', desc: 'Swimming 🏊 or Football ⚽ or Muay Thai 🥊 or Basketball 🏀' },
-          { time: '18:30-19:30', title: 'Content Creation', desc: 'Creating and producing content for YouTube, Instagram, TikTok, and Facebook' },
-          { time: '19:30-20:30', title: 'Study Marathon', desc: 'History, Geography, and French using Mind Maps' },
-          { time: '20:30-22:00', title: 'Crafts', desc: 'Learn Music (Guitar/Piano) 💎' }
-        ]
-      },
-      5: {
-        title: 'Creativity Friday',
-        blocks: [
-          { time: '05:00-08:00', title: 'Spiritual Meditation', desc: 'Surah Al-Kahf + Morning Adhkar + Natural Sciences Review' },
-          { time: '08:00-10:00', title: 'Mind Reset', desc: 'Preparing for Video Editing (Montage)' },
-          { time: '10:00-14:00', title: 'Ethical Hacking and Terminology', desc: 'Learning Ethical Hacking + Study Marathon using Mind Maps' },
-          { time: '14:00-15:00', title: 'Audio Meditation', desc: 'Listening to the Holy Quran and Meditation' },
-          { time: '15:00-16:00', title: 'Physical Preparation', desc: 'Push-ups (Chest and Shoulders)' },
-          { time: '16:00-17:00', title: 'Website Management', desc: 'Following Up on Completed Website Projects' },
-          { time: '17:00-18:30', title: 'Energy Generation', desc: 'One-hour run (Unless swimming later)' },
-          { time: '18:30-19:30', title: 'Energy Generation', desc: 'Swimming 🏊 or Football ⚽ or Muay Thai 🥊' },
-          { time: '19:30-20:30', title: 'System Review, Tactical Planning', desc: 'Self-Development + Updating "Hard Tasks" List' }
-        ]
-      },
-      6: {
-        title: 'Mastery Saturday',
-        blocks: [
-          { time: '05:00-10:00', title: 'Academic Focus', desc: 'Physics Review + New Quran Memorization (5 Hours)' },
-          { time: '10:00-14:00', title: 'Technical Immersion / FL Studio', desc: 'Ethical Hacking + FL Studio (Session 1) + English Mastery (4 Hours) + Philosophy' },
-          { time: '14:00-15:00', title: 'Crafts / FL Studio', desc: 'Learn FL Studio (Session 2)' },
-          { time: '15:00-16:30', title: 'Fitness & Physical Therapy', desc: 'Physical Exercises: Abdominal Exercises (Six-pack) and Triceps' },
-          { time: '16:30-17:00', title: 'Therapy and Nutrition', desc: 'Micronutrient Intake (Calcium / Magnesium / Zinc)' },
-          { time: '17:00-18:30', title: 'Competitive Sports', desc: 'Swimming 🏊 or Football ⚽ or Muay Thai 🥊 or Basketball 🏀' },
-          { time: '18:30-19:30', title: 'Digital Architecture', desc: 'System Programming and Web Project Monitoring & Updates' },
-          { time: '19:30-20:30', title: 'Calibration', desc: 'Sudoku + System Calibration & Comprehensive Review... Weekly Evaluation' },
-          { time: '20:30-22:00', title: 'Maximum Stimulation', desc: 'Stretching Workouts + Sleep Preparation and visual learning (Sports)' }
-        ]
-      }
+    1: { 
+      sport: '🏊 Swimming / 🥊 Muay Thai / 🥋 BJJ Rotation', 
+      ppl: 'Push Focus: Chest (Upper/Side/Normal) & Shoulders', 
+      cognitive: 'Instrumental Precision (Guitar/Piano) + High-Yield Documentary', 
+      academic: 'Natural Sciences (Theoretical Concepts & Deep Analysis)' 
+    },
+    2: { 
+      sport: '🏊 Swimming / 🥊 Muay Thai / 🥋 BJJ Rotation', 
+      ppl: 'Pull Focus: Lat Work & Triceps Strength', 
+      cognitive: 'System Architecture Reading + Self-Mastery Lectures', 
+      academic: 'Physics (Core Laws & Problem Solving Sets)' 
+    },
+    3: { 
+      sport: '🏀 Basketball / ⚽ Football / 🏃 1-Hour Paced Run', 
+      ppl: 'Legs Focus: Quadriceps, Hamstrings & Calf Heavy Rotations', 
+      cognitive: 'Dual N-Back Memory Training + Science & Tech Documentary', 
+      academic: 'Mathematics Consolidation & Intensive Exam Solving' 
+    },
+    4: { 
+      sport: '🏀 Basketball / ⚽ Football / 🏃 1-Hour Paced Run', 
+      ppl: 'Core & Biceps Peak: Abs & Hammer Curls', 
+      cognitive: 'Instrumental Mastery (Guitar/Piano) + Personal Development', 
+      academic: 'Minor Electives: History, Geography & Islamic Studies (Mind Maps)' 
+    },
+    5: { 
+      sport: '🏃 Active Recovery: 1-Hour Aerobic Continuous Run', 
+      ppl: 'Push Focus: Lower Chest, Dips & Cable Crossovers', 
+      cognitive: 'Dual N-Back Training + Technical Book Review', 
+      academic: 'Natural Sciences Consolidation & Synthesis Exercises' 
+    },
+    6: { 
+      sport: '🏀 Basketball / ⚽ Football / 🏃 1-Hour Paced Run', 
+      ppl: 'Abs Sculpting (Six-Pack) & Triceps Isolation', 
+      cognitive: 'Dual N-Back Peak + FL Studio Audio Production Session + System Audit', 
+      academic: 'Physics Consolidation & Comprehensive Mastery Testing' 
     }
+  },
+
+special: {
+  0: {
+    title: 'Focus Sunday / أحد التركيز',
+    blocks: [
+      { time: '05:00-06:00', title: 'Spiritual Session', desc: 'Fajr Prayer + Morning Adhkar + Quran Recitation & Memorization + Mobility Stretching' },
+      { time: '06:00-08:30', title: 'Advanced Programming', desc: 'Full-Stack Development (JS/Python) — Frontend Architecture + Digital Book Engine Setup' },
+      { time: '08:30-10:30', title: 'AI Academy', desc: 'Deep Learning & Neural Networks (Weeks 7-10) — Machine Learning Pipelines' },
+      { time: '10:30-12:00', title: 'English Mastery', desc: 'Deep Technical Explanations + Software Logic Terminology + Practical Application' },
+      { time: '12:00-13:00', title: 'Creative Skills & Rest', desc: '3D Graphics Fundamentals (Blender) + Mental Refresh' },
+      { time: '13:00-15:00', title: 'Grand Rest & Recovery', desc: 'Dhuhr Prayer + High-Protein Nutrition + Power Nap + Continued Blender Exploration' },
+      { time: '15:00-16:30', title: 'PPL & Calisthenics', desc: 'Pull Focus: Back & Biceps Isolation + Calisthenics Skills & Bodyweight Conditioning' },
+      { time: '16:30-17:30', title: 'Rest & Spiritual Reflection', desc: 'Physical Recovery + Islamic Lectures & Spiritual Reflection (Sheikh Al-Raslan & Scholars)' },
+      { time: '17:30-19:30', title: 'Academic Focus', desc: 'Mathematics: Advanced Core Practice & Problem Solving Sets' },
+      { time: '19:30-20:30', title: 'Mental & Physical Dev', desc: 'Digital Book Engine: Session 01 — Layout & Content Structuring' },
+      { time: '20:30-22:00', title: 'System Prep & Sleep', desc: 'Next Day Schedule Lock + Evening Adhkar + Muscle Relaxation & Sleep Protocol' }
+    ]
+  },
+  1: {
+    title: 'Immersion Monday / إثنين التعمق',
+    blocks: [
+      { time: '05:00-06:00', title: 'Spiritual Session', desc: 'Fajr Prayer + Morning Adhkar + Quran Recitation & Memorization + Mobility Stretching' },
+      { time: '06:00-08:30', title: 'Advanced Programming', desc: 'Full-Stack Development — Component Architecture & State Management' },
+      { time: '08:30-10:30', title: 'AI Academy', desc: 'Neural Network Optimization, Gradient Descent & Model Training' },
+      { time: '10:30-12:00', title: 'English Mastery', desc: 'Technical Communication Drills + Reading High-Level Technical Docs' },
+      { time: '12:00-13:00', title: 'Creative Skills & Rest', desc: '3D Modeling & Environment Lighting in Blender' },
+      { time: '13:00-15:00', title: 'Grand Rest & Recovery', desc: 'Dhuhr Prayer + High-Protein Nutrition + Power Nap' },
+      { time: '15:00-16:30', title: 'PPL & Calisthenics', desc: 'Push Focus: Chest (Upper/Side/Normal) & Shoulders Hypertrophy' },
+      { time: '16:30-17:30', title: 'Rest & Spiritual Reflection', desc: 'Physical Recovery + Audio Quran & Islamic Lectures' },
+      { time: '17:30-19:30', title: 'Academic Focus', desc: 'Natural Sciences: Theoretical Concepts & Deep Experimental Analysis' },
+      { time: '19:30-20:30', title: 'Mental & Physical Dev', desc: 'Instrumental Precision Practice (Guitar/Piano) + Science & Tech Documentary' },
+      { time: '20:30-22:00', title: 'System Prep & Sleep', desc: 'Next Day Schedule Lock + Evening Adhkar + Sleep Protocol' }
+    ]
+  },
+  2: {
+    title: 'Execution Tuesday / ثلاثاء التنفيذ',
+    blocks: [
+      { time: '05:00-06:00', title: 'Spiritual Session', desc: 'Fajr Prayer + Morning Adhkar + Quran Recitation & Memorization + Mobility Stretching' },
+      { time: '06:00-08:30', title: 'Advanced Programming', desc: 'Full-Stack Development — Backend Logic, REST APIs & Database Design' },
+      { time: '08:30-10:30', title: 'AI Academy', desc: 'Deep Learning Architectures — Computer Vision & NLP Fundamentals' },
+      { time: '10:30-12:00', title: 'English Mastery', desc: 'Software Architecture Terminology & Vocabulary Expansion' },
+      { time: '12:00-13:00', title: 'Creative Skills & Rest', desc: 'Blender Animation Basics & Rendering Pipelines' },
+      { time: '13:00-15:00', title: 'Grand Rest & Recovery', desc: 'Dhuhr Prayer + High-Protein Nutrition + Power Nap' },
+      { time: '15:00-16:30', title: 'PPL & Calisthenics', desc: 'Pull Focus: Lat Work, L-Sit & Triceps Strength' },
+      { time: '16:30-17:30', title: 'Rest & Spiritual Reflection', desc: 'Physical Recovery + Islamic History & Reflection' },
+      { time: '17:30-19:30', title: 'Academic Focus', desc: 'Physics: Core Laws, Electromagnetism & Complex Problem Solving Sets' },
+      { time: '19:30-20:30', title: 'Mental & Physical Dev', desc: 'System Architecture Reading + Self-Mastery Lectures' },
+      { time: '20:30-22:00', title: 'System Prep & Sleep', desc: 'Next Day Schedule Lock + Evening Adhkar + Sleep Protocol' }
+    ]
+  },
+  3: {
+    title: 'Power Wednesday / أربعاء القوة',
+    blocks: [
+      { time: '05:00-06:00', title: 'Spiritual Session', desc: 'Fajr Prayer + Morning Adhkar + Quran Recitation & Memorization + Mobility Stretching' },
+      { time: '06:00-08:30', title: 'Advanced Programming', desc: 'Full-Stack Application Deployment, Security Audits & Code Refactoring' },
+      { time: '08:30-10:30', title: 'AI Academy', desc: 'Hyperparameter Tuning & Neural Network Evaluation Metrics' },
+      { time: '10:30-12:00', title: 'English Mastery', desc: 'Complex Concept Explanation & Fluent Presentation Drills' },
+      { time: '12:00-13:00', title: 'Creative Skills & Rest', desc: '3D Sculpting & Asset Creation in Blender' },
+      { time: '13:00-15:00', title: 'Grand Rest & Recovery', desc: 'Dhuhr Prayer + High-Protein Nutrition + Power Nap + Mental Refresh' },
+      { time: '15:00-16:30', title: 'PPL & Calisthenics', desc: 'Legs Focus: Quadriceps, Hamstrings & Calf Heavy Rotations' },
+      { time: '16:30-17:30', title: 'Rest & Spiritual Reflection', desc: 'Physical Recovery + Heart-Softening Islamic Lectures' },
+      { time: '17:30-19:30', title: 'Academic Focus', desc: 'Mathematics: Consolidation & Intensive Exam Simulations' },
+      { time: '19:30-20:30', title: 'Mental & Physical Dev', desc: 'Dual N-Back Memory Training + Science & Tech Documentary' },
+      { time: '20:30-22:00', title: 'System Prep & Sleep', desc: 'Next Day Schedule Lock + Suhoor Prep for Fasting + Evening Adhkar + Sleep Protocol' }
+    ]
+  },
+  4: {
+    title: 'Achievement Thursday (Fasting and Diligence) / خميس الإنجاز (الصيام والاجتهاد)',
+    blocks: [
+      { time: '02:45-05:00', title: 'Night Prayer & Suhoor', desc: 'Qiyam Prayer + High-Protein Suhoor + Remembrance of Allah + Rapid Mental Preview' },
+      { time: '05:00-06:30', title: 'Quran Session', desc: 'Recitation and Memorization of the Holy Quran (1.5 Hours)' },
+      { time: '06:30-09:30', title: 'Religious Studies', desc: 'Aqeedah + Riyadh as-Salihin + Al-Bidayah wa n-Nihayah + 40 Nawawi (3 Hours)' },
+      { time: '09:30-11:30', title: 'Study Marathon', desc: 'History, Geography & French using Mind Map System' },
+      { time: '11:30-13:30', title: 'Language Skills', desc: 'English Tech Terminology Review + Applying Grammar as Software Logic' },
+      { time: '13:30-15:00', title: 'Website Development', desc: 'Building, Deploying & Monetizing Custom Web Applications' },
+      { time: '15:00-16:30', title: 'Targeted Muscle Building', desc: 'Legs (Thighs/Calves) + Abdominal Core Blast' },
+      { time: '16:30-18:30', title: 'Specific Outdoor Sport', desc: 'Rotation: (Swimming 🏊 / Football ⚽ / Muay Thai 🥊) or (Basketball 🏀 / BJJ 🥋 / 1-Hour Run 🏃)' },
+      { time: '18:30-19:30', title: 'Content Creation', desc: 'Video Production & Editing for YouTube, Instagram, TikTok & Facebook' },
+      { time: '19:30-20:30', title: 'Academic Review Marathon', desc: 'Secondary Subjects Review & Synthesis using Mind Maps' },
+      { time: '20:30-22:00', title: 'Musical Crafts', desc: 'Instrumental Practice (Guitar / Piano Precision Sessions)' }
+    ]
+  },
+  5: {
+    title: 'Creativity Friday / جمعة الإبداع',
+    blocks: [
+      { time: '05:00-08:00', title: 'Spiritual Meditation', desc: 'Surah Al-Kahf + Morning Adhkar + Natural Sciences Deep Review' },
+      { time: '08:00-10:00', title: 'Mind Reset & Video Prep', desc: 'Storyboarding & Editing Preparation for Digital Media' },
+      { time: '10:00-14:00', title: 'Ethical Hacking & Languages', desc: 'Penetration Testing Fundamentals + Mind Map Marathon for Arabic, English & Islamic Studies' },
+      { time: '14:00-15:00', title: 'Audio Meditation', desc: 'Listening to Quran Recitation + Vocal Modulation & Pitch Enhancement Exercises' },
+      { time: '15:00-16:00', title: 'Physical Conditioning', desc: 'Targeted Push-ups & Shoulder/Chest Calisthenics' },
+      { time: '16:00-17:00', title: 'Website Management', desc: 'Auditing Completed Web Projects & Live Model Updates' },
+      { time: '17:00-18:30', title: 'Endurance Cardio Block', desc: 'High-Intensity 1-Hour Continuous Run for VO2 Max (Skipped if Swimming follows)' },
+      { time: '18:30-19:30', title: 'Main Athletic Session', desc: 'Rotation: (Swimming 🏊 / Football ⚽ / Muay Thai 🥊) or (Basketball 🏀 / BJJ 🥋)' },
+      { time: '19:30-20:30', title: 'System Review & Tactical Planning', desc: 'Self-Development Audit + Weekly Evaluation + Updating Hard Tasks List' }
+    ]
+  },
+  6: {
+    title: 'Mastery Saturday / سبت الإتقان',
+    blocks: [
+      { time: '05:00-10:00', title: 'Academic Focus', desc: 'Physics Comprehensive Review + Quran Memorization (5 Hours)' },
+      { time: '10:00-14:00', title: 'Technical Immersion & Audio Lab', desc: 'Ethical Hacking + FL Studio Session 01 + English Immersion + Philosophy Review (4 Hours)' },
+      { time: '14:00-15:00', title: 'Audio Crafts', desc: 'FL Studio Session 02: Sound Design & Beat Synthesis' },
+      { time: '15:00-16:30', title: 'Fitness & Physical Therapy', desc: 'Targeted Abs (Six-Pack) & Triceps Workouts' },
+      { time: '16:30-17:00', title: 'Therapy & Micronutrients', desc: 'Hydration + Micronutrient Supplementation (Calcium / Magnesium / Zinc)' },
+      { time: '17:00-18:30', title: 'Competitive Sports', desc: 'Rotation: (Swimming 🏊 / Football ⚽ / Muay Thai 🥊) or (Basketball 🏀 / BJJ 🥋 / 1-Hour Run 🏃)' },
+      { time: '18:30-19:30', title: 'Digital Architecture', desc: 'System Programming, Web Maintenance & Server Updates' },
+      { time: '19:30-20:30', title: 'System Calibration', desc: 'Working Memory Optimization + Full System Audit & Weekly Performance Evaluation' },
+      { time: '20:30-22:00', title: 'Maximum Stimulation & Recovery', desc: 'Full-Body Flexibility & Lengthening Workout + Sleep Prep + Tactical Video Analysis (Basketball/Football Drills)' }
+    ]
+  }
+}
 },
+
 week4: {
-    id: 'week4',
-    title: 'System Update 11.0 — Infinity',
-    version: '1000',
-    range: 'LVL 800 → 1000',
-        desc: 'Spiritual and Technical Mastery Phase: Focus on Aqidah and Tawhid, Applied Technical Lab, and full mastery of languages/skills.',
+  id: 'week4',
+  title: 'System Update 10.0 — Transcendence',
+  version: '800',
+  range: 'LVL 45 → 50',
+  desc: 'The Golden Phase: Mastering self-logic in AiMoha, absolute athletic & mental discipline, and comprehensive technical leadership.',
+  
+  schedule: [
+    { start: 2.75, end: 5.0,  title: 'Night Prayer & Suhoor', desc: 'Qiyam + Protein-Rich Suhoor + Adhkar + Full System Readiness Check' },
+    { start: 5.0,  end: 6.0,  title: 'Spiritual Session', desc: 'Fajr + Morning Adhkar + Quran Recitation + Flexibility & Joint Mobility' },
+    { start: 6.0,  end: 8.5,  title: 'Sports Activity', desc: 'Elite Swimming / Strategic Football / Heavy Martial Arts Conditioning' },
+    { start: 8.5,  end: 10.5, title: 'AI Academy', desc: 'Autonomous AI Agents + Custom Logic Pipelines + Model Optimization' },
+    { start: 10.5, end: 12.0, title: 'English Mastery', desc: 'Fluency Accent Drills + Advanced Technical Writing & Public Speaking' },
+    { start: 12.0, end: 13.0, title: 'Applied Laboratory', desc: 'Full-Stack Integration + Frontend UI/UX Polish + Local Storage Engines' },
+    { start: 13.0, end: 15.0, title: 'Grand Rest & Lunch', desc: 'Dhuhr Prayer + Optimized Clean Diet + Recharging Power Nap' },
+    { start: 15.0, end: 16.5, title: 'PPL Preparation', desc: 'Peak Push/Pull/Legs Calisthenics + Handstand Push-Up Mastery' },
+    { start: 16.5, end: 17.5, title: 'Mental Elevation', desc: 'Chess Strategy & Opening Theory + Sudoku Champion Mode + Tech Reading' },
+    { start: 17.5, end: 19.5, title: 'Academic Focus', desc: 'Academic Distinction: Comprehensive Exam Practice & Solving Complex Questions' },
+    { start: 19.5, end: 20.5, title: 'Running Block', desc: '1-Hour Night Paced Run / Aerobic Base Building between Maghrib & Isha' },
+    { start: 20.5, end: 21.5, title: 'Deep Programming', desc: 'AiMoha Core — Gamification UI + Interactive Minigames Logic Integration' },
+    { start: 21.5, end: 22.0, title: 'System Prep & Sleep', desc: 'Isha Prayer + Next Day Blueprint + Night Adhkar + Total Muscle Recovery' }
+  ],
 
-    schedule: [
-      { start: 5.0,  end: 6.0,  title: 'Spiritual Session',        desc: 'Recitation + Fajr + Adhkar + Stretching exercises' },
-      { start: 6.0,  end: 8.5,  title: 'Advanced Programming',         desc: 'Kitab at-Tawhid and Aqidah' },
-      { start: 8.5,  end: 10.5, title: 'AI Academy & Tech Lab', desc: 'Applied Technical Laboratory' },
-      { start: 10.5, end: 12.0, title: 'English Mastery',        desc: 'Deep tech explanations + practical building (Move to another language if mastered)' },
-      { start: 12.0, end: 13.0, title: 'Rest & Useful Learning',              desc: 'Blender 3D Graphics Courses / Deep Learning' },
-      { start: 13.0, end: 15.0, title: 'Grand Rest + Useful Learning', desc: 'Blender 3D Graphics Courses + Dhuhr + Protein Lunch + Nap' },
-      { start: 15.0, end: 16.5, title: 'PPL & Calisthenics', desc: 'Push/Pull/Legs exercises + Calisthenics' },
-      { start: 16.5, end: 17.5, title: 'Rest & Dinner',       desc: 'Recovery from fatigue' },
-      { start: 17.5, end: 19.5, title: 'Academic Focus',          desc: 'Curriculum: Mathematics, Sciences, Physics' },
-      { start: 19.5, end: 20.5, title: 'Mental & Physical Dev',  desc: 'Reading + Documentaries + Mind games + Physical Rest' },
-      { start: 20.5, end: 22.0, title: 'System Prep & Pelvic Stretching',              desc: 'Tomorrow Planning + Evening Adhkar + Muscle Relaxation + Opening the pelvis' }
-    ],
-    days: {
-      0: { sport: 'Swimming 🏊 / Muay Thai 🥊 / Jiu-Jitsu 🥋', ppl: 'Pull (Back & Biceps)', cognitive: 'Digital Book Session 1 / FL Studio for Quran', academic: 'Mathematics' },
-      1: { sport: 'Swimming 🏊 / Muay Thai 🥊 / Jiu-Jitsu 🥋', ppl: 'Push (Chest upper/side/normal)', cognitive: 'Documentary / FL Studio for Quran', academic: 'Natural Sciences' },
-      2: { sport: 'Swimming 🏊 / Muay Thai 🥊 / Jiu-Jitsu 🥋', ppl: 'Pull (Back & Triceps)', cognitive: 'Reading Books + Self-Development', academic: 'Physics' },
-      3: { sport: 'Basketball 🏀 / Football ⚽ / 1-Hour Run 🏃', ppl: 'Legs (Front & Calves)', cognitive: 'Documentary', academic: 'Math Review' },
-      4: { sport: 'Basketball 🏀 / Football ⚽ / 1-Hour Run 🏃', ppl: 'Abs & Biceps', cognitive: 'Self-Development + FL Studio for Quran', academic: 'Islamic/History/Geo' },
-      5: { sport: 'Rest & 1-Hour Run 🏃', ppl: 'Push (Chest inner/pelvis/lower)', cognitive: 'Dual N-Back + Book Review', academic: 'Science Review' },
-      6: { sport: 'Basketball 🏀 / Football ⚽ / 1-Hour Run 🏃', ppl: 'Abs (Six-pack) & Triceps', cognitive: 'Dual N-Back + Weekly Evaluation + FL Studio for Quran', academic: 'Physics Review' }
+  days: {
+    0: { 
+      sport: '🏊 Swimming Mastery: High-speed interval training & total aquatic efficiency', 
+      ppl: 'Back & Biceps Mastery: Weighted muscle-ups, chin-ups & bicep peak isolation', 
+      cognitive: 'Digital Book Finalization: Final proofreading, indexing & publishing release', 
+      academic: 'Core Subject 1 (Mastery & Speed Solving)' 
     },
-    special: { 
-      4: {
-        title: 'Achievement Thursday (Fasting and Diligence)',
-        blocks: [
-          { time: '02:45-05:00', title: 'Night Prayer and Suhoor', desc: 'Night Prayer + Protein-Rich Suhoor + Remembrance of Allah + Quick Mental Review' },
-          { time: '05:00-06:30', title: 'Quran Session', desc: 'Recitation and Memorization of the Holy Quran (1.5 Hours)' },
-          { time: '06:30-09:30', title: 'Religious Studies', desc: 'Riyadh as-Salihin + Al-Bidayah wa\'n-Nihayah + 40 Nawawi (3 Hours)' },
-          { time: '09:30-11:30', title: 'Study Marathon', desc: 'History, Geography, and French using Mind Maps (Session 1)' },
-          { time: '11:30-13:30', title: 'Language Skills', desc: 'Reviewing English Terminology and Grammar as Software Logic' },
-          { time: '13:30-15:00', title: 'Website Development', desc: 'Developing and Monetizing Websites' },
-          { time: '15:00-16:30', title: 'Targeted Muscle Building', desc: 'Leg Muscles (Thighs/Calves) + Abdominal & Muscle Heads' },
-          { time: '16:30-18:30', title: 'Specific Outdoor Sport', desc: 'Swimming 🏊 or Football ⚽ or Muay Thai 🥊 or Basketball 🏀' },
-          { time: '18:30-19:30', title: 'Content Creation', desc: 'Creating and producing content for YouTube, Instagram, TikTok, and Facebook' },
-          { time: '19:30-20:30', title: 'Study Marathon', desc: 'History, Geography, and French using Mind Maps (Session 2)' },
-          { time: '20:30-22:00', title: 'Crafts / FL Studio & Pelvic Stretching', desc: 'FL Studio for Quran + Opening the pelvis' }
-        ]
-      },
-      5: {
-        title: 'Creativity Friday',
-        blocks: [
-          { time: '05:00-08:00', title: 'Spiritual Meditation', desc: 'Surah Al-Kahf + Morning Adhkar + Natural Sciences Review' },
-          { time: '08:00-10:00', title: 'Mind Reset', desc: 'Preparing for Video Editing (Montage)' },
-          { time: '10:00-14:00', title: 'Ethical Hacking and Terminology', desc: 'Learning Ethical Hacking + Study Marathon using Mind Maps' },
-          { time: '14:00-15:00', title: 'Audio Meditation', desc: 'Listening to the Holy Quran and Meditation (includes voice tone improvement)' },
-          { time: '15:00-16:00', title: 'Physical Preparation', desc: 'Push-ups (Chest and Shoulders)' },
-          { time: '16:00-17:00', title: 'Website Management', desc: 'Following Up on Completed Website Projects' },
-          { time: '17:00-18:30', title: 'Energy Generation', desc: 'One-hour run (Unless swimming later)' },
-          { time: '18:30-19:30', title: 'Energy Generation', desc: 'Swimming 🏊 or Football ⚽ or Muay Thai 🥊' },
-          { time: '19:30-20:30', title: 'System Review & Pelvic Stretching', desc: 'Self-Development + Updating "Hard Tasks" List + Opening the pelvis' }
-        ]
-      },
-      6: {
-        title: 'Mastery Saturday',
-        blocks: [
-          { time: '05:00-10:00', title: 'Academic Focus', desc: 'Physics Review + New Quran Memorization (5 Hours)' },
-          { time: '10:00-14:00', title: 'Technical Immersion / FL Studio', desc: 'Ethical Hacking + FL Studio (Session 1) + English Mastery (4 Hours) + Philosophy' },
-          { time: '14:00-15:00', title: 'Crafts / FL Studio for Quran', desc: 'Learn FL Studio (Session 2)' },
-          { time: '15:00-16:30', title: 'Fitness & Physical Therapy', desc: 'Physical Exercises: Abdominal Exercises (Six-pack) and Triceps' },
-          { time: '16:30-17:00', title: 'Therapy and Nutrition', desc: 'Micronutrient Intake (Calcium / Magnesium / Zinc)' },
-          { time: '17:00-18:30', title: 'Competitive Sports', desc: 'Swimming 🏊 or Football ⚽ or Muay Thai 🥊 or Basketball 🏀' },
-          { time: '18:30-19:30', title: 'Digital Architecture', desc: 'System Programming and Web Project Monitoring & Updates' },
-          { time: '19:30-20:30', title: 'Calibration', desc: 'Sudoku + System Calibration & Comprehensive Review... Weekly Evaluation' },
-          { time: '20:30-22:00', title: 'Maximum Stimulation & Pelvic Stretching', desc: 'Stretching Workouts + Sleep Preparation and visual learning (Sports) + Opening the pelvis' }
-        ]
-      }
+    1: { 
+      sport: '🥊 Muay Thai: Master-level combo fluidity, power strikes & reflex sparring', 
+      ppl: 'Chest & Shoulder Sculpting: Explosive push-ups, heavy dips & rear delt flies', 
+      cognitive: 'Grandmaster Chess & Magic: Tactical endgame analysis + Micro magic tricks 🃏♣️', 
+      academic: 'Core Subject 2 (Mastery & Speed Solving)' 
+    },
+    2: { 
+      sport: '🏊 Swimming Mastery: Distance underwater swimming & cardiovascular conditioning', 
+      ppl: 'Legs & Triceps Power: Explosive jump squats, Bulgarian split squats & triceps pushdowns', 
+      cognitive: 'Strategic Reading: Advanced books on behavioral psychology & high performance', 
+      academic: 'Core Subject 3 (Mastery & Speed Solving)' 
+    },
+    3: { 
+      sport: '⚽ Football Focus: Flawless ball control, precise long passes & clinical finishing', 
+      ppl: 'Forearms & Lower Leg Power: Heavy grip strain drills + explosive calf jumps', 
+      cognitive: 'Dual N-Back Peak: Dual 5-Back challenges + Extreme Sudoku', 
+      academic: 'Core Subject 1 Mastery: Complete syllabus review & error analysis' 
+    },
+    4: { 
+      sport: '🥊 Muay Thai: Complete defense integration, leg sweeps & counter combinations', 
+      ppl: 'Abdominal Core Peak: Dragon flags, plank rotations & weighted leg raises', 
+      cognitive: 'Advanced Crafts: Barbering styling 🪒 + Stage magic card techniques 🃏♣️', 
+      academic: 'Minor Electives Mastery: Perfecting all minor subject modules' 
+    },
+    5: { 
+      sport: '🏃 Trail / Endurance Run: 10 KM outdoor speed & endurance run', 
+      ppl: 'Full Body Passive Recovery: Cryo/contrast therapy & deep tissue release', 
+      cognitive: 'Cognitive Synergy: Dual N-Back + Digital product architecture review', 
+      academic: 'System Mastery Review: Comprehensive 360-degree subject assessment' 
+    },
+    6: { 
+      sport: '⚽ Football Combat: Game-winning tactics, lethal set-pieces & 1v1 dominance', 
+      ppl: 'Chest & Ab Core Peak: Lower chest sculpt & core endurance testing', 
+      cognitive: 'Cyber Security & Analytics: Practical ethical hacking labs + System optimization', 
+      academic: 'Core Subject 3 Mastery: Complete syllabus review & error analysis' 
     }
+  },
+
+special: {
+    0: {
+      title: 'Ascension Sunday (Aquatic & Publishing Focus)',
+      blocks: [
+        { time: '02:45-05:00', title: 'Night Prayer & Suhoor', desc: 'Qiyam + High-Protein Suhoor + Remembrance of Allah + Tactical Day Setup' },
+        { time: '05:00-06:00', title: 'Spiritual Session', desc: 'Fajr + Morning Adhkar + Quran Recitation + Joint Mobility' },
+        { time: '06:00-08:30', title: 'Swimming Mastery', desc: '🏊 High-speed interval training & total aquatic efficiency' },
+        { time: '08:30-10:30', title: 'AI Academy', desc: 'Autonomous AI Agents + Custom Logic Pipelines + Model Optimization' },
+        { time: '10:30-12:00', title: 'English Mastery', desc: 'Fluency Accent Drills + Advanced Technical Writing & Public Speaking' },
+        { time: '12:00-13:00', title: 'Applied Laboratory', desc: 'Full-Stack Integration + Frontend UI/UX Polish + Local Storage Engines' },
+        { time: '13:00-15:00', title: 'Grand Rest & Lunch', desc: 'Dhuhr Prayer + Optimized Clean Diet + Recharging Power Nap' },
+        { time: '15:00-16:30', title: 'PPL Hypertrophy', desc: 'Back & Biceps Mastery: Weighted muscle-ups, chin-ups & bicep peak isolation' },
+        { time: '16:30-17:30', title: 'Publishing Engine', desc: 'Digital Book Finalization: Final proofreading, indexing & publishing release' },
+        { time: '17:30-19:30', title: 'Academic Focus', desc: 'Core Subject 1: Mastery-level speed solving & problem solving' },
+        { time: '19:30-20:30', title: 'Running Block', desc: '1-Hour Night Paced Run / Aerobic Base Building between Maghrib & Isha' },
+        { time: '20:30-21:30', title: 'Deep Programming', desc: 'AiMoha Core — Gamification UI + Interactive Minigames Logic Integration' },
+        { time: '21:30-22:00', title: 'System Prep & Sleep', desc: 'Isha Prayer + Next Day Blueprint + Night Adhkar + Total Muscle Recovery' }
+      ]
+    },
+    1: {
+      title: 'Tactical Monday (Combat & Mind Games)',
+      blocks: [
+        { time: '02:45-05:00', title: 'Night Prayer & Suhoor', desc: 'Qiyam + High-Protein Suhoor + Remembrance of Allah + Tactical Day Setup' },
+        { time: '05:00-06:00', title: 'Spiritual Session', desc: 'Fajr + Morning Adhkar + Quran Recitation + Joint Mobility' },
+        { time: '06:00-08:30', title: 'Muay Thai Sparring', desc: '🥊 Master-level combo fluidity, power strikes & reflex sparring' },
+        { time: '08:30-10:30', title: 'AI Academy', desc: 'Autonomous AI Agents + Custom Logic Pipelines + Model Optimization' },
+        { time: '10:30-12:00', title: 'English Mastery', desc: 'Fluency Accent Drills + Advanced Technical Writing & Public Speaking' },
+        { time: '12:00-13:00', title: 'Applied Laboratory', desc: 'Full-Stack Integration + Frontend UI/UX Polish + Local Storage Engines' },
+        { time: '13:00-15:00', title: 'Grand Rest & Lunch', desc: 'Dhuhr Prayer + Optimized Clean Diet + Recharging Power Nap' },
+        { time: '15:00-16:30', title: 'PPL Hypertrophy', desc: 'Chest & Shoulder Sculpting: Explosive push-ups, heavy dips & rear delt flies' },
+        { time: '16:30-17:30', title: 'Grandmaster Logic', desc: 'Chess tactical endgame analysis + Micro magic tricks 🃏♣️' },
+        { time: '17:30-19:30', title: 'Academic Focus', desc: 'Core Subject 2: Mastery-level speed solving & problem solving' },
+        { time: '19:30-20:30', title: 'Running Block', desc: '1-Hour Night Paced Run / Aerobic Base Building between Maghrib & Isha' },
+        { time: '20:30-21:30', title: 'Deep Programming', desc: 'AiMoha Core — Gamification UI + Interactive Minigames Logic Integration' },
+        { time: '21:30-22:00', title: 'System Prep & Sleep', desc: 'Isha Prayer + Next Day Blueprint + Night Adhkar + Total Muscle Recovery' }
+      ]
+    },
+    2: {
+      title: 'Endurance Tuesday (Aquatic Stamina & Psychology)',
+      blocks: [
+        { time: '02:45-05:00', title: 'Night Prayer & Suhoor', desc: 'Qiyam + High-Protein Suhoor + Remembrance of Allah + Tactical Day Setup' },
+        { time: '05:00-06:00', title: 'Spiritual Session', desc: 'Fajr + Morning Adhkar + Quran Recitation + Joint Mobility' },
+        { time: '06:00-08:30', title: 'Underwater Conditioning', desc: '🏊 Distance underwater swimming & cardiovascular conditioning' },
+        { time: '08:30-10:30', title: 'AI Academy', desc: 'Autonomous AI Agents + Custom Logic Pipelines + Model Optimization' },
+        { time: '10:30-12:00', title: 'English Mastery', desc: 'Fluency Accent Drills + Advanced Technical Writing & Public Speaking' },
+        { time: '12:00-13:00', title: 'Applied Laboratory', desc: 'Full-Stack Integration + Frontend UI/UX Polish + Local Storage Engines' },
+        { time: '13:00-15:00', title: 'Grand Rest & Lunch', desc: 'Dhuhr Prayer + Optimized Clean Diet + Recharging Power Nap' },
+        { time: '15:00-16:30', title: 'PPL Hypertrophy', desc: 'Legs & Triceps Power: Explosive jump squats, Bulgarian split squats & triceps pushdowns' },
+        { time: '16:30-17:30', title: 'Behavioral Strategy', desc: 'Strategic Reading: Advanced books on behavioral psychology & high performance' },
+        { time: '17:30-19:30', title: 'Academic Focus', desc: 'Core Subject 3: Mastery-level speed solving & problem solving' },
+        { time: '19:30-20:30', title: 'Running Block', desc: '1-Hour Night Paced Run / Aerobic Base Building between Maghrib & Isha' },
+        { time: '20:30-21:30', title: 'Deep Programming', desc: 'AiMoha Core — Gamification UI + Interactive Minigames Logic Integration' },
+        { time: '21:30-22:00', title: 'System Prep & Sleep', desc: 'Isha Prayer + Next Day Blueprint + Night Adhkar + Total Muscle Recovery' }
+      ]
+    },
+    3: {
+      title: 'Cognitive Wednesday (Ball Control & Brain Peak)',
+      blocks: [
+        { time: '02:45-05:00', title: 'Night Prayer & Suhoor', desc: 'Qiyam + High-Protein Suhoor + Remembrance of Allah + Tactical Day Setup' },
+        { time: '05:00-06:00', title: 'Spiritual Session', desc: 'Fajr + Morning Adhkar + Quran Recitation + Joint Mobility' },
+        { time: '06:00-08:30', title: 'Football Drills', desc: '⚽ Flawless ball control, precise long passes & clinical finishing' },
+        { time: '08:30-10:30', title: 'AI Academy', desc: 'Autonomous AI Agents + Custom Logic Pipelines + Model Optimization' },
+        { time: '10:30-12:00', title: 'English Mastery', desc: 'Fluency Accent Drills + Advanced Technical Writing & Public Speaking' },
+        { time: '12:00-13:00', title: 'Applied Laboratory', desc: 'Full-Stack Integration + Frontend UI/UX Polish + Local Storage Engines' },
+        { time: '13:00-15:00', title: 'Grand Rest & Lunch', desc: 'Dhuhr Prayer + Optimized Clean Diet + Recharging Power Nap' },
+        { time: '15:00-16:30', title: 'PPL Hypertrophy', desc: 'Forearms & Lower Leg Power: Heavy grip strain drills + explosive calf jumps' },
+        { time: '16:30-17:30', title: 'Cognitive Peak', desc: 'Dual N-Back Peak: Dual 5-Back challenges + Extreme Sudoku' },
+        { time: '17:30-19:30', title: 'Academic Focus', desc: 'Core Subject 1 Mastery: Complete syllabus review & error analysis' },
+        { time: '19:30-20:30', title: 'Running Block', desc: '1-Hour Night Paced Run / Aerobic Base Building between Maghrib & Isha' },
+        { time: '20:30-21:30', title: 'Deep Programming', desc: 'AiMoha Core — Gamification UI + Interactive Minigames Logic Integration' },
+        { time: '21:30-22:00', title: 'System Prep & Sleep', desc: 'Isha Prayer + Next Day Blueprint + Night Adhkar + Total Muscle Recovery' }
+      ]
+    },
+    4: {
+      title: 'Achievement Thursday (Peak Fasting & Execution)',
+      blocks: [
+        { time: '02:45-05:00', title: 'Night Prayer & Suhoor', desc: 'Qiyam + High-Protein Suhoor + Remembrance of Allah + Tactical Day Setup' },
+        { time: '05:00-06:30', title: 'Quran Session', desc: 'Quran Revision & New Memorization Block (1.5 Hours)' },
+        { time: '06:30-09:30', title: 'Islamic Jurisprudence & Hadith', desc: 'In-Depth Study of Islamic Texts & Ethical Principles' },
+        { time: '09:30-11:30', title: 'Study Marathon', desc: 'Mastery-Level Problem Solving for Academic Core Subjects' },
+        { time: '11:30-13:30', title: 'Language & Logic Mastery', desc: 'Advanced Software Terms in English + Rapid Comprehension Drills' },
+        { time: '13:30-15:00', title: 'Software Engineering', desc: 'Developing Scalable Features for Live Projects' },
+        { time: '15:00-16:30', title: 'Targeted Muscle Building', desc: 'Legs & Abs High-Volume Hypertrophy Circuit' },
+        { time: '16:30-18:30', title: 'Martial Arts Mastery', desc: '🥊 Muay Thai: Full-contact tactical drills, leg kicks & defense' },
+        { time: '18:30-19:30', title: 'Content Engine', desc: 'Polishing & Publishing High-Impact Digital Video Content' },
+        { time: '19:30-20:30', title: 'Spiritual Balance', desc: 'Recitation of Holy Quran + Vocal Pitch Improvement Practice' },
+        { time: '20:30-22:00', title: 'Precision Crafts', desc: 'Advanced Barbering Fades 🪒 + World-Class Magic Card Flourishes 🃏♣️' }
+      ]
+    },
+    5: {
+      title: 'Creativity Friday (Supreme Synthesis)',
+      blocks: [
+        { time: '05:00-08:00', title: 'Spiritual Meditation', desc: 'Surah Al-Kahf + Morning Adhkar + Rapid Academic Review' },
+        { time: '08:00-10:00', title: 'Video Production', desc: 'Finalizing Video Content, Audio Mixing & Exporting' },
+        { time: '10:00-14:00', title: 'Ethical Hacking & Deep Study', desc: 'Practical Hacking Exercises + Mind Mapping Core Subjects' },
+        { time: '14:00-15:00', title: 'Audio Reflection', desc: 'Listening to Holy Quran + Voice Calibration & Breathing' },
+        { time: '15:00-16:00', title: 'Bodyweight Conditioning', desc: 'Chest, Dips & Shoulder Calisthenics Circuit' },
+        { time: '16:00-17:00', title: 'Web Project Operations', desc: 'Deploying Live Code Updates & Database Maintenance' },
+        { time: '17:00-18:30', title: 'Endurance Surge', desc: '🏃 10 KM High-Intensity Endurance Run for Peak Stamina' },
+        { time: '18:30-19:30', title: 'Active Recovery', desc: 'Post-run cooling down, stretching, hydration & mental focus' },
+        { time: '19:30-20:30', title: 'System Evaluation', desc: 'System Metrics Check + Hard Tasks Resolution + Strategic Vision' }
+      ]
+    },
+    6: {
+      title: 'Mastery Saturday (System Peak Completion)',
+      blocks: [
+        { time: '05:00-10:00', title: 'Academic Focus', desc: '5-Hour Intensive Marathon: Quran Memorization + Complex Subjects Review' },
+        { time: '10:00-14:00', title: 'Technical Superiority', desc: 'Advanced Ethical Hacking + English Fluency + Electives Deep Dive' },
+        { time: '14:00-15:00', title: 'Crafts Precision', desc: 'Precision Hair Styling 🪒 & Card Mechanics 🃏♣️' },
+        { time: '15:00-16:30', title: 'Fitness Sculpting', desc: 'Six-pack Abs Circuit + Triceps Hypertrophy' },
+        { time: '16:30-17:00', title: 'Nutrition Optimization', desc: 'Micronutrient Intake: Calcium, Magnesium & Zinc Balance' },
+        { time: '17:00-18:30', title: 'Competitive Sports', desc: '⚽ Football Combat: Precision Shooting & Ball Reception Drills' },
+        { time: '18:30-19:30', title: 'Pitch Action', desc: '⚽ Football Match: Unleashing Physical & Tactical Energy' },
+        { time: '19:30-20:30', title: 'System Final Audit', desc: 'Level Progress Evaluation + Next Cycle Blueprinting' }
+      ]
+    }
+  }
 },
-week5: {
-    id: 'week5',
-    title: 'System Update 1000.0 — Infinity',
-    version: '∞',
-    range: 'LVL 1000 → ∞',
-        desc: 'Phase of Absolute Sovereignty and Complete Freedom: You now control the system, choose your own programs, and manage affairs independently.',
 
-    schedule: [
-      { start: 5.0,  end: 6.0,  title: 'Spiritual Session',        desc: 'Recitation + Fajr + Adhkar + Stretching exercises' },
-      { start: 6.0,  end: 8.5,  title: '???',                                        desc: 'Free choice from previous programs (You have the freedom to choose, young Monarch)' },
-      { start: 8.5,  end: 10.5, title: '???',                                        desc: 'Free choice from previous programs (You have the freedom to choose, young Monarch)' },
-      { start: 10.5, end: 12.0, title: 'English Mastery',        desc: 'Deep tech explanations + practical building (Move to another language if mastered)' },
-      { start: 12.0, end: 13.0, title: ' ??? ',              desc: 'Free choice from previous programs (You have the freedom to choose, young Monarch)' },
-      { start: 13.0, end: 15.0, title: '??? + Grand Rest',                                        desc: 'Free choice from previous programs (You have the freedom to choose, young Monarch)' },
-      { start: 15.0, end: 16.5, title: 'PPL & Calisthenics', desc: 'Push/Pull/Legs exercises + Calisthenics' },
-      { start: 16.5, end: 17.5, title: 'Rest & Dinner',       desc: 'Recovery from fatigue' },
-      { start: 17.5, end: 19.5, title: 'Academic Focus',          desc: 'Curriculum: Mathematics, Sciences, Physics' },
-      { start: 19.5, end: 20.5, title: '???',                                        desc: 'Free choice from previous programs (You have the freedom to choose, young Monarch)' },
-      { start: 20.5, end: 22.0, title: 'System Prep & Pelvic Stretching',              desc: 'Tomorrow Planning + Evening Adhkar + Muscle Relaxation + Opening the pelvis' }
-    ],
-    days: {
-      0: { sport: 'Swimming 🏊 / Muay Thai 🥊 / Jiu-Jitsu 🥋', ppl: 'Pull (Back & Biceps)', cognitive: 'Digital Book / Free choice (You have the freedom to choose, young Monarch)', academic: 'Mathematics' },
-      1: { sport: 'Swimming 🏊 / Muay Thai 🥊 / Jiu-Jitsu 🥋', ppl: 'Push (Chest upper/side/normal)', cognitive: 'Free choice from previous programs (You have the freedom to choose, young Monarch)', academic: 'Natural Sciences' },
-      2: { sport: 'Swimming 🏊 / Muay Thai 🥊 / Jiu-Jitsu 🥋', ppl: 'Pull (Back & Triceps)', cognitive: 'Free choice from previous programs (You have the freedom to choose, young Monarch)', academic: 'Physics' },
-      3: { sport: 'Basketball 🏀 / Football ⚽ / Cycling 🚴', ppl: 'Legs (Front & Calves)', cognitive: 'Free choice from previous programs (You have the freedom to choose, young Monarch)', academic: 'Math Review' },
-      4: { sport: 'Basketball 🏀 / Football ⚽ / Duel or horseback riding 🤺 🏇', ppl: 'Abs & Biceps', cognitive: 'Free choice from previous programs (You have the freedom to choose, young Monarch)', academic: 'Islamic/History/Geo' },
-      5: { sport: 'Rest & 1-Hour Run 🏃', ppl: 'Push (Chest inner/pelvis/lower)', cognitive: 'Free choice from previous programs (You have the freedom to choose, young Monarch)', academic: 'Science Review' },
-      6: { sport: 'Basketball 🏀 / Football ⚽ / Karate 🐉 👘', ppl: 'Abs (Six-pack) & Triceps', cognitive: 'Free choice from previous programs (You have the freedom to choose, young Monarch)', academic: 'Physics Review' }
+week5: {
+  id: 'week5',
+  title: 'System Update 1000.0 — Infinity',
+  version: '∞',
+  range: 'LVL 50 → ∞',
+  desc: 'The Phase of Absolute Sovereignty & Full Freedom: You now control the system, choose your programs independently, and manage your affairs with total autonomy.',
+
+  schedule: [
+    { start: 5.0,  end: 6.0,  title: 'Spiritual Session', desc: 'Quran Recitation (Solo: Contemplative / Dual: New) + Fajr Prayer, Adhkar & Stretching' },
+    { start: 6.0,  end: 8.5,  title: 'Elective Block ???', desc: 'Choice from previous programs (You have complete freedom of choice, young sovereign)' },
+    { start: 8.5,  end: 10.5, title: 'Elective Block ???', desc: 'Choice from previous programs (You have complete freedom of choice, young sovereign)' },
+    { start: 10.5, end: 12.0, title: 'English Mastery', desc: 'In-depth technical breakdown + vocabulary for building and practical application (If mastered, transition to another useful language)' },
+    { start: 12.0, end: 13.0, title: 'Culinary Skills', desc: 'Cooking practice / Choice from previous programs (You have complete freedom of choice, young sovereign)' },
+    { start: 13.0, end: 15.0, title: 'Daily Sport & Grand Rest', desc: 'Daily allocated sport based on the (days) section + Choice from previous programs' },
+    { start: 15.0, end: 16.5, title: 'PPL & Calisthenics', desc: 'Push, Pull, and Leg exercises + Gymnastics & Calisthenics workouts' },
+    { start: 16.5, end: 17.5, title: 'Rest, Dinner & Spiritual Reflection', desc: 'Rest from fatigue + Dinner + Listening to Sheikh Al-Raslan or spiritual lectures' },
+    { start: 17.5, end: 19.5, title: 'Academic Focus (Sciences)', desc: 'Academic Curriculum: Mathematics (Sun/Wed), Natural Sciences (Mon/Fri), Physics (Tue/Sat)' },
+    { start: 19.5, end: 20.5, title: 'Elective Block ???', desc: 'Choice from previous programs (You have complete freedom of choice, young sovereign)' },
+    { start: 20.5, end: 22.0, title: 'System Prep & Pelvic Mobility', desc: 'Daily blueprint creation + Evening Adhkar + Muscle relaxation + Pelvis opening drills' }
+  ],
+
+  days: {
+    0: { 
+      sport: 'Swimming 🏊 / MMA Fighting 👊🏻', 
+      ppl: 'Pull (Back & Biceps)', 
+      cognitive: 'Digital Book Authoring (Session 1) / Choice from previous programs', 
+      academic: 'Mathematics' 
     },
-    special: { 
-      4: {
-        title: 'Achievement Thursday (Fasting and Diligence)',
-        blocks: [
-          { time: '02:45-05:00', title: 'Night Prayer and Suhoor', desc: 'Night Prayer + Protein-Rich Suhoor + Remembrance of Allah + Quick Mental Review' },
-          { time: '05:00-06:30', title: 'Quran Session', desc: 'Recitation and Memorization of the Holy Quran (1.5 Hours)' },
-          { time: '06:30-09:30', title: '???', desc: 'Free choice from previous programs (You have the freedom to choose, young Monarch)' },
-          { time: '09:30-11:30', title: 'Study Marathon', desc: 'History, Geography, and French using Mind Maps (Session 1)' },
-          { time: '11:30-13:30', title: 'Language Skills', desc: 'Reviewing English Terminology and Grammar as Software Logic' },
-          { time: '13:30-15:00', title: 'Website Development', desc: 'Developing and Monetizing Websites' },
-          { time: '15:00-16:30', title: 'Targeted Muscle Building', desc: 'Leg Muscles (Thighs/Calves) + Abdominal & Muscle Heads' },
-          { time: '16:30-18:30', title: 'Specific Outdoor Sport', desc: 'Swimming 🏊 or Football ⚽ or Muay Thai 🥊 or Basketball 🏀 (Free choice, young Monarch)' },
-          { time: '18:30-19:30', title: 'Content Creation', desc: 'Creating and producing content for YouTube, Instagram, TikTok, and Facebook' },
-          { time: '19:30-20:30', title: 'Study Marathon', desc: 'History, Geography, and French using Mind Maps (Session 2)' },
-          { time: '20:30-22:00', title: '??? & Pelvic Stretching', desc: 'Free choice (Preferably review a scientific subject) + Opening the pelvis' }
-        ]
-      },
-      5: {
-        title: 'Creativity Friday',
-        blocks: [
-          { time: '05:00-08:00', title: 'Spiritual Meditation', desc: 'Surah Al-Kahf + Morning Adhkar + Natural Sciences Review' },
-          { time: '08:00-10:00', title: 'Mind Reset', desc: 'Preparing for Video Editing (Montage)' },
-          { time: '10:00-14:00', title: 'Ethical Hacking and Terminology', desc: 'Learning Ethical Hacking + Study Marathon using Mind Maps' },
-          { time: '14:00-15:00', title: 'Audio Meditation', desc: 'Listening to the Holy Quran and Meditation (includes voice tone improvement)' },
-          { time: '15:00-16:00', title: 'Physical Preparation', desc: 'Push-ups (Chest and Shoulders)' },
-          { time: '16:00-17:00', title: 'Website Management', desc: 'Following Up on Completed Website Projects' },
-          { time: '17:00-18:30', title: 'Important Scientific Subject Exercises', desc: '' },
-          { time: '18:30-19:30', title: 'Energy Generation', desc: 'Swimming 🏊 or Football ⚽ or Muay Thai 🥊 (Free choice, young Monarch)' },
-          { time: '19:30-20:30', title: '??? & Pelvic Stretching', desc: 'Free choice from previous programs (You have the freedom to choose, young Monarch) + Opening the pelvis' }
-        ]
-      },
-      6: {
-        title: 'Mastery Saturday',
-        blocks: [
-          { time: '05:00-10:00', title: 'Academic Focus', desc: 'Physics Review + New Quran Memorization (5 Hours)' },
-          { time: '10:00-14:00', title: 'Technical Immersion / FL Studio', desc: 'Ethical Hacking + Important Scientific Subject Exercises + English Mastery (4 Hours) + Philosophy' },
-          { time: '14:00-15:00', title: 'Crafts / FL Studio for Quran', desc: 'Important Scientific Subject Exercises (Session 2)' },
-          { time: '15:00-16:30', title: 'Fitness & Physical Therapy', desc: 'Physical Exercises: Abdominals (Six-pack) and Triceps' },
-          { time: '16:30-17:00', title: 'Therapy and Nutrition', desc: 'Micronutrient Intake (Calcium / Magnesium / Zinc)' },
-          { time: '17:00-18:30', title: 'Competitive Sports', desc: 'Swimming 🏊 or Football ⚽ or Muay Thai 🥊 or Basketball 🏀 (Free choice, young Monarch)' },
-          { time: '18:30-19:30', title: 'Digital Architecture', desc: 'System Programming and Web Project Monitoring & Updates' },
-          { time: '19:30-20:30', title: '???', desc: 'Free choice from previous programs (You have the freedom to choose, young Monarch)' },
-          { time: '20:30-22:00', title: 'Maximum Stimulation & Pelvic Stretching', desc: 'Stretching Workouts + Sleep Preparation and visual learning (Sports) + Opening the pelvis' }
-        ]
-      }
+    1: { 
+      sport: 'Swimming 🏊 / MMA Fighting 👊🏻', 
+      ppl: 'Push (Upper / Side / Standard Chest)', 
+      cognitive: 'Choice from previous programs', 
+      academic: 'Natural Sciences' 
+    },
+    2: { 
+      sport: 'MMA Fighting 👊🏻', 
+      ppl: 'Pull (Back & Triceps)', 
+      cognitive: 'Choice from previous programs', 
+      academic: 'Physics' 
+    },
+    3: { 
+      sport: 'Cycling 🚴', 
+      ppl: 'Legs (Quadriceps & Calves)', 
+      cognitive: 'Choice from previous programs', 
+      academic: 'Math Review' 
+    },
+    4: { 
+      sport: 'Fencing / Duel 🤺', 
+      ppl: 'Abs & Biceps', 
+      cognitive: 'Choice from previous programs', 
+      academic: 'Islamic Studies / History / Geography' 
+    },
+    5: { 
+      sport: 'Rest, Recovery & 1-Hour Run 🏃', 
+      ppl: 'Push (Inner / Lower Chest & Pelvic Area)', 
+      cognitive: 'Choice from previous programs', 
+      academic: 'Science Review' 
+    },
+    6: { 
+      sport: 'Karate 🐉👘', 
+      ppl: 'Abs (Six-pack) & Triceps', 
+      cognitive: 'Choice from previous programs', 
+      academic: 'Physics Review' 
     }
+  },
+
+special: {
+    0: {
+      title: 'Strategic Sunday (Foundational Drive)',
+      blocks: [
+        { time: '05:00-06:00', title: 'Spiritual Session', desc: 'Quran Recitation + Fajr Prayer, Adhkar & Morning Stretching' },
+        { time: '06:00-08:30', title: 'Elective Block ???', desc: 'Choice from previous programs (You have complete freedom of choice, young sovereign)' },
+        { time: '08:30-10:30', title: 'Digital Authoring', desc: 'Digital Book Authoring (Session 1) / Project Architecture' },
+        { time: '10:30-12:00', title: 'English Mastery', desc: 'Technical breakdown & vocabulary for practical application' },
+        { time: '12:00-13:00', title: 'Culinary Practice', desc: 'Healthy meal prep / Choice from previous programs' },
+        { time: '13:00-15:00', title: 'Water & Combat Sports', desc: 'Swimming 🏊 / MMA Fighting 👊🏻 + Grand Rest & Recovery' },
+        { time: '15:00-16:30', title: 'PPL Hypertrophy', desc: 'Pull Session: Back & Biceps isolation' },
+        { time: '16:30-17:30', title: 'Nutrition & Reflection', desc: 'Rest from fatigue + High-Protein Meal + Listening to Islamic lectures' },
+        { time: '17:30-19:30', title: 'Academic Focus', desc: 'Mathematics Intensive Session (Problem-Solving & Theorems)' },
+        { time: '19:30-20:30', title: 'Elective Block ???', desc: 'Choice from previous programs' },
+        { time: '20:30-22:00', title: 'System Prep & Mobility', desc: 'Daily blueprint creation + Evening Adhkar + Pelvis opening drills' }
+      ]
+    },
+    1: {
+      title: 'Flow Monday (Scientific Momentum)',
+      blocks: [
+        { time: '05:00-06:00', title: 'Spiritual Session', desc: 'Quran Recitation + Fajr Prayer, Adhkar & Morning Stretching' },
+        { time: '06:00-08:30', title: 'Elective Block ???', desc: 'Choice from previous programs (You have complete freedom of choice, young sovereign)' },
+        { time: '08:30-10:30', title: 'Software Engineering', desc: 'Frontend & Backend Web Systems Architecture' },
+        { time: '10:30-12:00', title: 'English Mastery', desc: 'Technical documentation & syntax fluency' },
+        { time: '12:00-13:00', title: 'Culinary Practice', desc: 'Cooking practice / Choice from previous programs' },
+        { time: '13:00-15:00', title: 'Water & Combat Sports', desc: 'Swimming 🏊 / MMA Fighting 👊🏻 + Grand Rest & Recovery' },
+        { time: '15:00-16:30', title: 'PPL Hypertrophy', desc: 'Push Session: Upper, Side & Standard Chest' },
+        { time: '16:30-17:30', title: 'Nutrition & Reflection', desc: 'Rest + Dinner + Spiritual lectures' },
+        { time: '17:30-19:30', title: 'Academic Focus', desc: 'Natural Sciences Deep Focus (Biological Systems & Analysis)' },
+        { time: '19:30-20:30', title: 'Elective Block ???', desc: 'Choice from previous programs' },
+        { time: '20:30-22:00', title: 'System Prep & Mobility', desc: 'Daily blueprint creation + Evening Adhkar + Pelvis opening drills' }
+      ]
+    },
+    2: {
+      title: 'Tactical Tuesday (Physical & Technical Synergy)',
+      blocks: [
+        { time: '05:00-06:00', title: 'Spiritual Session', desc: 'Quran Recitation + Fajr Prayer, Adhkar & Morning Stretching' },
+        { time: '06:00-08:30', title: 'Elective Block ???', desc: 'Choice from previous programs (You have complete freedom of choice, young sovereign)' },
+        { time: '08:30-10:30', title: 'Cyber Security Lab', desc: 'Ethical Hacking Fundamentals & Network Security Practice' },
+        { time: '10:30-12:00', title: 'English Mastery', desc: 'Communication skills & technical vocabulary' },
+        { time: '12:00-13:00', title: 'Culinary Practice', desc: 'Healthy meal prep / Choice from previous programs' },
+        { time: '13:00-15:00', title: 'Combat Conditioning', desc: 'MMA Fighting 👊🏻 + Tactical Striking & Grappling Drills' },
+        { time: '15:00-16:30', title: 'PPL Hypertrophy', desc: 'Pull Session: Upper Back & Triceps emphasis' },
+        { time: '16:30-17:30', title: 'Nutrition & Reflection', desc: 'Rest + Dinner + Listening to Sheikh Al-Raslan' },
+        { time: '17:30-19:30', title: 'Academic Focus', desc: 'Physics (Mechanics, Electrical Systems & Formula Mastery)' },
+        { time: '19:30-20:30', title: 'Elective Block ???', desc: 'Choice from previous programs' },
+        { time: '20:30-22:00', title: 'System Prep & Mobility', desc: 'Daily blueprint creation + Evening Adhkar + Pelvis opening drills' }
+      ]
+    },
+    3: {
+      title: 'Endurance Wednesday (Systemic Resilience)',
+      blocks: [
+        { time: '05:00-06:00', title: 'Spiritual Session', desc: 'Quran Recitation + Fajr Prayer, Adhkar & Morning Stretching' },
+        { time: '06:00-08:30', title: 'Elective Block ???', desc: 'Choice from previous programs (You have complete freedom of choice, young sovereign)' },
+        { time: '08:30-10:30', title: 'Digital Asset Design', desc: 'UI/UX Design, Thumbnails & Media Automation Workflow' },
+        { time: '10:30-12:00', title: 'English Mastery', desc: 'Listening, Pronunciation & Expression practice' },
+        { time: '12:00-13:00', title: 'Culinary Practice', desc: 'Cooking practice / Choice from previous programs' },
+        { time: '13:00-15:00', title: 'Cardio & Endurance', desc: 'Cycling 🚴 Outdoor Route + Stamina Recovery' },
+        { time: '15:00-16:30', title: 'PPL Hypertrophy', desc: 'Leg Session: Quadriceps, Calves & Lower Body Power' },
+        { time: '16:30-17:30', title: 'Nutrition & Reflection', desc: 'Rest + High-Protein Meal + Spiritual Reflection' },
+        { time: '17:30-19:30', title: 'Academic Focus', desc: 'Mathematics Review & Advanced Exercises' },
+        { time: '19:30-20:30', title: 'Elective Block ???', desc: 'Choice from previous programs' },
+        { time: '20:30-22:00', title: 'System Prep & Mobility', desc: 'Daily blueprint creation + Evening Adhkar + Pelvis opening drills' }
+      ]
+    },
+    4: {
+      title: 'Achievement Thursday (Peak Fasting & Execution)',
+      blocks: [
+        { time: '02:45-05:00', title: 'Night Prayer & Suhoor', desc: 'Qiyam + High-Protein Suhoor + Remembrance of Allah + Quick Mental Review' },
+        { time: '05:00-06:30', title: 'Quran Session', desc: 'Quran Recitation & Memorization Block (1.5 Hours)' },
+        { time: '06:30-09:30', title: 'Elective Block ???', desc: 'Choice from previous programs (You have complete freedom of choice, young sovereign)' },
+        { time: '09:30-11:30', title: 'Study Marathon', desc: 'History, Geography, and French using Mind Maps (Session 1)' },
+        { time: '11:30-13:30', title: 'Language & Technical Skills', desc: 'English terms review & understanding grammar rules as part of software logic' },
+        { time: '13:30-15:00', title: 'Web Development & Monetization', desc: 'Developing websites and establishing revenue channels' },
+        { time: '15:00-16:30', title: 'Targeted Hypertrophy', desc: 'Leg muscles (Quads/Calves) + Abs and muscle peak isolation' },
+        { time: '16:30-18:30', title: 'Outdoor Sport & Practice', desc: 'Fencing / Duel 🤺 (as specified in days section) + Choice from previous programs' },
+        { time: '18:30-19:30', title: 'Content Creation Engine', desc: 'Creating and producing content for YouTube, Instagram, TikTok, and Facebook' },
+        { time: '19:30-20:30', title: 'Study Marathon', desc: 'History, Geography, and French using Mind Maps (Session 2)' },
+        { time: '20:30-22:00', title: 'Academic Review & Pelvic Opening', desc: 'Choice from previous programs (Scientific subject review recommended) + Pelvis opening drills' }
+      ]
+    },
+    5: {
+      title: 'Creativity Friday (Supreme Synthesis)',
+      blocks: [
+        { time: '05:00-08:00', title: 'Spiritual Meditation', desc: 'Surah Al-Kahf + Morning Adhkar + Natural Sciences Review' },
+        { time: '08:00-10:00', title: 'Mind Reset & Pre-Production', desc: 'Preparing for video editing and audio workflow' },
+        { time: '10:00-14:00', title: 'Ethical Hacking & Deep Study', desc: 'Ethical Hacking practice + Study Marathon for Arabic, English, and Islamic Studies using Mind Maps' },
+        { time: '14:00-15:00', title: 'Audio Meditation & Reflection', desc: 'Listening to Holy Quran + Voice Calibration & Pitch Improvement' },
+        { time: '15:00-16:00', title: 'Physical Conditioning', desc: 'Push-up circuit (Chest & Shoulders)' },
+        { time: '16:00-17:00', title: 'Web System Management', desc: 'Monitoring and maintaining deployed web development projects' },
+        { time: '17:00-18:30', title: 'Scientific Subject Exercises', desc: 'Solving intensive practice problems for core scientific subjects' },
+        { time: '18:30-19:30', title: 'Energy Generation & Stamina', desc: 'Rest, recovery & 1-hour run 🏃 (as specified in days section) + Choice from previous programs' },
+        { time: '19:30-20:30', title: 'Elective Block & Pelvic Opening', desc: 'Choice from previous programs + Pelvis opening drills' }
+      ]
+    },
+    6: {
+      title: 'Mastery Saturday (System Peak Completion)',
+      blocks: [
+        { time: '05:00-10:00', title: 'Academic Intensive Marathon', desc: '5-Hour Marathon: Physics Review + Quran Memorization' },
+        { time: '10:00-14:00', title: 'Technical Immersion & Philosophy', desc: 'Ethical Hacking + Scientific subject practice + English Fluency (4 Hours) + Philosophy' },
+        { time: '14:00-15:00', title: 'Precision Crafts & Audio Logic', desc: 'Scientific subject practice (Session 2) + FL Studio for Quranic audio' },
+        { time: '15:00-16:30', title: 'Fitness & Physical Therapy', desc: 'Physical Exercises: Abdominal Exercises (Six-pack) and Triceps' },
+        { time: '16:30-17:00', title: 'Nutrition & Micronutrients', desc: 'Micronutrient Intake (Calcium / Magnesium / Zinc Balance)' },
+        { time: '17:00-18:30', title: 'Competitive Martial Arts', desc: 'Karate 🐉👘 (as specified in days section) + Choice from previous programs' },
+        { time: '18:30-19:30', title: 'Digital Architecture', desc: 'System programming, web project monitoring, and updates' },
+        { time: '19:30-20:30', title: 'Elective Block ???', desc: 'Choice from previous programs' },
+        { time: '20:30-22:00', title: 'Maximum Stimulation & Pelvic Opening', desc: 'Stretching & lengthening workouts + Sleep prep, deep rest, and tactical analysis of basketball & football skill clips + Pelvis opening drills' }
+      ]
+    }
+  }
 }
 };
 
