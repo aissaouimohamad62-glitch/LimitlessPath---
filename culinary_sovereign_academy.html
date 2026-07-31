@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Rajdhani:wght@500;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-<script src="monarch-core.js"></script>
+
     <style>
         /* ══════════════════════════════════════════════════════════════
            DESIGN TOKENS — SINGLE SOURCE OF TRUTH (Sovereign Theme)
@@ -199,7 +199,7 @@
                 <div class="text-center">
                     <span class="block text-[10px] text-slate-500 sys-font">GOLD BALANCE</span>
                     <div class="flex items-center gap-1 justify-center">
-                        <span class="text-sys-gold text-sm">🪙</span>
+                        <span class="text-sys-gold text-sm">💰​</span>
                         <span id="player-gold" class="text-lg font-bold text-sys-gold sys-font">0</span>
                     </div>
                 </div>
@@ -216,8 +216,6 @@
              UNIFIED NAVIGATION — Same layout as index11 / other pages
         ──────────────────────────────────────────────────────────── -->
                  <nav class="flex flex-wrap justify-center gap-2 md:gap-4 text-sm font-bold">
- <div class="sl-panel p-4 animate-system-pop" style="animation-delay: 0.1s;">
-                 <nav class="flex flex-wrap justify-center gap-2 md:gap-4 text-sm font-bold">
     <nav id="sovereign-nav" class="flex flex-wrap gap-3 justify-center md:justify-start items-center p-4 bg-slate-950/60 border border-slate-850/50 backdrop-blur-md rounded-lg shadow-[inset_0_0_15px_rgba(0,0,0,0.8)] my-4 select-none">
         
         <a href="index11.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
@@ -225,12 +223,13 @@
         </a>
         <hr>
         
- <a href="Basketball.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-orange-500 hover:border-orange-500 hover:shadow-[0_0_12px_rgba(249,115,22,0.3)]">
+ <!-- Sports Pages Hub -->
+<a href="basketball.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-orange-500 hover:border-orange-500 hover:shadow-[0_0_12px_rgba(249,115,22,0.3)]">
     <span>🏀</span> <span>BASKETBALL...</span>
 </a>
 <hr class="border-slate-800/40 my-1">
 
-<a href="BJJ.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-indigo-500 hover:border-indigo-500 hover:shadow-[0_0_12px_rgba(99,102,241,0.3)]">
+<a href="bjj.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-indigo-500 hover:border-indigo-500 hover:shadow-[0_0_12px_rgba(99,102,241,0.3)]">
     <span>🥋</span> <span>BJJ Grappling...</span>
 </a>
 <hr class="border-slate-800/40 my-1">
@@ -250,10 +249,12 @@
 </a>
 <hr class="border-slate-800/40 my-1">
 
+<!-- MMA Sovereign Arena Button -->
 <a href="mma_sovereign_arena.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-amber-500 hover:border-amber-500 hover:shadow-[0_0_12px_rgba(245,158,11,0.3)]">
     <span>🤼‍♂️</span> <span>MMA SOVEREIGN ARENA...</span>
 </a>
 <hr class="border-slate-800/40 my-1">
+        <!-- Rest of your original buttons -->
         <a href="ifortress_muslim.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
             <span>🛡️</span> <span>FORTRESS.....</span>
         </a><hr>
@@ -288,16 +289,8 @@
             <span>📂</span> <span>SYSTEM LOGS...</span>
         </a><hr>
         
-          <button onclick="SystemReset.confirmAndReset()" class="sl-btn w-full text-left p-3 rounded-sm flex justify-between items-center group !border-rose-500 hover:!bg-rose-950/30 mt-4">
-                    <span class="sys-font text-sm font-black text-rose-500 group-hover:text-rose-400" style="color: red;">⚠️ 𝐒𝐘𝐒𝐓𝐄𝐌 𝐇𝐀𝐑𝐃 𝐑𝐄𝐒𝐄𝐓</span>
-                    <span class="sys-font text-[10px] bg-rose-950 text-rose-500 px-2 py-0.5 border border-rose-500 animate-pulse">DANGER</span>
-                </button>
+         
     </nav>
-</nav>
-               
-              
-            
-        </div>
 </nav>
  
 
@@ -895,88 +888,36 @@
             this.updateUI();
         },
 
-  // -----------------------------------------------------------------
-    // دوال الـ XP والذهب المُصححة (ضعها داخل كائن PlayerState)
-    // -----------------------------------------------------------------
+        addCulinaryXP(amount) {
+            this.data.culinaryXp += amount;
+            let needed = this.data.culinaryLevel * 500;
+            let leveledUp = false;
 
-    addXP(amount) {
-        // 1. التأكد الإجباري من أن القيمة عبارة عن رقم لتجنب مشكلة NaN
-        let parsedAmount = parseInt(amount) || 0;
-        this.data.xp = (parseInt(this.data.xp) || 0) + parsedAmount;
-        
-        if (this.data.xp < 0) this.data.xp = 0;
-        
-        let xpNeeded = this.data.level * 100;
-        
-        // نظام الترقية والمستويات
-        while (this.data.xp >= xpNeeded) {
-            this.data.xp -= xpNeeded;
-            this.data.level = (parseInt(this.data.level) || 1) + 1;
-            xpNeeded = this.data.level * 100;
-            
-            if(window.SoundEffects) SoundEffects.playLevelUp();
-            if(window.Milestone) Milestone.show(this.data.level);
-        }
-        
-        this.save();
-        if(typeof this.updateUI === 'function') this.updateUI();
-    },
+            while (this.data.culinaryXp >= needed) {
+                this.data.culinaryXp -= needed;
+                this.data.culinaryLevel++;
+                needed = this.data.culinaryLevel * 500;
+                leveledUp = true;
+                
+                // Reward player general stats & AP points
+                this.data.level++; // Increase player global Level!
+                this.data.gold += 500; // Gift Gold
+                this.data.authority = (this.data.authority || 0) + 3; // Gift Authority points
+            }
 
-    addGold(amount) {
-        // 2. الحل الجذري لمشكلة الذهب 0: تحويل الجلب والإضافة لأرقام صحيحة
-        let parsedAmount = parseInt(amount) || 0;
-        this.data.gold = (parseInt(this.data.gold) || 0) + parsedAmount;
-        
-        if (this.data.gold < 0) this.data.gold = 0;
-        
-        this.save();
-        
-        // 3. فرض تحديث العنصر في الواجهة مباشرة لضمان ظهوره للمستخدم
-        const goldDisplay = document.getElementById('player-gold');
-        if (goldDisplay) {
-            goldDisplay.textContent = this.data.gold;
-        }
-        
-        if(typeof this.updateUI === 'function') this.updateUI();
-    },
+            if (leveledUp) {
+                this.triggerLevelUpConfetti();
+                Toast.show(`🔥 Major Sovereign Promotion! Your cooking combat rank has risen to Level [ ${this.data.culinaryLevel} ]`, 'success');
+            } else {
+                Toast.show(`✅ Dish energy extracted: +${amount} Cooking XP!`, 'success');
+            }
+            this.save();
+        },
 
-    addReward(xpAmount, goldAmount) {
-        this.addXP(xpAmount);
-        this.addGold(goldAmount);
-    },
-
-    // 4. تصحيح دالة الـ Culinary XP إذا كنت تستخدمها في صفحة الطبخ
-    addCulinaryXP(amount) {
-        let parsedAmount = parseInt(amount) || 0;
-        this.data.culinaryXp = (parseInt(this.data.culinaryXp) || 0) + parsedAmount;
-        let needed = this.data.culinaryLevel * 500;
-        let leveledUp = false;
-
-        while (this.data.culinaryXp >= needed) {
-            this.data.culinaryXp -= needed;
-            this.data.culinaryLevel = (parseInt(this.data.culinaryLevel) || 1) + 1;
-            needed = this.data.culinaryLevel * 500;
-            leveledUp = true;
-            
-            // ترقية مستوى اللاعب العام
-            this.data.level = (parseInt(this.data.level) || 1) + 1;
-            
-            // استخدام دالة addGold بدلاً من this.data.gold += 500 لضمان الحفظ والتحديث
-            this.addGold(500); 
-            
-            this.data.authority = (parseInt(this.data.authority) || 0) + 3; 
-        }
-
-        if (leveledUp) {
-            if(typeof this.triggerLevelUpConfetti === 'function') this.triggerLevelUpConfetti();
-            if(window.Toast) Toast.show(`🔥 Major Sovereign Promotion! Your cooking combat rank has risen to Level [ ${this.data.culinaryLevel} ]`, 'success');
-        } else {
-            if(window.Toast) Toast.show(`✅ Dish energy extracted: +${parsedAmount} Cooking XP!`, 'success');
-        }
-        
-        this.save();
-        if(typeof this.updateUI === 'function') this.updateUI();
-    },
+        addGold(amount) {
+            this.data.gold += amount;
+            this.save();
+        },
 
         upgradeSkill(skillKey) {
             if (this.data.skills[skillKey] === undefined) return;
@@ -1513,10 +1454,6 @@ const tabSwitcher = {
 };
 
 
-
-
-
-
 </script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -1586,6 +1523,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 </script>
-
 </body>
 </html>
