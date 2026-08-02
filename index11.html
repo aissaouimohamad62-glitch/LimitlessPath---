@@ -192,11 +192,28 @@
 
 </div>
                
-
         <div class="sl-panel p-4 animate-system-pop" style="animation-delay: 0.1s;">
                  <nav class="flex flex-wrap justify-center gap-2 md:gap-4 text-sm font-bold">
     <nav id="sovereign-nav" class="flex flex-wrap gap-3 justify-center md:justify-start items-center p-4 bg-slate-950/60 border border-slate-850/50 backdrop-blur-md rounded-lg shadow-[inset_0_0_15px_rgba(0,0,0,0.8)] my-4 select-none">
         
+        <!-- شريط تصفية المهام -->
+<div class="flex flex-wrap justify-between items-center mb-4 border-b border-slate-800 pb-2 gap-2">
+    <h4 id="taskListTitle" class="font-black text-sm text-[var(--sys-cyan)] tracking-wide uppercase sys-font">
+        ⚔️ Active Directives Log
+    </h4>
+    
+    <!-- أزرار التحكم في التصفية -->
+    <div class="flex items-center gap-2">
+        <button onclick="QuestSystem.setFilter('active')" id="btnFilterActive" 
+                class="sys-font text-[10px] font-bold px-3 py-1.5 rounded border border-amber-500/50 text-amber-400 bg-amber-950/30 hover:bg-amber-500 hover:text-black transition-all flex items-center gap-1">
+            ⏳ المهام الحالية
+        </button>
+        <button onclick="QuestSystem.setFilter('all')" id="btnFilterAll" 
+                class="sys-font text-[10px] font-bold px-3 py-1.5 rounded border border-[var(--sys-cyan)]/50 text-[var(--sys-cyan)] bg-cyan-950/30 hover:bg-[var(--sys-cyan)] hover:text-black transition-all flex items-center gap-1">
+            📜 جميع المهام
+        </button>
+    </div>
+</div> <br>
         <a href="index11.html" target="_self" class="nav-item px-4 py-2.5 text-xs font-mono rounded font-bold transition-all duration-300 ease-out flex items-center gap-1.5 border border-slate-800 bg-slate-900/40 text-slate-400 hover:text-[var(--sys-cyan)] hover:border-[var(--sys-cyan)] hover:shadow-[0_0_12px_rgba(0,240,255,0.2)]">
             <span>🏠</span> <span>DASHBOARD...</span>
         </a>
